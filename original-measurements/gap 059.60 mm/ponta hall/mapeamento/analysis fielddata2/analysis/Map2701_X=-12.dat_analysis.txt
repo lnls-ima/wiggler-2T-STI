@@ -1,0 +1,105 @@
+gap[mm] :  59.60
+posx[mm]: -12.01
+posz[mm]: +0.00
+offset extraction Upstream  :  0.016970 G @  -320.0000 mm
+offset extraction Downstream:  0.157100 G @ +3580.0000 mm
+Nr. of scans: 16
+
+checking missing points...
+scan#01:     0 points missing ... ok
+scan#02:     0 points missing ... ok
+scan#03:     0 points missing ... ok
+scan#04:     0 points missing ... ok
+scan#05:     0 points missing ... ok
+scan#06:     0 points missing ... ok
+scan#07:     0 points missing ... ok
+scan#08:     0 points missing ... ok
+scan#09:     0 points missing ... ok
+scan#10:     0 points missing ... ok
+scan#11:     0 points missing ... ok
+scan#12:     0 points missing ... ok
+scan#13:     0 points missing ... ok
+scan#14:     0 points missing ... ok
+scan#15:     0 points missing ... ok
+scan#16:     0 points missing ... ok
+
+checking encoder readings...
+scan#01: 14638 points, N_ORDER, MONOTy_OK, mdist:0.279959, sigma:0.003324
+scan#02: 14638 points, R_ORDER, MONOTy_OK, mdist:0.279961, sigma:0.004233
+scan#03: 14638 points, N_ORDER, MONOTy_OK, mdist:0.279960, sigma:0.003359
+scan#04: 14638 points, R_ORDER, MONOTy_OK, mdist:0.279960, sigma:0.004245
+scan#05: 14638 points, N_ORDER, MONOTy_OK, mdist:0.279959, sigma:0.003344
+scan#06: 14638 points, R_ORDER, MONOTy_OK, mdist:0.279961, sigma:0.004252
+scan#07: 14638 points, N_ORDER, MONOTy_OK, mdist:0.279960, sigma:0.003334
+scan#08: 14638 points, R_ORDER, MONOTy_OK, mdist:0.279961, sigma:0.004225
+scan#09: 14638 points, N_ORDER, MONOTy_OK, mdist:0.279960, sigma:0.003383
+scan#10: 14638 points, R_ORDER, MONOTy_OK, mdist:0.279961, sigma:0.004294
+scan#11: 14638 points, N_ORDER, MONOTy_OK, mdist:0.279959, sigma:0.003367
+scan#12: 14638 points, R_ORDER, MONOTy_OK, mdist:0.279961, sigma:0.004240
+scan#13: 14638 points, N_ORDER, MONOTy_OK, mdist:0.279960, sigma:0.003346
+scan#14: 14638 points, R_ORDER, MONOTy_OK, mdist:0.279961, sigma:0.004248
+scan#15: 14638 points, N_ORDER, MONOTy_OK, mdist:0.279960, sigma:0.003328
+scan#16: 14638 points, R_ORDER, MONOTy_OK, mdist:0.279960, sigma:0.004229
+
+offset correction...
+scan#01 [mV]: US  +297 (071) -288   DS  +374 (072) -295   <  -7>
+scan#02 [mV]: US  +321 (072) -312   DS  +390 (071) -312   <  +0>
+scan#03 [mV]: US  +338 (071) -329   DS  +406 (072) -327   <  +2>
+scan#04 [mV]: US  +298 (072) -290   DS  +375 (071) -297   <  -7>
+scan#05 [mV]: US  +301 (071) -293   DS  +376 (072) -297   <  -5>
+scan#06 [mV]: US  +332 (072) -323   DS  +409 (072) -330   <  -7>
+scan#07 [mV]: US  +333 (071) -325   DS  +418 (072) -339   < -15>
+scan#08 [mV]: US  +352 (072) -344   DS  +411 (072) -332   < +12>
+scan#09 [mV]: US  +321 (071) -312   DS  +390 (072) -311   <  +1>
+scan#10 [mV]: US  +329 (072) -321   DS  +409 (072) -330   <  -9>
+scan#11 [mV]: US  +290 (071) -281   DS  +371 (072) -293   < -11>
+scan#12 [mV]: US  +261 (072) -252   DS  +334 (072) -256   <  -3>
+scan#13 [mV]: US  +334 (071) -325   DS  +405 (072) -327   <  -1>
+scan#14 [mV]: US  +325 (072) -317   DS  +393 (072) -314   <  +2>
+scan#15 [mV]: US  +356 (071) -348   DS  +430 (072) -352   <  -4>
+scan#16 [mV]: US  +344 (071) -336   DS  +414 (072) -335   <  +0>
+
+calculating integrals...
+scan#01:   +75.19 G.cm     -4682.73 G.cm^2
+scan#02:   +67.76 G.cm     -7900.46 G.cm^2
+scan#03:   +46.43 G.cm    -10986.10 G.cm^2
+scan#04:   +61.73 G.cm     -7470.11 G.cm^2
+scan#05:   +51.29 G.cm     -9294.71 G.cm^2
+scan#06:   +55.52 G.cm    -10129.89 G.cm^2
+scan#07:   +54.52 G.cm     -9585.32 G.cm^2
+scan#08:   +65.23 G.cm     -6965.47 G.cm^2
+scan#09:   +71.56 G.cm     -5754.67 G.cm^2
+scan#10:   +61.54 G.cm     -9352.65 G.cm^2
+scan#11:   +63.61 G.cm     -7908.46 G.cm^2
+scan#12:   +80.24 G.cm     -3642.00 G.cm^2
+scan#13:   +50.10 G.cm     -8020.08 G.cm^2
+scan#14:   +53.23 G.cm     -9477.77 G.cm^2
+scan#15:   +62.43 G.cm     -8003.34 G.cm^2
+scan#16:   +59.20 G.cm     -9121.25 G.cm^2
+
+average:   +61.22 G.cm     -8018.44 G.cm^2
+sigma1 :    +9.07 G.cm     +1925.42 G.cm^2
+sigma2 :    +2.27 G.cm      +481.35 G.cm^2
+
+mapping zeros...
+scan#01:  27 zeros, shift +0.000000 mm, sigma +0.000000 mm  center +1704.374101 mm
+scan#02:  27 zeros, shift -0.273812 mm, sigma +0.010491 mm  center +1704.381490 mm
+scan#03:  27 zeros, shift -0.000141 mm, sigma +0.005906 mm  center +1704.379781 mm
+scan#04:  27 zeros, shift -0.273203 mm, sigma +0.010576 mm  center +1704.379624 mm
+scan#05:  27 zeros, shift +0.000449 mm, sigma +0.007603 mm  center +1704.377705 mm
+scan#06:  27 zeros, shift -0.273573 mm, sigma +0.010564 mm  center +1704.375774 mm
+scan#07:  27 zeros, shift -0.000760 mm, sigma +0.010294 mm  center +1704.378853 mm
+scan#08:  27 zeros, shift -0.274159 mm, sigma +0.008552 mm  center +1704.374760 mm
+scan#09:  27 zeros, shift -0.000541 mm, sigma +0.009817 mm  center +1704.400700 mm
+scan#10:  27 zeros, shift -0.273846 mm, sigma +0.008762 mm  center +1704.381766 mm
+scan#11:  27 zeros, shift +0.000472 mm, sigma +0.011651 mm  center +1704.376216 mm
+scan#12:  27 zeros, shift -0.272796 mm, sigma +0.009074 mm  center +1704.380500 mm
+scan#13:  27 zeros, shift -0.001989 mm, sigma +0.011305 mm  center +1704.376043 mm
+scan#14:  27 zeros, shift -0.273731 mm, sigma +0.010921 mm  center +1704.381816 mm
+scan#15:  27 zeros, shift +0.000142 mm, sigma +0.010088 mm  center +1704.377459 mm
+scan#16:  27 zeros, shift -0.273840 mm, sigma +0.007742 mm  center +1704.377211 mm
+forwards  scans: -0.000296 mm
+backwards scans: -0.273620 mm
+
+saving field scan...
+15001 points from -1880.00 to +1880.00

@@ -1,0 +1,52 @@
+nr_points_in_y		10000
+windows[mm]		10.0
+Range[mm]		20.0
+Npts			20
+Tolerance		0.001
+sigmadiffposy		6.0
+Reference_scan		0
+2nd_order_integ 	1
+filename		scans.txt
+
+
+
+
+
+negative_order		4
+coef_V^0		1999.433805242599
+coef_V^0		-0.3806001468131662
+coef_V^0		-0.10342483038976913
+coef_V^0		-0.009030519100266319
+
+positive_order		4
+coef_V^0		1999.433805242599
+coef_v^1		0.3806001468131662
+coef_v^2		-0.10342483038976913
+coef_v^3		0.009030519100266319
+
+
+negative_order		4
+coef_V^0		2000
+coef_V^0		0
+coef_V^0		0
+coef_V^0		0
+
+positive_order		4
+coef_V^0		2000
+coef_v^1		0
+coef_v^2		0
+coef_v^3		0
+
+
+negative_order		4
+coef_V^0		1999.93
+coef_V^1		0.393374
+coef_V^2		0.00860394
+coef_V^3		0.00292378
+
+positive_order		4
+coef_V^0		1999.84
+coef_V^1		-0.535165
+coef_V^2		0.02963
+coef_V^3		-0.00373367
+

@@ -1,0 +1,52 @@
+window_for_averaging[mm]:	10.0
+
+negative_order		4
+coef_V^0		1999.433805242599
+coef_V^1		-0.3806001468131662
+coef_V^2		-0.10342483038976913
+coef_V^3		-0.009030519100266319
+
+positive_order		4
+coef_V^0		1999.433805242599
+coef_v^1		0.3806001468131662
+coef_v^2		-0.10342483038976913
+coef_v^3		0.009030519100266319
+
+number_of_points	15000
+interval[mm]		1880
+miny_zeros		300
+maxy_zeros		3100
+
+32
+Map0902_X=-45.dat
+Map0902_X=-35.dat
+Map0902_X=-25.dat
+Map0902_X=-20.dat
+Map0902_X=-16.dat
+Map0902_X=-12.dat
+Map0902_X=-10.dat
+Map0902_X=-9.dat
+Map0902_X=-8.dat
+Map0902_X=-7.dat
+Map0902_X=-6.dat
+Map0902_X=-5.dat
+Map0902_X=-4.dat
+Map0902_X=-3.dat
+Map0902_X=-2.dat
+Map0902_X=-1.dat
+Map0902_X=0.dat
+Map0902_X=1.dat
+Map0902_X=2.dat
+Map0902_X=3.dat
+Map0902_X=4.dat
+Map0902_X=5.dat
+Map0902_X=6.dat
+Map0902_X=7.dat
+Map0902_X=8.dat
+Map0902_X=9.dat
+Map0902_X=10.dat
+Map0902_X=12.dat
+Map0902_X=16.dat
+Map0902_X=20.dat
+Map0902_X=25.dat
+Map0902_X=35.dat

@@ -1,0 +1,29 @@
+window_for_averaging[mm]:	10.0
+
+negative_order		4
+coef_V^0		1999.433805242599
+coef_V^1		-0.3806001468131662
+coef_V^2		-0.10342483038976913
+coef_V^3		-0.009030519100266319
+
+positive_order		4
+coef_V^0		1999.433805242599
+coef_v^1		0.3806001468131662
+coef_v^2		-0.10342483038976913
+coef_v^3		0.009030519100266319
+
+number_of_points	15000
+interval[mm]		1900
+miny_zeros		300
+maxy_zeros		3100
+
+
+8
+Map0102_GAP42_U+0.0_D+0.0_1.dat
+Map0102_GAP42_U+5.0_D+0.0_1.dat
+Map0102_GAP42_U+5.0_D+5.0_1.dat
+Map0102_GAP42_U+1.57_D-2.38_1.dat
+Map0102_GAP42_U+0.11_D-0.41_1.dat
+Map0102_GAP42_U-1.62_D+0.74_1.dat
+Map0102_GAP42_U-1.62_D+1.36_1.dat
+Map0102_GAP42_U-1.66_D+1.34_1.dat

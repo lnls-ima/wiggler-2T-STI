@@ -1,0 +1,19 @@
+energy[GeV]		1.37
+posx_init[cm]		0.00
+posxl_init[rad]		0.00
+current[mA]		400
+
+nr_points		11
+
+distance_from_end_of_device[m]	xinit_window[mm]	xfinal_window[mm]	nr_points	
+0.05				-100			100			101
+0.1				-100			100			101	
+0.3				-100			100			101
+0.5				-100			100			101
+1.0				-100			100			101
+2.0				-100			100			101
+5.0				-100			100			101
+8.0				-100			100			101
+10.0				-100			100			101
+15.0				-100			100			101
+20.0				-100			100			101

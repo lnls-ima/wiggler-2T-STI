@@ -1,0 +1,34 @@
+window_for_averaging[mm]:	10.0
+
+negative_order		4
+coef_V^0		1999.433805242599
+coef_V^1		-0.3806001468131662
+coef_V^2		-0.10342483038976913
+coef_V^3		-0.009030519100266319
+
+positive_order		4
+coef_V^0		1999.433805242599
+coef_v^1		0.3806001468131662
+coef_v^2		-0.10342483038976913
+coef_v^3		0.009030519100266319
+
+number_of_points	15000
+interval[mm]		1900
+miny_zeros		300
+maxy_zeros		3100
+
+
+13
+Map2001_GAP300_U+0.0_D+0.0_1.dat
+Map2001_GAP300_U+0.0_D+2.5_1.dat
+Map2001_GAP300_U+0.0_D+5.0_1.dat
+Map2001_GAP300_U+0.0_D-2.5_1.dat
+Map2001_GAP300_U+0.0_D-5.0_1.dat
+Map2001_GAP300_U+2.5_D+0.0_1.dat
+Map2001_GAP300_U+5.0_D+0.0_1.dat
+Map2001_GAP300_U-0.5125_D+0.5322_1.dat
+Map2001_GAP300_U-0.552_D+0.339_1.dat
+Map2001_GAP300_U-0.567_D+0.553_1.dat
+Map2001_GAP300_U-0.666_D+0.410_1.dat
+Map2001_GAP300_U-2.5_D+0.0_1.dat
+Map2001_GAP300_U-5.0_D+0.0_1.dat

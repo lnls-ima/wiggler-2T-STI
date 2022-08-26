@@ -1,0 +1,53 @@
+window_for_averaging[mm]:	10.0
+
+negative_order		4
+coef_V^0		1999.433805242599
+coef_V^1		-0.3806001468131662
+coef_V^2		-0.10342483038976913
+coef_V^3		-0.009030519100266319
+
+positive_order		4
+coef_V^0		1999.433805242599
+coef_v^1		0.3806001468131662
+coef_v^2		-0.10342483038976913
+coef_v^3		0.009030519100266319
+
+number_of_points	15000
+interval[mm]		1880
+miny_zeros		300
+maxy_zeros		3100
+
+
+32
+_X=-45.dat
+_X=-35.dat
+_X=-25.dat
+_X=-20.dat
+_X=-16.dat
+_X=-12.dat
+_X=-10.dat
+_X=-9.dat
+_X=-8.dat
+_X=-7.dat
+_X=-6.dat
+_X=-5.dat
+_X=-4.dat
+_X=-3.dat
+_X=-2.dat
+_X=-1.dat
+_X=0.dat
+_X=1.dat
+_X=2.dat
+_X=3.dat
+_X=4.dat
+_X=5.dat
+_X=6.dat
+_X=7.dat
+_X=8.dat
+_X=9.dat
+_X=10.dat
+_X=12.dat
+_X=16.dat
+_X=20.dat
+_X=25.dat
+_X=35.dat

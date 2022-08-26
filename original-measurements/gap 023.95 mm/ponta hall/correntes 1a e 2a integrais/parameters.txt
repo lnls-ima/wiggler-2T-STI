@@ -1,0 +1,21 @@
+window_for_averaging[mm]:	10.0
+
+negative_order		4
+coef_V^0		1999.433805242599
+coef_V^0		-0.3806001468131662
+coef_V^0		-0.10342483038976913
+coef_V^0		-0.009030519100266319
+
+positive_order		4
+coef_V^0		1999.433805242599
+coef_v^1		0.3806001468131662
+coef_v^2		-0.10342483038976913
+coef_v^3		0.009030519100266319
+
+number_of_points	15000
+interval[mm]		1880
+miny_zeros		300
+maxy_zeros		3100
+
+1
+Map1002_U-3.96_D+4.38_2.dat

@@ -1,0 +1,8722 @@
+(************** Content-type: application/mathematica **************
+
+                    Mathematica-Compatible Notebook
+
+This notebook can be used with any Mathematica-compatible
+application, such as Mathematica, MathReader or Publicon. The data
+for the notebook starts with the line containing stars above.
+
+To get the notebook into a Mathematica-compatible application, do
+one of the following:
+
+* Save the data starting with the line of stars above into a file
+  with a name ending in .nb, then open the file inside the
+  application;
+
+* Copy the data starting with the line of stars above to the
+  clipboard, then use the Paste menu command inside the application.
+
+Data for notebooks contains only printable 7-bit ASCII and can be
+sent directly in email or through ftp in text mode.  Newlines can be
+CR, LF or CRLF (Unix, Macintosh or MS-DOS style).
+
+NOTE: If you modify the data for this notebook not in a Mathematica-
+compatible application, you must delete the line below containing
+the word CacheID, otherwise Mathematica-compatible applications may
+try to use invalid cache data.
+
+For more information on notebooks and Mathematica-compatible 
+applications, contact Wolfram Research:
+  web: http://www.wolfram.com
+  email: info@wolfram.com
+  phone: +1-217-398-0700 (U.S.)
+
+Notebook reader applications are available free of charge from 
+Wolfram Research.
+*******************************************************************)
+
+(*CacheID: 232*)
+
+
+(*NotebookFileLineBreakTest
+NotebookFileLineBreakTest*)
+(*NotebookOptionsPosition[    171154,       8603]*)
+(*NotebookOutlinePosition[    171834,       8626]*)
+(*  CellTagsIndexPosition[    171790,       8622]*)
+(*WindowFrame->Normal*)
+
+
+
+Notebook[{
+Cell["An\[AAcute]lise Multipolar", "Title"],
+
+Cell["\<\
+Ximenes Resende @ LNLS
+Jan 27th 2005\
+\>", "Subtitle"],
+
+Cell[CellGroupData[{
+
+Cell["Initialization", "Section"],
+
+Cell[BoxData[{
+    \(\(<< Statistics`ContinuousDistributions`;\)\), "\[IndentingNewLine]", 
+    \(\(\(RandomNormal[\[Mu]_, \[Sigma]_] := 
+        Random[NormalDistribution[\[Mu], \[Sigma]]];\)\(\[IndentingNewLine]\)
+    \)\), "\[IndentingNewLine]", 
+    \(\(Off[General::"\<Spell\>"];\)\), "\[IndentingNewLine]", 
+    \(\(Off[General::"\<Spell1\>"];\)\), "\[IndentingNewLine]", 
+    \(\(Off[General::"\<Spelll\>"];\)\), "\[IndentingNewLine]", 
+    \(\(\(Off[Inverse::"\<luc\>"];\)\(\[IndentingNewLine]\)
+    \)\), "\[IndentingNewLine]", 
+    \(\(\(getFit[n_, \ vx_, \ vy_, \ vs_, pot_]\  := \ 
+        Module[{m, im, b, a}, \[IndentingNewLine]m\  = \ 
+            Table[Sum[\((vx[\([p]\)] + 10^\((\(-60\))\))\)^\((i + j)\)/
+                  vs[\([p]\)]^pot, {p, 1, Length[vx]}], \ {j, 0, n}, \ {i, 0, 
+                n}]; \[IndentingNewLine]im\  = \ 
+            Inverse[m]; \[IndentingNewLine]b\  = \ 
+            Table[Sum[\((vx[\([p]\)] + 10^\((\(-60\))\))\)^j\ *\ 
+                  vy[\([p]\)]/vs[\([p]\)]^pot, {p, 1, Length[vx]}], \ {j, 0, 
+                n}]; \[IndentingNewLine]a\  = \ 
+            im\  . \ b; \[IndentingNewLine]Return[
+            a];\[IndentingNewLine]];\)\(\[IndentingNewLine]\)
+    \)\), "\[IndentingNewLine]", 
+    \(\(SetDirectory[
+        ToFileName[
+          Extract["\<FileName\>" /. 
+              NotebookInformation[EvaluationNotebook[]], {1}, 
+            FrontEnd`FileName]]];\)\)}], "Input"]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Parameters", "Section"],
+
+Cell[BoxData[{
+    RowBox[{\(gap\  = \ 42.7;\), " ", 
+      StyleBox[\( (*\ gap\ [mm]\ *) \),
+        FontColor->RGBColor[1, 0, 0]]}], "\[IndentingNewLine]", 
+    RowBox[{\(myrange\  = \ 1*{\(-10\), 10};\), " ", 
+      RowBox[{
+        StyleBox["(*",
+          FontColor->RGBColor[1, 0, 0]], 
+        StyleBox[" ",
+          FontColor->RGBColor[1, 0, 0]], 
+        StyleBox[\(pontos\ do\ fitting\ devem\ cair\ neste\ intervalo\ [mm]\),
+          
+          FontColor->RGBColor[1, 0, 0]], 
+        StyleBox[" ",
+          FontColor->RGBColor[1, 0, 0]], 
+        StyleBox["*)",
+          FontColor->RGBColor[1, 0, 0]]}]}], "\[IndentingNewLine]", 
+    RowBox[{\(npts\  = \ 500;\), "  ", 
+      StyleBox[\( (*\ 
+          numero\ de\ pontos\ para\ estimativa\ dos\ erros\ multipolares\ *) \
+\),
+        FontColor->RGBColor[1, 0, 0]], 
+      "\[IndentingNewLine]"}], "\[IndentingNewLine]", \(posxBobGnames\  = \ 
+        Table[y, {y, \(-20\), 20, 1}];\), "\[IndentingNewLine]", 
+    RowBox[{\(BzBancada\  = \ 0.16;\), 
+      StyleBox[" ",
+        FontColor->RGBColor[1, 0, 0]], 
+      StyleBox[\( (*\ 
+          campo\ vertizal\ ambiente\ na\ bancada\ de\ caracterizacao\ *) \),
+        FontColor->RGBColor[1, 0, 0]]}], "\[IndentingNewLine]", 
+    RowBox[{\(BzAnel\  = \ 0.23;\), " ", 
+      StyleBox[\( (*\ 
+          campo\ vertical\ ambiente\ no\ trecho\ reto\ no\ anel\ *) \),
+        FontColor->RGBColor[1, 0, 0]]}], "\[IndentingNewLine]", 
+    RowBox[{\(Lw\  = \ 270.0;\), 
+      StyleBox["  ",
+        FontColor->RGBColor[1, 0, 0]], 
+      StyleBox[\( (*\ comprimento\ do\ wiggler\ *) \),
+        FontColor->RGBColor[1, 0, 0]]}], "\[IndentingNewLine]", 
+    RowBox[{\(Lb\  = \ 410.0;\), "  ", 
+      StyleBox[\( (*\ comprimento\ do\ mapeamento\ *) \),
+        FontColor->RGBColor[1, 0, 0]]}], "\[IndentingNewLine]", 
+    RowBox[{\(myseed\  = \ 13;\), " ", 
+      StyleBox[\( (*\ seed\ para\ gerador\ de\ numeros\ aleatorios\ *) \),
+        FontColor->RGBColor[1, 0, 0]]}]}], "Input"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Read Data", "Section"],
+
+Cell[BoxData[{
+    \(\(tmp\  = \ 
+        Drop[Import["\<../bobina girante/SaidaFiltro.dat\>", "\<Table\>"], 
+          1];\)\), "\[IndentingNewLine]", 
+    \(\(bg\  = \ 1000000\ *tmp[\([All, 2]\)];\)\), "\[IndentingNewLine]", 
+    \(\(bgsigma\  = \ 
+        1000000\ *\ tmp[\([All, 10]\)];\)\), "\[IndentingNewLine]", 
+    \(\(\(dataBobG\  = \ 
+        Table[{posxBobGnames[\([i]\)], bg[\([i]\)], bgsigma[\([i]\)]}, \ {i, 
+            1, Length[bg]}];\)\(\[IndentingNewLine]\)
+    \)\), "\[IndentingNewLine]", 
+    \(tdata\  = \ {}; \ 
+    For[i = 1, \ 
+      i \[LessEqual] 
+        Length[dataBobG], \[IndentingNewLine]If[\((dataBobG[\([i, 
+                  1]\)] \[GreaterEqual] \ 
+              myrange[\([1]\)])\)\  && \ \((dataBobG[\([i, 
+                  1]\)] \[LessEqual] \ myrange[\([2]\)])\), \ 
+        tdata\  = \ 
+          Join[tdata, {dataBobG[\([i]\)]}]]; \[IndentingNewLine]\(i++\);\ ]; \
+\ dataBobG\  = \ tdata;\[IndentingNewLine]\), "\[IndentingNewLine]", 
+    \(\(posxBobG\  = \ 0.1\ *\ dataBobG[\([All, 1]\)];\)\)}], "Input"]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Ambient Field Correction", "Section"],
+
+Cell[BoxData[{\(shunting\  = \ {{20, 0.125 + \((0.125 - 0.132)\)}, {22, 
+            0.125}, {24, 0.132}, {27, 0.145}, {35, 0.171}, {43, 0.197}, {52, 
+            0.236}, {60, 0.27}, {100, 0.421}, {200, 0.62}, {290, 
+            0.7991}, {380, 
+            0.62 + \((0.7991 - 
+                  0.62)\)}};\), "\[IndentingNewLine]", \(sfunc\  = \ 
+        Interpolation[shunting];\), "\[IndentingNewLine]", 
+    RowBox[{\(fx\  = sfunc[gap];\), " ", 
+      StyleBox[\( (*\ 
+          factor\ de\ shunting\ dep . \ do\ gap\  - \ 
+            modelo\ do\ Steve\ *) \),
+        FontColor->RGBColor[1, 0, 0]]}]}], "Input"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    RowBox[{
+      StyleBox[\( (*\ 
+          CORRRECAO\ DE\ CAMPO\ AMBIENTE\  - \ BOBINA\ GIRANTE\ *) \),
+        FontSize->16,
+        FontColor->RGBColor[0, 0, 1]], "\[IndentingNewLine]", 
+      "\[IndentingNewLine]", \(\(ax\  = \ \((BzAnel - BzBancada)\)*
+            Lb*\((1 - \((1 - fx)\)*\((Lw/Lb)\))\);\)\[IndentingNewLine]
+      \(i1BobG\ \  = \ 
+          dataBobG[\([All, 2]\)]\  - \ BzAnel\ *\ Lb\  + \ 
+            ax;\)\[IndentingNewLine]
+      \(Print[i1BobG];\)\)}]], "Input"],
+
+Cell[BoxData[
+    \({\(-122.50787471605882`\), \(-109.84787471605883`\), \
+\(-97.79887471605883`\), \(-88.15607471605882`\), \(-79.31687471605882`\), \
+\(-72.43587471605882`\), \(-66.43487471605883`\), \(-62.69987471605882`\), \
+\(-60.213874716058825`\), \(-59.573874716058825`\), \(-59.65187471605882`\), \
+\(-61.841874716058825`\), \(-65.58087471605882`\), \(-70.54787471605883`\), \
+\(-76.47497471605882`\), \(-84.19387471605883`\), \(-92.73787471605883`\), \
+\(-102.64087471605882`\), \(-113.15587471605883`\), \(-123.97787471605884`\), \
+\(-135.57987471605884`\)}\)], "Print"]
+}, Open  ]]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Fitting Rotating Coil and Hall Probe", "Section"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+    \(\(posx\  = \ posxBobG;\)\), "\[IndentingNewLine]", 
+    \(\(i1\  = \ i1BobG;\)\), "\[IndentingNewLine]", 
+    \(\(data\  = \ dataBobG;\)\), "\[IndentingNewLine]", 
+    \(\(sum1\  = \ Table[0, {i, 0, 5}];\)\), "\[IndentingNewLine]", 
+    \(\(sum2\  = \ Table[0, {i, 0, 5}];\)\), "\[IndentingNewLine]", 
+    \(\(sum3\  = \ Table[0, {i, 0, 5}];\)\), "\[IndentingNewLine]", 
+    \(\(sum4\  = \ Table[0, {i, 0, 5}];\)\), "\[IndentingNewLine]", 
+    \(\(r\  = \ Table[tol*100, {i, 0, 5}];\)\), "\[IndentingNewLine]", 
+    \(\(mean\  = {};\)\), "\[IndentingNewLine]", 
+    \(\(\(sigm\  = \ {};\)\(\[IndentingNewLine]\)
+    \)\), "\[IndentingNewLine]", 
+    \(\(SeedRandom[myseed];\)\), "\[IndentingNewLine]", 
+    \(i\  = \ 1; \ flag\  = \ True; \ 
+    While[\ \((i < 
+          npts)\)\  (*\(&&\)\(\ \)\((flag \[Equal] 
+              True)\)*) , \[IndentingNewLine]vx\  = 
+        posx; \[IndentingNewLine]vy\  = \ 
+        Table[RandomNormal[i1[\([i]\)], data[\([i, 3]\)]], \ {i, 1, 
+            Length[i1]}]; \[IndentingNewLine]vs\  = \ 
+        data[\([All, 3]\)]; \[IndentingNewLine]coeffs\  = \ 
+        getFit[5, vx, vy, vs, 2]; \[IndentingNewLine]sum1\  += \ 
+        coeffs; \[IndentingNewLine]sum2\  += \ 
+        coeffs^2; \[IndentingNewLine]sum3\  += \ 
+        coeffs^3; \[IndentingNewLine]sum4\  += \ 
+        coeffs^4; \[IndentingNewLine]mean\  = \ 
+        Join[mean, {sum1/i}]; \[IndentingNewLine]sigm\  = \ 
+        Join[sigm, {\ 
+            Sqrt[sum2/i - \((mean[\([i]\)])\)^2]}]; \[IndentingNewLine]If[
+        i > 2, \[IndentingNewLine]r\  = \ 
+          Sqrt[\((\((i^2 - 2*i + 1)\)*\((sum4/i)\)\  - \ 
+                    4*\((i - 1)\)^2*\((sum3/i)\)*\((sum1/i)\) + \((i^2 - 
+                          2*i + 6)\)*\((i - 1)\)*\((sum2/i)\)^2 - 
+                    2*\((i - 1)\)*\((i - 2)\)*\((i - 3)\)*\((sum2/
+                          i)\)*\((sum1/i)\)^2 + \((i - 1)\)*\((i - 
+                          2)\)*\((i - 3)\)*\((sum1/i)\)^4)\)/\((i*\((i - 
+                          1)\)^2)\)\  - \ \((\((sum2/
+                        i)\) - \((sum1/i)\)^2)\)^2]; \[IndentingNewLine]If[
+          And @@ \((\ 
+              Table[\(Last[sigm]\)[\([l]\)] > r[\([l]\)], {l, 1, 
+                  Length[r]}])\), 
+          flag = 
+            False];\[IndentingNewLine]]; \[IndentingNewLine]\(i++\);\
+\[IndentingNewLine]];\), "\[IndentingNewLine]", 
+    \(\(Print[i, \ "\< iterations\>"];\)\), "\[IndentingNewLine]", 
+    \(\(Print["\<mean  : \>", Last[mean]];\)\), "\[IndentingNewLine]", 
+    \(\(Print["\<sigma : \>", \ 
+        MatrixForm[{Last[sigm], r}]];\)\), "\[IndentingNewLine]", 
+    \(\(multBobG\  = \ 
+        Table[{\(Last[mean]\)[\([i]\)], \(Last[sigm]\)[\([i]\)]}, \ {i, 1, 
+            6}];\)\)}], "Input"],
+
+Cell[BoxData[
+    \(General::"spell1" \(\(:\)\(\ \)\) 
+      "Possible spelling error: new symbol name \"\!\(data\)\" is similar to \
+existing symbol \"\!\(tdata\)\"."\)], "Message"],
+
+Cell[BoxData[
+    \(General::"spell1" \(\(:\)\(\ \)\) 
+      "Possible spelling error: new symbol name \"\!\(mean\)\" is similar to \
+existing symbol \"\!\(Mean\)\"."\)], "Message"],
+
+Cell[BoxData[
+    InterpretationBox[\(500\[InvisibleSpace]" iterations"\),
+      SequenceForm[ 500, " iterations"],
+      Editable->False]], "Print"],
+
+Cell[BoxData[
+    InterpretationBox[\("mean  : "\[InvisibleSpace]{\(-59.76065276962673`\), \
+\(-13.37002818859477`\), \(-75.79537862727788`\), 5.500043683251438`, 
+          6.5124313117055666`, 1.368836310646894`}\),
+      SequenceForm[ 
+      "mean  : ", {-59.760652769626731, -13.37002818859477, \
+-75.795378627277884, 5.5000436832514383, 6.5124313117055666, 
+        1.3688363106468939}],
+      Editable->False]], "Print"],
+
+Cell[BoxData[
+    InterpretationBox[
+      RowBox[{"\<\"sigma : \"\>", "\[InvisibleSpace]", 
+        TagBox[
+          RowBox[{"(", "\[NoBreak]", GridBox[{
+                {"0.13778121369549642`", "0.5437386774803679`", 
+                  "0.6849807355457791`", "1.8760266228402278`", 
+                  "0.702005986474532`", "1.4638020865353756`"},
+                {"12.408767832899253`", "0.62245723024119`", 
+                  "19.96260312768881`", "0.2691804151879263`", 
+                  "0.15268894531238975`", "0.1453833814860732`"}
+                }], "\[NoBreak]", ")"}],
+          Function[ BoxForm`e$, 
+            MatrixForm[ BoxForm`e$]]]}],
+      SequenceForm[ "sigma : ", 
+        MatrixForm[ {{.13778121369549642, .54373867748036786, \
+.6849807355457791, 1.8760266228402278, .70200598647453205, 
+          1.4638020865353756}, {12.408767832899253, .62245723024119004, 
+          19.962603127688809, .26918041518792629, .15268894531238975, \
+.14538338148607319}}]],
+      Editable->False]], "Print"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+    \(\(name\  = \ {"\<DIPOLO\>", "\<QUADRUPOLO\>", "\<SEXTUPOLO\>", \
+"\<OCTUPOLO\>", "\<DECAPOLO\>", "\<DUODECAPOLO\>"}\ ;\)\), "\
+\[IndentingNewLine]", 
+    \(\(For[i = 1, \ 
+        i \[LessEqual] 6, \[IndentingNewLine]Print[
+          name[\([i]\)] <> "\<:\>"]; \[IndentingNewLine]g1\  = \ 
+          ListPlot[mean[\([All, i]\)], \ 
+            DisplayFunction \[Rule] 
+              Identity]; \[IndentingNewLine]g2\  = \ \ ListPlot[
+            sigm[\([All, i]\)], \ PlotStyle \[Rule] {RGBColor[1, 0, 0]}, 
+            DisplayFunction \[Rule] Identity]; \[IndentingNewLine]Show[g1, 
+          g2, \ DisplayFunction \[Rule] $DisplayFunction]; \
+\[IndentingNewLine]\(i++\);\[IndentingNewLine]];\)\)}], "Input"],
+
+Cell[BoxData[
+    \("DIPOLO:"\)], "Print"],
+
+Cell[GraphicsData["PostScript", "\<\
+%!
+%%Creator: Mathematica
+%%AspectRatio: .61803 
+MathPictureStart
+/Mabs {
+Mgmatrix idtransform
+Mtmatrix dtransform
+} bind def
+/Mabsadd { Mabs
+3 -1 roll add
+3 1 roll add
+exch } bind def
+%% Graphics
+%%IncludeResource: font Courier
+%%IncludeFont: Courier
+/Courier findfont 10  scalefont  setfont
+% Scaling calculations
+0.0238095 0.00190858 0.601896 0.00981272 [
+[.21467 .5894 -9 -9 ]
+[.21467 .5894 9 0 ]
+[.40553 .5894 -9 -9 ]
+[.40553 .5894 9 0 ]
+[.59638 .5894 -9 -9 ]
+[.59638 .5894 9 0 ]
+[.78724 .5894 -9 -9 ]
+[.78724 .5894 9 0 ]
+[.9781 .5894 -9 -9 ]
+[.9781 .5894 9 0 ]
+[.01131 .01313 -18 -4.5 ]
+[.01131 .01313 0 4.5 ]
+[.01131 .11126 -18 -4.5 ]
+[.01131 .11126 0 4.5 ]
+[.01131 .20939 -18 -4.5 ]
+[.01131 .20939 0 4.5 ]
+[.01131 .30751 -18 -4.5 ]
+[.01131 .30751 0 4.5 ]
+[.01131 .40564 -18 -4.5 ]
+[.01131 .40564 0 4.5 ]
+[.01131 .50377 -18 -4.5 ]
+[.01131 .50377 0 4.5 ]
+[ 0 0 0 0 ]
+[ 1 .61803 0 0 ]
+] MathScale
+% Start of Graphics
+1 setlinecap
+1 setlinejoin
+newpath
+0 g
+.25 Mabswid
+[ ] 0 setdash
+.21467 .6019 m
+.21467 .60815 L
+s
+[(100)] .21467 .5894 0 1 Mshowa
+.40553 .6019 m
+.40553 .60815 L
+s
+[(200)] .40553 .5894 0 1 Mshowa
+.59638 .6019 m
+.59638 .60815 L
+s
+[(300)] .59638 .5894 0 1 Mshowa
+.78724 .6019 m
+.78724 .60815 L
+s
+[(400)] .78724 .5894 0 1 Mshowa
+.9781 .6019 m
+.9781 .60815 L
+s
+[(500)] .9781 .5894 0 1 Mshowa
+.125 Mabswid
+.06198 .6019 m
+.06198 .60565 L
+s
+.10015 .6019 m
+.10015 .60565 L
+s
+.13832 .6019 m
+.13832 .60565 L
+s
+.1765 .6019 m
+.1765 .60565 L
+s
+.25284 .6019 m
+.25284 .60565 L
+s
+.29101 .6019 m
+.29101 .60565 L
+s
+.32918 .6019 m
+.32918 .60565 L
+s
+.36735 .6019 m
+.36735 .60565 L
+s
+.4437 .6019 m
+.4437 .60565 L
+s
+.48187 .6019 m
+.48187 .60565 L
+s
+.52004 .6019 m
+.52004 .60565 L
+s
+.55821 .6019 m
+.55821 .60565 L
+s
+.63455 .6019 m
+.63455 .60565 L
+s
+.67273 .6019 m
+.67273 .60565 L
+s
+.7109 .6019 m
+.7109 .60565 L
+s
+.74907 .6019 m
+.74907 .60565 L
+s
+.82541 .6019 m
+.82541 .60565 L
+s
+.86358 .6019 m
+.86358 .60565 L
+s
+.90176 .6019 m
+.90176 .60565 L
+s
+.93993 .6019 m
+.93993 .60565 L
+s
+.25 Mabswid
+0 .6019 m
+1 .6019 L
+s
+.02381 .01313 m
+.03006 .01313 L
+s
+[(-60)] .01131 .01313 1 0 Mshowa
+.02381 .11126 m
+.03006 .11126 L
+s
+[(-50)] .01131 .11126 1 0 Mshowa
+.02381 .20939 m
+.03006 .20939 L
+s
+[(-40)] .01131 .20939 1 0 Mshowa
+.02381 .30751 m
+.03006 .30751 L
+s
+[(-30)] .01131 .30751 1 0 Mshowa
+.02381 .40564 m
+.03006 .40564 L
+s
+[(-20)] .01131 .40564 1 0 Mshowa
+.02381 .50377 m
+.03006 .50377 L
+s
+[(-10)] .01131 .50377 1 0 Mshowa
+.125 Mabswid
+.02381 .03276 m
+.02756 .03276 L
+s
+.02381 .05238 m
+.02756 .05238 L
+s
+.02381 .07201 m
+.02756 .07201 L
+s
+.02381 .09163 m
+.02756 .09163 L
+s
+.02381 .13089 m
+.02756 .13089 L
+s
+.02381 .15051 m
+.02756 .15051 L
+s
+.02381 .17014 m
+.02756 .17014 L
+s
+.02381 .18976 m
+.02756 .18976 L
+s
+.02381 .22901 m
+.02756 .22901 L
+s
+.02381 .24864 m
+.02756 .24864 L
+s
+.02381 .26826 m
+.02756 .26826 L
+s
+.02381 .28789 m
+.02756 .28789 L
+s
+.02381 .32714 m
+.02756 .32714 L
+s
+.02381 .34677 m
+.02756 .34677 L
+s
+.02381 .36639 m
+.02756 .36639 L
+s
+.02381 .38602 m
+.02756 .38602 L
+s
+.02381 .42527 m
+.02756 .42527 L
+s
+.02381 .44489 m
+.02756 .44489 L
+s
+.02381 .46452 m
+.02756 .46452 L
+s
+.02381 .48414 m
+.02756 .48414 L
+s
+.02381 .52339 m
+.02756 .52339 L
+s
+.02381 .54302 m
+.02756 .54302 L
+s
+.02381 .56265 m
+.02756 .56265 L
+s
+.02381 .58227 m
+.02756 .58227 L
+s
+.25 Mabswid
+.02381 0 m
+.02381 .61803 L
+s
+0 0 m
+1 0 L
+1 .61803 L
+0 .61803 L
+closepath
+clip
+newpath
+.008 w
+.02572 .01584 Mdot
+.02763 .0149 Mdot
+.02954 .01474 Mdot
+.03144 .01499 Mdot
+.03335 .01519 Mdot
+.03526 .01501 Mdot
+.03717 .01475 Mdot
+.03908 .01472 Mdot
+.04099 .01482 Mdot
+.0429 .01489 Mdot
+.0448 .01479 Mdot
+.04671 .01482 Mdot
+.04862 .01481 Mdot
+.05053 .01479 Mdot
+.05244 .01474 Mdot
+.05435 .01472 Mdot
+.05626 .01482 Mdot
+.05816 .01492 Mdot
+.06007 .015 Mdot
+.06198 .01488 Mdot
+.06389 .01489 Mdot
+.0658 .01499 Mdot
+.06771 .01497 Mdot
+.06962 .01497 Mdot
+.07152 .01491 Mdot
+.07343 .01501 Mdot
+.07534 .01503 Mdot
+.07725 .01508 Mdot
+.07916 .01518 Mdot
+.08107 .0152 Mdot
+.08298 .01518 Mdot
+.08488 .01515 Mdot
+.08679 .01517 Mdot
+.0887 .01515 Mdot
+.09061 .01513 Mdot
+.09252 .01516 Mdot
+.09443 .01525 Mdot
+.09634 .01525 Mdot
+.09824 .01524 Mdot
+.10015 .01525 Mdot
+.10206 .01523 Mdot
+.10397 .01525 Mdot
+.10588 .01535 Mdot
+.10779 .01537 Mdot
+.1097 .01537 Mdot
+.1116 .01537 Mdot
+.11351 .01538 Mdot
+.11542 .01543 Mdot
+.11733 .01541 Mdot
+.11924 .01547 Mdot
+.12115 .01547 Mdot
+.12306 .01543 Mdot
+.12496 .01545 Mdot
+.12687 .01543 Mdot
+.12878 .01544 Mdot
+.13069 .01545 Mdot
+.1326 .01544 Mdot
+.13451 .01543 Mdot
+.13642 .01546 Mdot
+.13832 .01546 Mdot
+.14023 .0155 Mdot
+.14214 .01553 Mdot
+.14405 .0155 Mdot
+.14596 .0155 Mdot
+.14787 .01553 Mdot
+.14978 .01551 Mdot
+.15168 .01556 Mdot
+.15359 .01554 Mdot
+.1555 .01554 Mdot
+.15741 .01554 Mdot
+.15932 .01553 Mdot
+.16123 .01553 Mdot
+.16314 .01555 Mdot
+.16504 .01555 Mdot
+.16695 .01555 Mdot
+.16886 .01554 Mdot
+.17077 .01551 Mdot
+.17268 .01552 Mdot
+.17459 .01552 Mdot
+.1765 .01552 Mdot
+.1784 .01551 Mdot
+.18031 .0155 Mdot
+.18222 .01549 Mdot
+.18413 .01548 Mdot
+.18604 .01548 Mdot
+.18795 .0155 Mdot
+.18986 .01552 Mdot
+.19176 .01549 Mdot
+.19367 .01548 Mdot
+.19558 .01548 Mdot
+.19749 .01546 Mdot
+.1994 .01545 Mdot
+.20131 .01543 Mdot
+.20322 .01542 Mdot
+.20512 .01542 Mdot
+.20703 .01543 Mdot
+.20894 .01546 Mdot
+.21085 .01543 Mdot
+.21276 .01544 Mdot
+.21467 .01544 Mdot
+.21658 .01541 Mdot
+.21848 .01538 Mdot
+.22039 .0154 Mdot
+.2223 .01538 Mdot
+.22421 .0154 Mdot
+.22612 .01539 Mdot
+.22803 .01538 Mdot
+.22994 .0154 Mdot
+.23184 .01539 Mdot
+.23375 .01542 Mdot
+.23566 .01542 Mdot
+.23757 .01542 Mdot
+.23948 .01543 Mdot
+.24139 .01544 Mdot
+.2433 .01545 Mdot
+.2452 .01543 Mdot
+.24711 .01543 Mdot
+.24902 .01544 Mdot
+.25093 .01546 Mdot
+.25284 .01546 Mdot
+.25475 .01547 Mdot
+.25666 .01545 Mdot
+.25856 .01546 Mdot
+.26047 .01545 Mdot
+.26238 .01544 Mdot
+.26429 .01544 Mdot
+.2662 .01544 Mdot
+.26811 .01545 Mdot
+.27002 .01545 Mdot
+.27192 .01546 Mdot
+.27383 .01548 Mdot
+.27574 .01547 Mdot
+.27765 .01548 Mdot
+.27956 .01547 Mdot
+.28147 .01546 Mdot
+.28338 .01546 Mdot
+.28528 .01548 Mdot
+.28719 .01548 Mdot
+.2891 .01549 Mdot
+.29101 .01548 Mdot
+.29292 .01549 Mdot
+.29483 .01548 Mdot
+.29674 .01549 Mdot
+.29864 .01547 Mdot
+.30055 .01549 Mdot
+.30246 .0155 Mdot
+.30437 .0155 Mdot
+.30628 .0155 Mdot
+.30819 .0155 Mdot
+.3101 .0155 Mdot
+.312 .01551 Mdot
+.31391 .01551 Mdot
+.31582 .01552 Mdot
+.31773 .01552 Mdot
+.31964 .01554 Mdot
+.32155 .01554 Mdot
+.32346 .01557 Mdot
+.32537 .01556 Mdot
+.32727 .01556 Mdot
+.32918 .01554 Mdot
+.33109 .01554 Mdot
+.333 .01554 Mdot
+.33491 .01554 Mdot
+.33682 .01554 Mdot
+.33873 .01555 Mdot
+.34063 .01555 Mdot
+.34254 .01554 Mdot
+.34445 .01553 Mdot
+.34636 .01553 Mdot
+.34827 .01554 Mdot
+.35018 .01555 Mdot
+.35209 .01555 Mdot
+.35399 .01555 Mdot
+.3559 .01555 Mdot
+.35781 .01557 Mdot
+.35972 .01557 Mdot
+.36163 .01556 Mdot
+.36354 .01556 Mdot
+.36545 .01556 Mdot
+.36735 .01555 Mdot
+.36926 .01555 Mdot
+.37117 .01555 Mdot
+.37308 .01555 Mdot
+.37499 .01555 Mdot
+.3769 .01555 Mdot
+.37881 .01556 Mdot
+.38071 .01557 Mdot
+.38262 .01558 Mdot
+.38453 .01559 Mdot
+.38644 .01559 Mdot
+.38835 .01558 Mdot
+.39026 .01558 Mdot
+.39217 .01558 Mdot
+.39407 .01557 Mdot
+.39598 .01557 Mdot
+.39789 .01558 Mdot
+.3998 .01558 Mdot
+.40171 .01558 Mdot
+.40362 .01558 Mdot
+.40553 .01558 Mdot
+.40743 .01557 Mdot
+.40934 .01558 Mdot
+.41125 .01558 Mdot
+.41316 .01559 Mdot
+.41507 .01559 Mdot
+.41698 .01561 Mdot
+.41889 .01561 Mdot
+.42079 .01561 Mdot
+.4227 .01561 Mdot
+.42461 .01561 Mdot
+.42652 .0156 Mdot
+.42843 .0156 Mdot
+.43034 .01561 Mdot
+.43225 .01561 Mdot
+.43415 .01561 Mdot
+.43606 .0156 Mdot
+.43797 .01559 Mdot
+.43988 .01559 Mdot
+.44179 .01559 Mdot
+.4437 .01559 Mdot
+.44561 .01559 Mdot
+.44751 .01558 Mdot
+.44942 .01559 Mdot
+.45133 .01558 Mdot
+.45324 .01558 Mdot
+.45515 .01558 Mdot
+.45706 .01558 Mdot
+.45897 .01558 Mdot
+.46087 .01559 Mdot
+.46278 .0156 Mdot
+.46469 .0156 Mdot
+.4666 .01559 Mdot
+.46851 .01559 Mdot
+.47042 .01558 Mdot
+.47233 .01558 Mdot
+.47423 .01558 Mdot
+.47614 .01559 Mdot
+.47805 .01558 Mdot
+.47996 .01558 Mdot
+.48187 .01559 Mdot
+.48378 .01558 Mdot
+.48569 .01559 Mdot
+.48759 .01559 Mdot
+.4895 .01559 Mdot
+.49141 .01559 Mdot
+.49332 .01558 Mdot
+.49523 .01559 Mdot
+.49714 .01558 Mdot
+.49905 .01558 Mdot
+.50095 .01558 Mdot
+.50286 .01558 Mdot
+.50477 .01557 Mdot
+.50668 .01557 Mdot
+.50859 .01557 Mdot
+.5105 .01557 Mdot
+.51241 .01557 Mdot
+.51431 .01556 Mdot
+.51622 .01556 Mdot
+.51813 .01556 Mdot
+.52004 .01555 Mdot
+.52195 .01555 Mdot
+.52386 .01556 Mdot
+.52577 .01556 Mdot
+.52767 .01555 Mdot
+.52958 .01555 Mdot
+.53149 .01555 Mdot
+.5334 .01555 Mdot
+.53531 .01555 Mdot
+.53722 .01554 Mdot
+.53913 .01555 Mdot
+.54103 .01555 Mdot
+.54294 .01555 Mdot
+.54485 .01556 Mdot
+.54676 .01556 Mdot
+.54867 .01555 Mdot
+.55058 .01555 Mdot
+.55249 .01555 Mdot
+.55439 .01556 Mdot
+.5563 .01556 Mdot
+.55821 .01555 Mdot
+.56012 .01555 Mdot
+.56203 .01555 Mdot
+.56394 .01555 Mdot
+.56585 .01555 Mdot
+.56775 .01555 Mdot
+.56966 .01555 Mdot
+.57157 .01555 Mdot
+.57348 .01555 Mdot
+.57539 .01556 Mdot
+.5773 .01556 Mdot
+.57921 .01556 Mdot
+.58111 .01557 Mdot
+.58302 .01557 Mdot
+.58493 .01557 Mdot
+.58684 .01558 Mdot
+.58875 .01559 Mdot
+.59066 .01558 Mdot
+.59257 .01558 Mdot
+.59447 .01557 Mdot
+.59638 .01557 Mdot
+.59829 .01556 Mdot
+.6002 .01556 Mdot
+.60211 .01556 Mdot
+.60402 .01556 Mdot
+.60593 .01555 Mdot
+.60783 .01555 Mdot
+.60974 .01555 Mdot
+.61165 .01555 Mdot
+.61356 .01555 Mdot
+.61547 .01555 Mdot
+.61738 .01555 Mdot
+.61929 .01555 Mdot
+.62119 .01555 Mdot
+.6231 .01555 Mdot
+.62501 .01555 Mdot
+.62692 .01555 Mdot
+.62883 .01555 Mdot
+.63074 .01554 Mdot
+.63265 .01553 Mdot
+.63455 .01553 Mdot
+.63646 .01553 Mdot
+.63837 .01554 Mdot
+.64028 .01553 Mdot
+.64219 .01554 Mdot
+.6441 .01553 Mdot
+.64601 .01553 Mdot
+.64791 .01553 Mdot
+.64982 .01553 Mdot
+.65173 .01553 Mdot
+.65364 .01553 Mdot
+.65555 .01553 Mdot
+.65746 .01553 Mdot
+.65937 .01553 Mdot
+.66127 .01554 Mdot
+.66318 .01553 Mdot
+.66509 .01554 Mdot
+.667 .01554 Mdot
+.66891 .01553 Mdot
+.67082 .01552 Mdot
+.67273 .01553 Mdot
+.67463 .01553 Mdot
+.67654 .01552 Mdot
+.67845 .01552 Mdot
+.68036 .01553 Mdot
+.68227 .01553 Mdot
+.68418 .01553 Mdot
+.68609 .01553 Mdot
+.688 .01552 Mdot
+.6899 .01553 Mdot
+.69181 .01553 Mdot
+.69372 .01553 Mdot
+.69563 .01553 Mdot
+.69754 .01552 Mdot
+.69945 .01553 Mdot
+.70136 .01553 Mdot
+.70326 .01554 Mdot
+.70517 .01553 Mdot
+.70708 .01553 Mdot
+.70899 .01553 Mdot
+.7109 .01553 Mdot
+.71281 .01553 Mdot
+.71472 .01553 Mdot
+.71662 .01553 Mdot
+.71853 .01552 Mdot
+.72044 .01552 Mdot
+.72235 .01552 Mdot
+.72426 .01553 Mdot
+.72617 .01553 Mdot
+.72808 .01552 Mdot
+.72998 .01552 Mdot
+.73189 .01553 Mdot
+.7338 .01553 Mdot
+.73571 .01553 Mdot
+.73762 .01552 Mdot
+.73953 .01552 Mdot
+.74144 .01553 Mdot
+.74334 .01552 Mdot
+.74525 .01552 Mdot
+.74716 .01552 Mdot
+.74907 .01552 Mdot
+.75098 .01552 Mdot
+.75289 .01552 Mdot
+.7548 .01552 Mdot
+.7567 .01552 Mdot
+.75861 .01552 Mdot
+.76052 .01552 Mdot
+.76243 .01552 Mdot
+.76434 .01551 Mdot
+.76625 .01551 Mdot
+.76816 .01551 Mdot
+.77006 .01551 Mdot
+.77197 .01551 Mdot
+.77388 .01551 Mdot
+.77579 .01551 Mdot
+.7777 .01551 Mdot
+.77961 .01551 Mdot
+.78152 .01551 Mdot
+.78342 .01551 Mdot
+.78533 .01551 Mdot
+.78724 .0155 Mdot
+.78915 .0155 Mdot
+.79106 .0155 Mdot
+.79297 .01551 Mdot
+.79488 .01551 Mdot
+.79678 .01551 Mdot
+.79869 .01551 Mdot
+.8006 .01551 Mdot
+.80251 .01551 Mdot
+.80442 .01551 Mdot
+.80633 .01551 Mdot
+.80824 .01551 Mdot
+.81014 .01551 Mdot
+.81205 .01552 Mdot
+.81396 .01552 Mdot
+.81587 .01552 Mdot
+.81778 .01552 Mdot
+.81969 .01551 Mdot
+.8216 .01551 Mdot
+.8235 .01551 Mdot
+.82541 .01551 Mdot
+.82732 .01551 Mdot
+.82923 .01551 Mdot
+.83114 .0155 Mdot
+.83305 .0155 Mdot
+.83496 .0155 Mdot
+.83686 .0155 Mdot
+.83877 .01549 Mdot
+.84068 .01549 Mdot
+.84259 .01549 Mdot
+.8445 .01549 Mdot
+.84641 .01548 Mdot
+.84832 .01549 Mdot
+.85022 .01548 Mdot
+.85213 .01548 Mdot
+.85404 .01548 Mdot
+.85595 .01548 Mdot
+.85786 .01548 Mdot
+.85977 .01548 Mdot
+.86168 .01548 Mdot
+.86358 .01548 Mdot
+.86549 .01547 Mdot
+.8674 .01546 Mdot
+.86931 .01547 Mdot
+.87122 .01547 Mdot
+.87313 .01547 Mdot
+.87504 .01547 Mdot
+.87694 .01548 Mdot
+.87885 .01548 Mdot
+.88076 .01548 Mdot
+.88267 .01547 Mdot
+.88458 .01547 Mdot
+.88649 .01547 Mdot
+.8884 .01547 Mdot
+.8903 .01548 Mdot
+.89221 .01548 Mdot
+.89412 .01548 Mdot
+.89603 .01548 Mdot
+.89794 .01548 Mdot
+.89985 .01549 Mdot
+.90176 .01548 Mdot
+.90366 .01548 Mdot
+.90557 .01548 Mdot
+.90748 .01548 Mdot
+.90939 .01548 Mdot
+.9113 .01548 Mdot
+.91321 .01548 Mdot
+.91512 .01548 Mdot
+.91702 .01548 Mdot
+.91893 .01548 Mdot
+.92084 .01548 Mdot
+.92275 .01548 Mdot
+.92466 .01548 Mdot
+.92657 .01547 Mdot
+.92848 .01547 Mdot
+.93038 .01547 Mdot
+.93229 .01547 Mdot
+.9342 .01547 Mdot
+.93611 .01547 Mdot
+.93802 .01547 Mdot
+.93993 .01547 Mdot
+.94184 .01547 Mdot
+.94374 .01547 Mdot
+.94565 .01546 Mdot
+.94756 .01547 Mdot
+.94947 .01547 Mdot
+.95138 .01547 Mdot
+.95329 .01547 Mdot
+.9552 .01547 Mdot
+.9571 .01547 Mdot
+.95901 .01547 Mdot
+.96092 .01547 Mdot
+.96283 .01547 Mdot
+.96474 .01548 Mdot
+.96665 .01548 Mdot
+.96856 .01548 Mdot
+.97046 .01548 Mdot
+.97237 .01548 Mdot
+.97428 .01548 Mdot
+.97619 .01548 Mdot
+1 0 0 r
+.02572 .6019 Mdot
+.02763 .60283 Mdot
+.02954 .60269 Mdot
+.03144 .60271 Mdot
+.03335 .60273 Mdot
+.03526 .60275 Mdot
+.03717 .60293 Mdot
+.03908 .60286 Mdot
+.04099 .60285 Mdot
+.0429 .60282 Mdot
+.0448 .60283 Mdot
+.04671 .60279 Mdot
+.04862 .60276 Mdot
+.05053 .60273 Mdot
+.05244 .60272 Mdot
+.05435 .6027 Mdot
+.05626 .60278 Mdot
+.05816 .60286 Mdot
+.06007 .60289 Mdot
+.06198 .603 Mdot
+.06389 .60297 Mdot
+.0658 .60305 Mdot
+.06771 .60303 Mdot
+.06962 .603 Mdot
+.07152 .60301 Mdot
+.07343 .60309 Mdot
+.07534 .60307 Mdot
+.07725 .60308 Mdot
+.07916 .60316 Mdot
+.08107 .60315 Mdot
+.08298 .60314 Mdot
+.08488 .60312 Mdot
+.08679 .60311 Mdot
+.0887 .6031 Mdot
+.09061 .60309 Mdot
+.09252 .60308 Mdot
+.09443 .60318 Mdot
+.09634 .60317 Mdot
+.09824 .60315 Mdot
+.10015 .60314 Mdot
+.10206 .60313 Mdot
+.10397 .60311 Mdot
+.10588 .60328 Mdot
+.10779 .60327 Mdot
+.1097 .60325 Mdot
+.1116 .60324 Mdot
+.11351 .60323 Mdot
+.11542 .60326 Mdot
+.11733 .60325 Mdot
+.11924 .6033 Mdot
+.12115 .60329 Mdot
+.12306 .6033 Mdot
+.12496 .60329 Mdot
+.12687 .60329 Mdot
+.12878 .60327 Mdot
+.13069 .60327 Mdot
+.1326 .60326 Mdot
+.13451 .60325 Mdot
+.13642 .60326 Mdot
+.13832 .60325 Mdot
+.14023 .60328 Mdot
+.14214 .60328 Mdot
+.14405 .60329 Mdot
+.14596 .60328 Mdot
+.14787 .60329 Mdot
+.14978 .60329 Mdot
+.15168 .60332 Mdot
+.15359 .60332 Mdot
+.1555 .60331 Mdot
+.15741 .6033 Mdot
+.15932 .60329 Mdot
+.16123 .60328 Mdot
+.16314 .60328 Mdot
+.16504 .60327 Mdot
+.16695 .60326 Mdot
+.16886 .60326 Mdot
+.17077 .60327 Mdot
+.17268 .60327 Mdot
+.17459 .60326 Mdot
+.1765 .60325 Mdot
+.1784 .60325 Mdot
+.18031 .60324 Mdot
+.18222 .60324 Mdot
+.18413 .60323 Mdot
+.18604 .60322 Mdot
+.18795 .60323 Mdot
+.18986 .60323 Mdot
+.19176 .60325 Mdot
+.19367 .60325 Mdot
+.19558 .60324 Mdot
+.19749 .60324 Mdot
+.1994 .60324 Mdot
+.20131 .60324 Mdot
+.20322 .60324 Mdot
+.20512 .60323 Mdot
+.20703 .60322 Mdot
+.20894 .60325 Mdot
+.21085 .60326 Mdot
+.21276 .60325 Mdot
+.21467 .60325 Mdot
+.21658 .60326 Mdot
+.21848 .60329 Mdot
+.22039 .60329 Mdot
+.2223 .60328 Mdot
+.22421 .60329 Mdot
+.22612 .60329 Mdot
+.22803 .60328 Mdot
+.22994 .60328 Mdot
+.23184 .60328 Mdot
+.23375 .60329 Mdot
+.23566 .60329 Mdot
+.23757 .60328 Mdot
+.23948 .60328 Mdot
+.24139 .60328 Mdot
+.2433 .60328 Mdot
+.2452 .60329 Mdot
+.24711 .60328 Mdot
+.24902 .60329 Mdot
+.25093 .60329 Mdot
+.25284 .60328 Mdot
+.25475 .60328 Mdot
+.25666 .60328 Mdot
+.25856 .60327 Mdot
+.26047 .60328 Mdot
+.26238 .60327 Mdot
+.26429 .60327 Mdot
+.2662 .60326 Mdot
+.26811 .60327 Mdot
+.27002 .60326 Mdot
+.27192 .60326 Mdot
+.27383 .60328 Mdot
+.27574 .60328 Mdot
+.27765 .60328 Mdot
+.27956 .60328 Mdot
+.28147 .60328 Mdot
+.28338 .60327 Mdot
+.28528 .60329 Mdot
+.28719 .60329 Mdot
+.2891 .60329 Mdot
+.29101 .60328 Mdot
+.29292 .60328 Mdot
+.29483 .60328 Mdot
+.29674 .60327 Mdot
+.29864 .60327 Mdot
+.30055 .60328 Mdot
+.30246 .60328 Mdot
+.30437 .60328 Mdot
+.30628 .60327 Mdot
+.30819 .60327 Mdot
+.3101 .60326 Mdot
+.312 .60326 Mdot
+.31391 .60326 Mdot
+.31582 .60326 Mdot
+.31773 .60325 Mdot
+.31964 .60327 Mdot
+.32155 .60327 Mdot
+.32346 .6033 Mdot
+.32537 .60329 Mdot
+.32727 .60329 Mdot
+.32918 .6033 Mdot
+.33109 .6033 Mdot
+.333 .60329 Mdot
+.33491 .60329 Mdot
+.33682 .60329 Mdot
+.33873 .60328 Mdot
+.34063 .60328 Mdot
+.34254 .60328 Mdot
+.34445 .60328 Mdot
+.34636 .60327 Mdot
+.34827 .60327 Mdot
+.35018 .60328 Mdot
+.35209 .60328 Mdot
+.35399 .60327 Mdot
+.3559 .60327 Mdot
+.35781 .60329 Mdot
+.35972 .60329 Mdot
+.36163 .60329 Mdot
+.36354 .60328 Mdot
+.36545 .60328 Mdot
+.36735 .60328 Mdot
+.36926 .60328 Mdot
+.37117 .60328 Mdot
+.37308 .60327 Mdot
+.37499 .60327 Mdot
+.3769 .60327 Mdot
+.37881 .60327 Mdot
+.38071 .60327 Mdot
+.38262 .60328 Mdot
+.38453 .60328 Mdot
+.38644 .60328 Mdot
+.38835 .60328 Mdot
+.39026 .60328 Mdot
+.39217 .60328 Mdot
+.39407 .60328 Mdot
+.39598 .60327 Mdot
+.39789 .60328 Mdot
+.3998 .60328 Mdot
+.40171 .60327 Mdot
+.40362 .60327 Mdot
+.40553 .60327 Mdot
+.40743 .60327 Mdot
+.40934 .60327 Mdot
+.41125 .60327 Mdot
+.41316 .60327 Mdot
+.41507 .60327 Mdot
+.41698 .60328 Mdot
+.41889 .60329 Mdot
+.42079 .60328 Mdot
+.4227 .60328 Mdot
+.42461 .60328 Mdot
+.42652 .60329 Mdot
+.42843 .60328 Mdot
+.43034 .60328 Mdot
+.43225 .60328 Mdot
+.43415 .60328 Mdot
+.43606 .60328 Mdot
+.43797 .60328 Mdot
+.43988 .60328 Mdot
+.44179 .60328 Mdot
+.4437 .60328 Mdot
+.44561 .60327 Mdot
+.44751 .60328 Mdot
+.44942 .60328 Mdot
+.45133 .60327 Mdot
+.45324 .60327 Mdot
+.45515 .60327 Mdot
+.45706 .60327 Mdot
+.45897 .60326 Mdot
+.46087 .60327 Mdot
+.46278 .60327 Mdot
+.46469 .60326 Mdot
+.4666 .60326 Mdot
+.46851 .60326 Mdot
+.47042 .60326 Mdot
+.47233 .60326 Mdot
+.47423 .60325 Mdot
+.47614 .60325 Mdot
+.47805 .60325 Mdot
+.47996 .60325 Mdot
+.48187 .60326 Mdot
+.48378 .60326 Mdot
+.48569 .60328 Mdot
+.48759 .60328 Mdot
+.4895 .60328 Mdot
+.49141 .60327 Mdot
+.49332 .60327 Mdot
+.49523 .60327 Mdot
+.49714 .60327 Mdot
+.49905 .60327 Mdot
+.50095 .60327 Mdot
+.50286 .60327 Mdot
+.50477 .60327 Mdot
+.50668 .60327 Mdot
+.50859 .60327 Mdot
+.5105 .60327 Mdot
+.51241 .60326 Mdot
+.51431 .60326 Mdot
+.51622 .60326 Mdot
+.51813 .60326 Mdot
+.52004 .60326 Mdot
+.52195 .60326 Mdot
+.52386 .60326 Mdot
+.52577 .60326 Mdot
+.52767 .60326 Mdot
+.52958 .60326 Mdot
+.53149 .60326 Mdot
+.5334 .60326 Mdot
+.53531 .60325 Mdot
+.53722 .60325 Mdot
+.53913 .60325 Mdot
+.54103 .60325 Mdot
+.54294 .60325 Mdot
+.54485 .60325 Mdot
+.54676 .60325 Mdot
+.54867 .60324 Mdot
+.55058 .60324 Mdot
+.55249 .60324 Mdot
+.55439 .60325 Mdot
+.5563 .60324 Mdot
+.55821 .60325 Mdot
+.56012 .60325 Mdot
+.56203 .60325 Mdot
+.56394 .60325 Mdot
+.56585 .60324 Mdot
+.56775 .60324 Mdot
+.56966 .60324 Mdot
+.57157 .60324 Mdot
+.57348 .60324 Mdot
+.57539 .60324 Mdot
+.5773 .60324 Mdot
+.57921 .60324 Mdot
+.58111 .60324 Mdot
+.58302 .60324 Mdot
+.58493 .60324 Mdot
+.58684 .60325 Mdot
+.58875 .60325 Mdot
+.59066 .60325 Mdot
+.59257 .60325 Mdot
+.59447 .60326 Mdot
+.59638 .60325 Mdot
+.59829 .60325 Mdot
+.6002 .60325 Mdot
+.60211 .60325 Mdot
+.60402 .60325 Mdot
+.60593 .60325 Mdot
+.60783 .60325 Mdot
+.60974 .60325 Mdot
+.61165 .60324 Mdot
+.61356 .60324 Mdot
+.61547 .60325 Mdot
+.61738 .60325 Mdot
+.61929 .60324 Mdot
+.62119 .60324 Mdot
+.6231 .60324 Mdot
+.62501 .60324 Mdot
+.62692 .60324 Mdot
+.62883 .60323 Mdot
+.63074 .60324 Mdot
+.63265 .60324 Mdot
+.63455 .60324 Mdot
+.63646 .60324 Mdot
+.63837 .60324 Mdot
+.64028 .60324 Mdot
+.64219 .60324 Mdot
+.6441 .60324 Mdot
+.64601 .60324 Mdot
+.64791 .60324 Mdot
+.64982 .60324 Mdot
+.65173 .60323 Mdot
+.65364 .60323 Mdot
+.65555 .60323 Mdot
+.65746 .60323 Mdot
+.65937 .60323 Mdot
+.66127 .60324 Mdot
+.66318 .60325 Mdot
+.66509 .60325 Mdot
+.667 .60325 Mdot
+.66891 .60325 Mdot
+.67082 .60325 Mdot
+.67273 .60325 Mdot
+.67463 .60325 Mdot
+.67654 .60325 Mdot
+.67845 .60325 Mdot
+.68036 .60325 Mdot
+.68227 .60325 Mdot
+.68418 .60326 Mdot
+.68609 .60325 Mdot
+.688 .60325 Mdot
+.6899 .60325 Mdot
+.69181 .60325 Mdot
+.69372 .60325 Mdot
+.69563 .60325 Mdot
+.69754 .60325 Mdot
+.69945 .60325 Mdot
+.70136 .60325 Mdot
+.70326 .60326 Mdot
+.70517 .60326 Mdot
+.70708 .60326 Mdot
+.70899 .60325 Mdot
+.7109 .60325 Mdot
+.71281 .60325 Mdot
+.71472 .60325 Mdot
+.71662 .60325 Mdot
+.71853 .60326 Mdot
+.72044 .60325 Mdot
+.72235 .60325 Mdot
+.72426 .60325 Mdot
+.72617 .60325 Mdot
+.72808 .60325 Mdot
+.72998 .60325 Mdot
+.73189 .60326 Mdot
+.7338 .60325 Mdot
+.73571 .60326 Mdot
+.73762 .60326 Mdot
+.73953 .60325 Mdot
+.74144 .60325 Mdot
+.74334 .60325 Mdot
+.74525 .60325 Mdot
+.74716 .60326 Mdot
+.74907 .60326 Mdot
+.75098 .60325 Mdot
+.75289 .60325 Mdot
+.7548 .60325 Mdot
+.7567 .60325 Mdot
+.75861 .60325 Mdot
+.76052 .60325 Mdot
+.76243 .60325 Mdot
+.76434 .60325 Mdot
+.76625 .60325 Mdot
+.76816 .60325 Mdot
+.77006 .60325 Mdot
+.77197 .60326 Mdot
+.77388 .60326 Mdot
+.77579 .60326 Mdot
+.7777 .60325 Mdot
+.77961 .60325 Mdot
+.78152 .60325 Mdot
+.78342 .60325 Mdot
+.78533 .60325 Mdot
+.78724 .60325 Mdot
+.78915 .60325 Mdot
+.79106 .60325 Mdot
+.79297 .60325 Mdot
+.79488 .60325 Mdot
+.79678 .60325 Mdot
+.79869 .60325 Mdot
+.8006 .60325 Mdot
+.80251 .60324 Mdot
+.80442 .60324 Mdot
+.80633 .60324 Mdot
+.80824 .60324 Mdot
+.81014 .60324 Mdot
+.81205 .60324 Mdot
+.81396 .60324 Mdot
+.81587 .60324 Mdot
+.81778 .60324 Mdot
+.81969 .60325 Mdot
+.8216 .60325 Mdot
+.8235 .60325 Mdot
+.82541 .60325 Mdot
+.82732 .60325 Mdot
+.82923 .60325 Mdot
+.83114 .60326 Mdot
+.83305 .60326 Mdot
+.83496 .60326 Mdot
+.83686 .60326 Mdot
+.83877 .60326 Mdot
+.84068 .60326 Mdot
+.84259 .60326 Mdot
+.8445 .60326 Mdot
+.84641 .60326 Mdot
+.84832 .60326 Mdot
+.85022 .60326 Mdot
+.85213 .60326 Mdot
+.85404 .60326 Mdot
+.85595 .60326 Mdot
+.85786 .60326 Mdot
+.85977 .60326 Mdot
+.86168 .60326 Mdot
+.86358 .60326 Mdot
+.86549 .60326 Mdot
+.8674 .60327 Mdot
+.86931 .60326 Mdot
+.87122 .60326 Mdot
+.87313 .60326 Mdot
+.87504 .60326 Mdot
+.87694 .60327 Mdot
+.87885 .60327 Mdot
+.88076 .60327 Mdot
+.88267 .60327 Mdot
+.88458 .60326 Mdot
+.88649 .60326 Mdot
+.8884 .60326 Mdot
+.8903 .60326 Mdot
+.89221 .60326 Mdot
+.89412 .60326 Mdot
+.89603 .60326 Mdot
+.89794 .60327 Mdot
+.89985 .60326 Mdot
+.90176 .60327 Mdot
+.90366 .60326 Mdot
+.90557 .60326 Mdot
+.90748 .60326 Mdot
+.90939 .60326 Mdot
+.9113 .60326 Mdot
+.91321 .60326 Mdot
+.91512 .60326 Mdot
+.91702 .60326 Mdot
+.91893 .60326 Mdot
+.92084 .60326 Mdot
+.92275 .60325 Mdot
+.92466 .60326 Mdot
+.92657 .60326 Mdot
+.92848 .60325 Mdot
+.93038 .60326 Mdot
+.93229 .60325 Mdot
+.9342 .60325 Mdot
+.93611 .60325 Mdot
+.93802 .60325 Mdot
+.93993 .60325 Mdot
+.94184 .60325 Mdot
+.94374 .60325 Mdot
+.94565 .60325 Mdot
+.94756 .60325 Mdot
+.94947 .60325 Mdot
+.95138 .60325 Mdot
+.95329 .60325 Mdot
+.9552 .60325 Mdot
+.9571 .60325 Mdot
+.95901 .60325 Mdot
+.96092 .60325 Mdot
+.96283 .60325 Mdot
+.96474 .60325 Mdot
+.96665 .60325 Mdot
+.96856 .60325 Mdot
+.97046 .60325 Mdot
+.97237 .60325 Mdot
+.97428 .60325 Mdot
+.97619 .60325 Mdot
+% End of Graphics
+MathPictureEnd
+\
+\>"], "Graphics",
+  ImageSize->{288, 177.938},
+  ImageMargins->{{0, 0}, {0, 0}},
+  ImageRegion->{{0, 1}, {0, 1}},
+  ImageCacheValid->False],
+
+Cell[BoxData[
+    \("QUADRUPOLO:"\)], "Print"],
+
+Cell[GraphicsData["PostScript", "\<\
+%!
+%%Creator: Mathematica
+%%AspectRatio: .61803 
+MathPictureStart
+/Mabs {
+Mgmatrix idtransform
+Mtmatrix dtransform
+} bind def
+/Mabsadd { Mabs
+3 -1 roll add
+3 1 roll add
+exch } bind def
+%% Graphics
+%%IncludeResource: font Courier
+%%IncludeFont: Courier
+/Courier findfont 10  scalefont  setfont
+% Scaling calculations
+0.0238095 0.00190858 0.580437 0.041825 [
+[.21467 .56794 -9 -9 ]
+[.21467 .56794 9 0 ]
+[.40553 .56794 -9 -9 ]
+[.40553 .56794 9 0 ]
+[.59638 .56794 -9 -9 ]
+[.59638 .56794 9 0 ]
+[.78724 .56794 -9 -9 ]
+[.78724 .56794 9 0 ]
+[.9781 .56794 -9 -9 ]
+[.9781 .56794 9 0 ]
+[.01131 .07854 -18 -4.5 ]
+[.01131 .07854 0 4.5 ]
+[.01131 .16219 -18 -4.5 ]
+[.01131 .16219 0 4.5 ]
+[.01131 .24584 -12 -4.5 ]
+[.01131 .24584 0 4.5 ]
+[.01131 .32949 -12 -4.5 ]
+[.01131 .32949 0 4.5 ]
+[.01131 .41314 -12 -4.5 ]
+[.01131 .41314 0 4.5 ]
+[.01131 .49679 -12 -4.5 ]
+[.01131 .49679 0 4.5 ]
+[ 0 0 0 0 ]
+[ 1 .61803 0 0 ]
+] MathScale
+% Start of Graphics
+1 setlinecap
+1 setlinejoin
+newpath
+0 g
+.25 Mabswid
+[ ] 0 setdash
+.21467 .58044 m
+.21467 .58669 L
+s
+[(100)] .21467 .56794 0 1 Mshowa
+.40553 .58044 m
+.40553 .58669 L
+s
+[(200)] .40553 .56794 0 1 Mshowa
+.59638 .58044 m
+.59638 .58669 L
+s
+[(300)] .59638 .56794 0 1 Mshowa
+.78724 .58044 m
+.78724 .58669 L
+s
+[(400)] .78724 .56794 0 1 Mshowa
+.9781 .58044 m
+.9781 .58669 L
+s
+[(500)] .9781 .56794 0 1 Mshowa
+.125 Mabswid
+.06198 .58044 m
+.06198 .58419 L
+s
+.10015 .58044 m
+.10015 .58419 L
+s
+.13832 .58044 m
+.13832 .58419 L
+s
+.1765 .58044 m
+.1765 .58419 L
+s
+.25284 .58044 m
+.25284 .58419 L
+s
+.29101 .58044 m
+.29101 .58419 L
+s
+.32918 .58044 m
+.32918 .58419 L
+s
+.36735 .58044 m
+.36735 .58419 L
+s
+.4437 .58044 m
+.4437 .58419 L
+s
+.48187 .58044 m
+.48187 .58419 L
+s
+.52004 .58044 m
+.52004 .58419 L
+s
+.55821 .58044 m
+.55821 .58419 L
+s
+.63455 .58044 m
+.63455 .58419 L
+s
+.67273 .58044 m
+.67273 .58419 L
+s
+.7109 .58044 m
+.7109 .58419 L
+s
+.74907 .58044 m
+.74907 .58419 L
+s
+.82541 .58044 m
+.82541 .58419 L
+s
+.86358 .58044 m
+.86358 .58419 L
+s
+.90176 .58044 m
+.90176 .58419 L
+s
+.93993 .58044 m
+.93993 .58419 L
+s
+.25 Mabswid
+0 .58044 m
+1 .58044 L
+s
+.02381 .07854 m
+.03006 .07854 L
+s
+[(-12)] .01131 .07854 1 0 Mshowa
+.02381 .16219 m
+.03006 .16219 L
+s
+[(-10)] .01131 .16219 1 0 Mshowa
+.02381 .24584 m
+.03006 .24584 L
+s
+[(-8)] .01131 .24584 1 0 Mshowa
+.02381 .32949 m
+.03006 .32949 L
+s
+[(-6)] .01131 .32949 1 0 Mshowa
+.02381 .41314 m
+.03006 .41314 L
+s
+[(-4)] .01131 .41314 1 0 Mshowa
+.02381 .49679 m
+.03006 .49679 L
+s
+[(-2)] .01131 .49679 1 0 Mshowa
+.125 Mabswid
+.02381 .09945 m
+.02756 .09945 L
+s
+.02381 .12036 m
+.02756 .12036 L
+s
+.02381 .14127 m
+.02756 .14127 L
+s
+.02381 .1831 m
+.02756 .1831 L
+s
+.02381 .20401 m
+.02756 .20401 L
+s
+.02381 .22492 m
+.02756 .22492 L
+s
+.02381 .26675 m
+.02756 .26675 L
+s
+.02381 .28766 m
+.02756 .28766 L
+s
+.02381 .30857 m
+.02756 .30857 L
+s
+.02381 .3504 m
+.02756 .3504 L
+s
+.02381 .37131 m
+.02756 .37131 L
+s
+.02381 .39222 m
+.02756 .39222 L
+s
+.02381 .43405 m
+.02756 .43405 L
+s
+.02381 .45496 m
+.02756 .45496 L
+s
+.02381 .47587 m
+.02756 .47587 L
+s
+.02381 .5177 m
+.02756 .5177 L
+s
+.02381 .53861 m
+.02756 .53861 L
+s
+.02381 .55952 m
+.02756 .55952 L
+s
+.02381 .05762 m
+.02756 .05762 L
+s
+.02381 .03671 m
+.02756 .03671 L
+s
+.02381 .0158 m
+.02756 .0158 L
+s
+.02381 .60135 m
+.02756 .60135 L
+s
+.25 Mabswid
+.02381 0 m
+.02381 .61803 L
+s
+0 0 m
+1 0 L
+1 .61803 L
+0 .61803 L
+closepath
+clip
+newpath
+.008 w
+.02572 .03689 Mdot
+.02763 .03071 Mdot
+.02954 .02644 Mdot
+.03144 .02437 Mdot
+.03335 .01472 Mdot
+.03526 .0169 Mdot
+.03717 .01851 Mdot
+.03908 .02314 Mdot
+.04099 .02437 Mdot
+.0429 .02197 Mdot
+.0448 .0221 Mdot
+.04671 .02075 Mdot
+.04862 .0228 Mdot
+.05053 .02042 Mdot
+.05244 .02149 Mdot
+.05435 .02174 Mdot
+.05626 .0227 Mdot
+.05816 .02261 Mdot
+.06007 .02495 Mdot
+.06198 .0243 Mdot
+.06389 .02522 Mdot
+.0658 .02648 Mdot
+.06771 .02637 Mdot
+.06962 .02606 Mdot
+.07152 .02644 Mdot
+.07343 .02491 Mdot
+.07534 .02432 Mdot
+.07725 .02371 Mdot
+.07916 .02268 Mdot
+.08107 .0222 Mdot
+.08298 .02171 Mdot
+.08488 .02278 Mdot
+.08679 .02276 Mdot
+.0887 .02213 Mdot
+.09061 .0221 Mdot
+.09252 .02189 Mdot
+.09443 .02214 Mdot
+.09634 .02206 Mdot
+.09824 .02222 Mdot
+.10015 .02108 Mdot
+.10206 .02116 Mdot
+.10397 .02057 Mdot
+.10588 .02103 Mdot
+.10779 .02066 Mdot
+.1097 .02023 Mdot
+.1116 .01933 Mdot
+.11351 .01928 Mdot
+.11542 .01911 Mdot
+.11733 .01976 Mdot
+.11924 .01943 Mdot
+.12115 .01932 Mdot
+.12306 .01968 Mdot
+.12496 .02009 Mdot
+.12687 .02023 Mdot
+.12878 .02026 Mdot
+.13069 .01924 Mdot
+.1326 .01948 Mdot
+.13451 .01952 Mdot
+.13642 .01941 Mdot
+.13832 .01958 Mdot
+.14023 .02022 Mdot
+.14214 .0197 Mdot
+.14405 .01972 Mdot
+.14596 .01992 Mdot
+.14787 .02009 Mdot
+.14978 .02025 Mdot
+.15168 .02044 Mdot
+.15359 .02082 Mdot
+.1555 .02115 Mdot
+.15741 .02137 Mdot
+.15932 .02155 Mdot
+.16123 .02151 Mdot
+.16314 .02177 Mdot
+.16504 .02172 Mdot
+.16695 .02139 Mdot
+.16886 .02174 Mdot
+.17077 .02129 Mdot
+.17268 .02147 Mdot
+.17459 .02131 Mdot
+.1765 .02112 Mdot
+.1784 .02164 Mdot
+.18031 .02151 Mdot
+.18222 .02115 Mdot
+.18413 .02117 Mdot
+.18604 .02147 Mdot
+.18795 .02111 Mdot
+.18986 .02121 Mdot
+.19176 .02128 Mdot
+.19367 .02087 Mdot
+.19558 .02062 Mdot
+.19749 .02073 Mdot
+.1994 .02057 Mdot
+.20131 .02034 Mdot
+.20322 .02082 Mdot
+.20512 .02066 Mdot
+.20703 .02082 Mdot
+.20894 .02071 Mdot
+.21085 .02068 Mdot
+.21276 .0204 Mdot
+.21467 .02033 Mdot
+.21658 .02065 Mdot
+.21848 .02058 Mdot
+.22039 .02029 Mdot
+.2223 .02016 Mdot
+.22421 .02014 Mdot
+.22612 .02043 Mdot
+.22803 .0202 Mdot
+.22994 .02045 Mdot
+.23184 .02021 Mdot
+.23375 .02042 Mdot
+.23566 .0205 Mdot
+.23757 .02021 Mdot
+.23948 .02039 Mdot
+.24139 .02044 Mdot
+.2433 .0208 Mdot
+.2452 .02083 Mdot
+.24711 .02026 Mdot
+.24902 .02018 Mdot
+.25093 .01995 Mdot
+.25284 .01987 Mdot
+.25475 .01991 Mdot
+.25666 .01986 Mdot
+.25856 .01963 Mdot
+.26047 .01959 Mdot
+.26238 .01971 Mdot
+.26429 .0197 Mdot
+.2662 .01971 Mdot
+.26811 .01993 Mdot
+.27002 .01988 Mdot
+.27192 .0197 Mdot
+.27383 .01981 Mdot
+.27574 .01985 Mdot
+.27765 .02017 Mdot
+.27956 .02033 Mdot
+.28147 .0203 Mdot
+.28338 .02014 Mdot
+.28528 .02021 Mdot
+.28719 .02036 Mdot
+.2891 .02043 Mdot
+.29101 .02053 Mdot
+.29292 .02048 Mdot
+.29483 .02051 Mdot
+.29674 .02039 Mdot
+.29864 .0205 Mdot
+.30055 .02057 Mdot
+.30246 .02079 Mdot
+.30437 .02083 Mdot
+.30628 .02066 Mdot
+.30819 .02074 Mdot
+.3101 .02069 Mdot
+.312 .02066 Mdot
+.31391 .02044 Mdot
+.31582 .02029 Mdot
+.31773 .02048 Mdot
+.31964 .02061 Mdot
+.32155 .02064 Mdot
+.32346 .0208 Mdot
+.32537 .02081 Mdot
+.32727 .02072 Mdot
+.32918 .0208 Mdot
+.33109 .0208 Mdot
+.333 .02095 Mdot
+.33491 .02099 Mdot
+.33682 .02093 Mdot
+.33873 .021 Mdot
+.34063 .02118 Mdot
+.34254 .02105 Mdot
+.34445 .02101 Mdot
+.34636 .02095 Mdot
+.34827 .02083 Mdot
+.35018 .02084 Mdot
+.35209 .0207 Mdot
+.35399 .02073 Mdot
+.3559 .02052 Mdot
+.35781 .02051 Mdot
+.35972 .02045 Mdot
+.36163 .02039 Mdot
+.36354 .02045 Mdot
+.36545 .02033 Mdot
+.36735 .0203 Mdot
+.36926 .02041 Mdot
+.37117 .02043 Mdot
+.37308 .02042 Mdot
+.37499 .02028 Mdot
+.3769 .02029 Mdot
+.37881 .02021 Mdot
+.38071 .02056 Mdot
+.38262 .02035 Mdot
+.38453 .02033 Mdot
+.38644 .02044 Mdot
+.38835 .02054 Mdot
+.39026 .02071 Mdot
+.39217 .02052 Mdot
+.39407 .0204 Mdot
+.39598 .02047 Mdot
+.39789 .02036 Mdot
+.3998 .02039 Mdot
+.40171 .02039 Mdot
+.40362 .02034 Mdot
+.40553 .02018 Mdot
+.40743 .02025 Mdot
+.40934 .02032 Mdot
+.41125 .02019 Mdot
+.41316 .02006 Mdot
+.41507 .02019 Mdot
+.41698 .02018 Mdot
+.41889 .02024 Mdot
+.42079 .02019 Mdot
+.4227 .02005 Mdot
+.42461 .02015 Mdot
+.42652 .02008 Mdot
+.42843 .02012 Mdot
+.43034 .01988 Mdot
+.43225 .02003 Mdot
+.43415 .0202 Mdot
+.43606 .02029 Mdot
+.43797 .02043 Mdot
+.43988 .02061 Mdot
+.44179 .0205 Mdot
+.4437 .02054 Mdot
+.44561 .02056 Mdot
+.44751 .02068 Mdot
+.44942 .02079 Mdot
+.45133 .02087 Mdot
+.45324 .02075 Mdot
+.45515 .02074 Mdot
+.45706 .02077 Mdot
+.45897 .02064 Mdot
+.46087 .02063 Mdot
+.46278 .02047 Mdot
+.46469 .0204 Mdot
+.4666 .02037 Mdot
+.46851 .02044 Mdot
+.47042 .02041 Mdot
+.47233 .02046 Mdot
+.47423 .02046 Mdot
+.47614 .02045 Mdot
+.47805 .02055 Mdot
+.47996 .02038 Mdot
+.48187 .02047 Mdot
+.48378 .02029 Mdot
+.48569 .02029 Mdot
+.48759 .02026 Mdot
+.4895 .02022 Mdot
+.49141 .02012 Mdot
+.49332 .02 Mdot
+.49523 .02013 Mdot
+.49714 .01997 Mdot
+.49905 .01986 Mdot
+.50095 .01973 Mdot
+.50286 .01968 Mdot
+.50477 .01962 Mdot
+.50668 .0196 Mdot
+.50859 .01971 Mdot
+.5105 .01964 Mdot
+.51241 .01955 Mdot
+.51431 .01955 Mdot
+.51622 .01959 Mdot
+.51813 .0195 Mdot
+.52004 .01952 Mdot
+.52195 .01967 Mdot
+.52386 .0197 Mdot
+.52577 .01974 Mdot
+.52767 .01964 Mdot
+.52958 .01966 Mdot
+.53149 .01961 Mdot
+.5334 .01966 Mdot
+.53531 .01964 Mdot
+.53722 .01958 Mdot
+.53913 .0196 Mdot
+.54103 .01952 Mdot
+.54294 .01953 Mdot
+.54485 .01948 Mdot
+.54676 .01949 Mdot
+.54867 .01945 Mdot
+.55058 .0195 Mdot
+.55249 .01953 Mdot
+.55439 .01965 Mdot
+.5563 .01968 Mdot
+.55821 .01953 Mdot
+.56012 .01953 Mdot
+.56203 .01976 Mdot
+.56394 .01988 Mdot
+.56585 .02001 Mdot
+.56775 .01999 Mdot
+.56966 .01995 Mdot
+.57157 .02 Mdot
+.57348 .01994 Mdot
+.57539 .01999 Mdot
+.5773 .02011 Mdot
+.57921 .02017 Mdot
+.58111 .02022 Mdot
+.58302 .02025 Mdot
+.58493 .02023 Mdot
+.58684 .02031 Mdot
+.58875 .02028 Mdot
+.59066 .02025 Mdot
+.59257 .02029 Mdot
+.59447 .02021 Mdot
+.59638 .0203 Mdot
+.59829 .02031 Mdot
+.6002 .02016 Mdot
+.60211 .02022 Mdot
+.60402 .02025 Mdot
+.60593 .02037 Mdot
+.60783 .02047 Mdot
+.60974 .02046 Mdot
+.61165 .02049 Mdot
+.61356 .02044 Mdot
+.61547 .02034 Mdot
+.61738 .02033 Mdot
+.61929 .0203 Mdot
+.62119 .02034 Mdot
+.6231 .02033 Mdot
+.62501 .02027 Mdot
+.62692 .02028 Mdot
+.62883 .02024 Mdot
+.63074 .02048 Mdot
+.63265 .02058 Mdot
+.63455 .02061 Mdot
+.63646 .02052 Mdot
+.63837 .02064 Mdot
+.64028 .02074 Mdot
+.64219 .02073 Mdot
+.6441 .02071 Mdot
+.64601 .02071 Mdot
+.64791 .02078 Mdot
+.64982 .02083 Mdot
+.65173 .02075 Mdot
+.65364 .02083 Mdot
+.65555 .02083 Mdot
+.65746 .0208 Mdot
+.65937 .02074 Mdot
+.66127 .02097 Mdot
+.66318 .02094 Mdot
+.66509 .02099 Mdot
+.667 .02085 Mdot
+.66891 .02085 Mdot
+.67082 .02099 Mdot
+.67273 .02106 Mdot
+.67463 .02113 Mdot
+.67654 .02118 Mdot
+.67845 .02115 Mdot
+.68036 .02118 Mdot
+.68227 .02114 Mdot
+.68418 .02106 Mdot
+.68609 .02104 Mdot
+.688 .021 Mdot
+.6899 .02102 Mdot
+.69181 .02106 Mdot
+.69372 .02107 Mdot
+.69563 .02108 Mdot
+.69754 .02116 Mdot
+.69945 .02121 Mdot
+.70136 .02128 Mdot
+.70326 .02133 Mdot
+.70517 .02132 Mdot
+.70708 .02126 Mdot
+.70899 .02132 Mdot
+.7109 .02126 Mdot
+.71281 .02135 Mdot
+.71472 .02137 Mdot
+.71662 .02142 Mdot
+.71853 .02131 Mdot
+.72044 .02137 Mdot
+.72235 .02143 Mdot
+.72426 .02146 Mdot
+.72617 .02139 Mdot
+.72808 .02139 Mdot
+.72998 .02146 Mdot
+.73189 .02145 Mdot
+.7338 .02147 Mdot
+.73571 .02154 Mdot
+.73762 .02142 Mdot
+.73953 .02132 Mdot
+.74144 .02128 Mdot
+.74334 .02129 Mdot
+.74525 .02124 Mdot
+.74716 .02124 Mdot
+.74907 .02115 Mdot
+.75098 .02107 Mdot
+.75289 .02098 Mdot
+.7548 .02111 Mdot
+.7567 .02109 Mdot
+.75861 .02111 Mdot
+.76052 .02112 Mdot
+.76243 .02128 Mdot
+.76434 .0212 Mdot
+.76625 .02121 Mdot
+.76816 .02124 Mdot
+.77006 .02111 Mdot
+.77197 .02101 Mdot
+.77388 .02099 Mdot
+.77579 .02099 Mdot
+.7777 .02098 Mdot
+.77961 .02099 Mdot
+.78152 .02093 Mdot
+.78342 .02097 Mdot
+.78533 .02091 Mdot
+.78724 .02101 Mdot
+.78915 .02101 Mdot
+.79106 .02103 Mdot
+.79297 .02106 Mdot
+.79488 .02112 Mdot
+.79678 .02119 Mdot
+.79869 .02115 Mdot
+.8006 .02114 Mdot
+.80251 .02117 Mdot
+.80442 .02118 Mdot
+.80633 .02125 Mdot
+.80824 .02127 Mdot
+.81014 .02122 Mdot
+.81205 .02117 Mdot
+.81396 .02118 Mdot
+.81587 .02137 Mdot
+.81778 .02141 Mdot
+.81969 .02137 Mdot
+.8216 .02135 Mdot
+.8235 .02143 Mdot
+.82541 .02141 Mdot
+.82732 .02147 Mdot
+.82923 .02153 Mdot
+.83114 .0214 Mdot
+.83305 .0214 Mdot
+.83496 .02142 Mdot
+.83686 .02147 Mdot
+.83877 .02143 Mdot
+.84068 .0215 Mdot
+.84259 .02143 Mdot
+.8445 .02143 Mdot
+.84641 .02141 Mdot
+.84832 .02145 Mdot
+.85022 .02144 Mdot
+.85213 .02148 Mdot
+.85404 .0215 Mdot
+.85595 .02154 Mdot
+.85786 .02146 Mdot
+.85977 .02146 Mdot
+.86168 .02148 Mdot
+.86358 .02144 Mdot
+.86549 .02137 Mdot
+.8674 .02135 Mdot
+.86931 .02131 Mdot
+.87122 .02127 Mdot
+.87313 .02132 Mdot
+.87504 .02132 Mdot
+.87694 .02128 Mdot
+.87885 .02132 Mdot
+.88076 .02131 Mdot
+.88267 .02136 Mdot
+.88458 .02132 Mdot
+.88649 .02136 Mdot
+.8884 .02131 Mdot
+.8903 .02118 Mdot
+.89221 .02118 Mdot
+.89412 .02118 Mdot
+.89603 .02121 Mdot
+.89794 .02119 Mdot
+.89985 .02117 Mdot
+.90176 .02114 Mdot
+.90366 .02121 Mdot
+.90557 .02113 Mdot
+.90748 .02107 Mdot
+.90939 .02106 Mdot
+.9113 .02115 Mdot
+.91321 .02119 Mdot
+.91512 .02123 Mdot
+.91702 .0212 Mdot
+.91893 .0213 Mdot
+.92084 .0213 Mdot
+.92275 .02133 Mdot
+.92466 .02129 Mdot
+.92657 .0213 Mdot
+.92848 .02131 Mdot
+.93038 .02134 Mdot
+.93229 .0214 Mdot
+.9342 .02142 Mdot
+.93611 .02141 Mdot
+.93802 .02144 Mdot
+.93993 .02146 Mdot
+.94184 .02148 Mdot
+.94374 .02146 Mdot
+.94565 .02134 Mdot
+.94756 .02131 Mdot
+.94947 .02124 Mdot
+.95138 .02123 Mdot
+.95329 .02131 Mdot
+.9552 .02121 Mdot
+.9571 .02126 Mdot
+.95901 .0213 Mdot
+.96092 .02127 Mdot
+.96283 .02129 Mdot
+.96474 .02126 Mdot
+.96665 .02125 Mdot
+.96856 .02128 Mdot
+.97046 .02126 Mdot
+.97237 .02126 Mdot
+.97428 .02131 Mdot
+.97619 .02124 Mdot
+1 0 0 r
+.02572 .58044 Mdot
+.02763 .58661 Mdot
+.02954 .5883 Mdot
+.03144 .58813 Mdot
+.03335 .60094 Mdot
+.03526 .59978 Mdot
+.03717 .59878 Mdot
+.03908 .60151 Mdot
+.04099 .60061 Mdot
+.0429 .60087 Mdot
+.0448 .59993 Mdot
+.04671 .59963 Mdot
+.04862 .6002 Mdot
+.05053 .60132 Mdot
+.05244 .601 Mdot
+.05435 .60037 Mdot
+.05626 .60016 Mdot
+.05816 .59961 Mdot
+.06007 .60158 Mdot
+.06198 .60124 Mdot
+.06389 .60115 Mdot
+.0658 .60148 Mdot
+.06771 .60102 Mdot
+.06962 .60064 Mdot
+.07152 .60032 Mdot
+.07343 .60137 Mdot
+.07534 .6012 Mdot
+.07725 .60107 Mdot
+.07916 .60142 Mdot
+.08107 .60123 Mdot
+.08298 .60108 Mdot
+.08488 .60161 Mdot
+.08679 .60128 Mdot
+.0887 .60129 Mdot
+.09061 .60099 Mdot
+.09252 .60074 Mdot
+.09443 .60052 Mdot
+.09634 .60026 Mdot
+.09824 .60003 Mdot
+.10015 .60105 Mdot
+.10206 .60081 Mdot
+.10397 .60091 Mdot
+.10588 .60089 Mdot
+.10779 .60079 Mdot
+.1097 .60077 Mdot
+.1116 .60143 Mdot
+.11351 .60121 Mdot
+.11542 .60103 Mdot
+.11733 .60131 Mdot
+.11924 .60123 Mdot
+.12115 .60104 Mdot
+.12306 .60101 Mdot
+.12496 .60102 Mdot
+.12687 .60086 Mdot
+.12878 .60067 Mdot
+.13069 .60185 Mdot
+.1326 .60174 Mdot
+.13451 .60155 Mdot
+.13642 .60139 Mdot
+.13832 .60126 Mdot
+.14023 .60167 Mdot
+.14214 .60189 Mdot
+.14405 .60172 Mdot
+.14596 .60161 Mdot
+.14787 .60149 Mdot
+.14978 .60137 Mdot
+.15168 .60127 Mdot
+.15359 .60134 Mdot
+.1555 .60137 Mdot
+.15741 .6013 Mdot
+.15932 .60121 Mdot
+.16123 .60107 Mdot
+.16314 .60105 Mdot
+.16504 .60091 Mdot
+.16695 .60097 Mdot
+.16886 .60106 Mdot
+.17077 .6013 Mdot
+.17268 .60122 Mdot
+.17459 .60114 Mdot
+.1765 .60108 Mdot
+.1784 .60147 Mdot
+.18031 .60137 Mdot
+.18222 .60151 Mdot
+.18413 .60138 Mdot
+.18604 .60143 Mdot
+.18795 .60156 Mdot
+.18986 .60146 Mdot
+.19176 .60135 Mdot
+.19367 .60158 Mdot
+.19558 .6016 Mdot
+.19749 .60151 Mdot
+.1994 .60145 Mdot
+.20131 .60145 Mdot
+.20322 .60184 Mdot
+.20512 .60179 Mdot
+.20703 .60174 Mdot
+.20894 .60165 Mdot
+.21085 .60155 Mdot
+.21276 .60162 Mdot
+.21467 .60153 Mdot
+.21658 .60165 Mdot
+.21848 .60156 Mdot
+.22039 .60167 Mdot
+.2223 .60161 Mdot
+.22421 .60151 Mdot
+.22612 .60161 Mdot
+.22803 .60165 Mdot
+.22994 .60171 Mdot
+.23184 .60176 Mdot
+.23375 .60178 Mdot
+.23566 .6017 Mdot
+.23757 .60182 Mdot
+.23948 .60181 Mdot
+.24139 .60173 Mdot
+.2433 .60198 Mdot
+.2452 .60189 Mdot
+.24711 .60267 Mdot
+.24902 .6026 Mdot
+.25093 .60264 Mdot
+.25284 .60256 Mdot
+.25475 .60247 Mdot
+.25666 .60239 Mdot
+.25856 .60244 Mdot
+.26047 .60236 Mdot
+.26238 .60231 Mdot
+.26429 .60222 Mdot
+.2662 .60213 Mdot
+.26811 .60218 Mdot
+.27002 .60211 Mdot
+.27192 .60212 Mdot
+.27383 .60208 Mdot
+.27574 .602 Mdot
+.27765 .60225 Mdot
+.27956 .60224 Mdot
+.28147 .60216 Mdot
+.28338 .60216 Mdot
+.28528 .60209 Mdot
+.28719 .60209 Mdot
+.2891 .60203 Mdot
+.29101 .60198 Mdot
+.29292 .60191 Mdot
+.29483 .60184 Mdot
+.29674 .60182 Mdot
+.29864 .60179 Mdot
+.30055 .60173 Mdot
+.30246 .60183 Mdot
+.30437 .60176 Mdot
+.30628 .60178 Mdot
+.30819 .60173 Mdot
+.3101 .60167 Mdot
+.312 .6016 Mdot
+.31391 .6017 Mdot
+.31582 .60171 Mdot
+.31773 .60177 Mdot
+.31964 .60176 Mdot
+.32155 .6017 Mdot
+.32346 .60173 Mdot
+.32537 .60166 Mdot
+.32727 .60162 Mdot
+.32918 .60157 Mdot
+.33109 .60151 Mdot
+.333 .60152 Mdot
+.33491 .60146 Mdot
+.33682 .60141 Mdot
+.33873 .60136 Mdot
+.34063 .60142 Mdot
+.34254 .60141 Mdot
+.34445 .60136 Mdot
+.34636 .60131 Mdot
+.34827 .60131 Mdot
+.35018 .60125 Mdot
+.35209 .60127 Mdot
+.35399 .60121 Mdot
+.3559 .60133 Mdot
+.35781 .60127 Mdot
+.35972 .60123 Mdot
+.36163 .60119 Mdot
+.36354 .60115 Mdot
+.36545 .60115 Mdot
+.36735 .6011 Mdot
+.36926 .60109 Mdot
+.37117 .60103 Mdot
+.37308 .60098 Mdot
+.37499 .60101 Mdot
+.3769 .60096 Mdot
+.37881 .60093 Mdot
+.38071 .6014 Mdot
+.38262 .60153 Mdot
+.38453 .60148 Mdot
+.38644 .60149 Mdot
+.38835 .60148 Mdot
+.39026 .60154 Mdot
+.39217 .60165 Mdot
+.39407 .60166 Mdot
+.39598 .60162 Mdot
+.39789 .60162 Mdot
+.3998 .60157 Mdot
+.40171 .60152 Mdot
+.40362 .60147 Mdot
+.40553 .60155 Mdot
+.40743 .60152 Mdot
+.40934 .60149 Mdot
+.41125 .60152 Mdot
+.41316 .60155 Mdot
+.41507 .60158 Mdot
+.41698 .60153 Mdot
+.41889 .60149 Mdot
+.42079 .60145 Mdot
+.4227 .6015 Mdot
+.42461 .60149 Mdot
+.42652 .60146 Mdot
+.42843 .60142 Mdot
+.43034 .60167 Mdot
+.43225 .60174 Mdot
+.43415 .60184 Mdot
+.43606 .60183 Mdot
+.43797 .60187 Mdot
+.43988 .602 Mdot
+.44179 .60202 Mdot
+.4437 .60198 Mdot
+.44561 .60193 Mdot
+.44751 .60196 Mdot
+.44942 .60198 Mdot
+.45133 .60196 Mdot
+.45324 .60198 Mdot
+.45515 .60194 Mdot
+.45706 .6019 Mdot
+.45897 .60195 Mdot
+.46087 .6019 Mdot
+.46278 .60198 Mdot
+.46469 .60196 Mdot
+.4666 .60192 Mdot
+.46851 .6019 Mdot
+.47042 .60186 Mdot
+.47233 .60183 Mdot
+.47423 .60178 Mdot
+.47614 .60174 Mdot
+.47805 .60175 Mdot
+.47996 .60187 Mdot
+.48187 .60187 Mdot
+.48378 .602 Mdot
+.48569 .60196 Mdot
+.48759 .60192 Mdot
+.4895 .60188 Mdot
+.49141 .60189 Mdot
+.49332 .60193 Mdot
+.49523 .60198 Mdot
+.49714 .60208 Mdot
+.49905 .60211 Mdot
+.50095 .60216 Mdot
+.50286 .60213 Mdot
+.50477 .60211 Mdot
+.50668 .60207 Mdot
+.50859 .60208 Mdot
+.5105 .60206 Mdot
+.51241 .60207 Mdot
+.51431 .60203 Mdot
+.51622 .602 Mdot
+.51813 .602 Mdot
+.52004 .60196 Mdot
+.52195 .60206 Mdot
+.52386 .60202 Mdot
+.52577 .60199 Mdot
+.52767 .60201 Mdot
+.52958 .60197 Mdot
+.53149 .60195 Mdot
+.5334 .60193 Mdot
+.53531 .60189 Mdot
+.53722 .60187 Mdot
+.53913 .60184 Mdot
+.54103 .60184 Mdot
+.54294 .60181 Mdot
+.54485 .60178 Mdot
+.54676 .60174 Mdot
+.54867 .60172 Mdot
+.55058 .6017 Mdot
+.55249 .60166 Mdot
+.55439 .60173 Mdot
+.5563 .60169 Mdot
+.55821 .60182 Mdot
+.56012 .60178 Mdot
+.56203 .60211 Mdot
+.56394 .60216 Mdot
+.56585 .60223 Mdot
+.56775 .60219 Mdot
+.56966 .60216 Mdot
+.57157 .60215 Mdot
+.57348 .60213 Mdot
+.57539 .60211 Mdot
+.5773 .60216 Mdot
+.57921 .60215 Mdot
+.58111 .60213 Mdot
+.58302 .6021 Mdot
+.58493 .60207 Mdot
+.58684 .60206 Mdot
+.58875 .60203 Mdot
+.59066 .602 Mdot
+.59257 .60197 Mdot
+.59447 .60198 Mdot
+.59638 .602 Mdot
+.59829 .60197 Mdot
+.6002 .60207 Mdot
+.60211 .60206 Mdot
+.60402 .60203 Mdot
+.60593 .60211 Mdot
+.60783 .60214 Mdot
+.60974 .60211 Mdot
+.61165 .60208 Mdot
+.61356 .60206 Mdot
+.61547 .60209 Mdot
+.61738 .60206 Mdot
+.61929 .60203 Mdot
+.62119 .602 Mdot
+.6231 .60197 Mdot
+.62501 .60195 Mdot
+.62692 .60192 Mdot
+.62883 .6019 Mdot
+.63074 .60229 Mdot
+.63265 .60234 Mdot
+.63455 .60231 Mdot
+.63646 .60233 Mdot
+.63837 .60239 Mdot
+.64028 .60243 Mdot
+.64219 .6024 Mdot
+.6441 .60237 Mdot
+.64601 .60233 Mdot
+.64791 .60234 Mdot
+.64982 .60232 Mdot
+.65173 .60233 Mdot
+.65364 .60235 Mdot
+.65555 .60232 Mdot
+.65746 .60229 Mdot
+.65937 .60229 Mdot
+.66127 .60266 Mdot
+.66318 .60263 Mdot
+.66509 .60262 Mdot
+.667 .60273 Mdot
+.66891 .6027 Mdot
+.67082 .60281 Mdot
+.67273 .60281 Mdot
+.67463 .60282 Mdot
+.67654 .6028 Mdot
+.67845 .60278 Mdot
+.68036 .60275 Mdot
+.68227 .60273 Mdot
+.68418 .60275 Mdot
+.68609 .60272 Mdot
+.688 .6027 Mdot
+.6899 .60268 Mdot
+.69181 .60266 Mdot
+.69372 .60263 Mdot
+.69563 .6026 Mdot
+.69754 .60261 Mdot
+.69945 .6026 Mdot
+.70136 .60261 Mdot
+.70326 .6026 Mdot
+.70517 .60257 Mdot
+.70708 .60257 Mdot
+.70899 .60256 Mdot
+.7109 .60256 Mdot
+.71281 .60259 Mdot
+.71472 .60256 Mdot
+.71662 .60255 Mdot
+.71853 .60262 Mdot
+.72044 .60261 Mdot
+.72235 .60262 Mdot
+.72426 .60259 Mdot
+.72617 .60259 Mdot
+.72808 .60256 Mdot
+.72998 .60258 Mdot
+.73189 .60255 Mdot
+.7338 .60252 Mdot
+.73571 .60253 Mdot
+.73762 .60262 Mdot
+.73953 .60267 Mdot
+.74144 .60265 Mdot
+.74334 .60262 Mdot
+.74525 .60261 Mdot
+.74716 .60258 Mdot
+.74907 .60262 Mdot
+.75098 .60264 Mdot
+.75289 .60268 Mdot
+.7548 .6028 Mdot
+.7567 .60277 Mdot
+.75861 .60275 Mdot
+.76052 .60272 Mdot
+.76243 .60293 Mdot
+.76434 .60295 Mdot
+.76625 .60293 Mdot
+.76816 .60291 Mdot
+.77006 .60304 Mdot
+.77197 .6031 Mdot
+.77388 .60307 Mdot
+.77579 .60304 Mdot
+.7777 .60302 Mdot
+.77961 .60299 Mdot
+.78152 .603 Mdot
+.78342 .60299 Mdot
+.78533 .603 Mdot
+.78724 .60307 Mdot
+.78915 .60304 Mdot
+.79106 .60302 Mdot
+.79297 .603 Mdot
+.79488 .60301 Mdot
+.79678 .60302 Mdot
+.79869 .60301 Mdot
+.8006 .60298 Mdot
+.80251 .60296 Mdot
+.80442 .60294 Mdot
+.80633 .60295 Mdot
+.80824 .60293 Mdot
+.81014 .60293 Mdot
+.81205 .60293 Mdot
+.81396 .6029 Mdot
+.81587 .60323 Mdot
+.81778 .60322 Mdot
+.81969 .60321 Mdot
+.8216 .60318 Mdot
+.8235 .60321 Mdot
+.82541 .60319 Mdot
+.82732 .60319 Mdot
+.82923 .6032 Mdot
+.83114 .60332 Mdot
+.83305 .60329 Mdot
+.83496 .60327 Mdot
+.83686 .60327 Mdot
+.83877 .60326 Mdot
+.84068 .60328 Mdot
+.84259 .60329 Mdot
+.8445 .60327 Mdot
+.84641 .60324 Mdot
+.84832 .60323 Mdot
+.85022 .6032 Mdot
+.85213 .60319 Mdot
+.85404 .60317 Mdot
+.85595 .60316 Mdot
+.85786 .60319 Mdot
+.85977 .60316 Mdot
+.86168 .60314 Mdot
+.86358 .60313 Mdot
+.86549 .60315 Mdot
+.8674 .60313 Mdot
+.86931 .60312 Mdot
+.87122 .60311 Mdot
+.87313 .60311 Mdot
+.87504 .60309 Mdot
+.87694 .60307 Mdot
+.87885 .60306 Mdot
+.88076 .60304 Mdot
+.88267 .60304 Mdot
+.88458 .60304 Mdot
+.88649 .60303 Mdot
+.8884 .60303 Mdot
+.8903 .60318 Mdot
+.89221 .60316 Mdot
+.89412 .60313 Mdot
+.89603 .60312 Mdot
+.89794 .6031 Mdot
+.89985 .60308 Mdot
+.90176 .60306 Mdot
+.90366 .60308 Mdot
+.90557 .60312 Mdot
+.90748 .60313 Mdot
+.90939 .60311 Mdot
+.9113 .60317 Mdot
+.91321 .60316 Mdot
+.91512 .60315 Mdot
+.91702 .60314 Mdot
+.91893 .60321 Mdot
+.92084 .60319 Mdot
+.92275 .60317 Mdot
+.92466 .60316 Mdot
+.92657 .60314 Mdot
+.92848 .60312 Mdot
+.93038 .6031 Mdot
+.93229 .60311 Mdot
+.9342 .60309 Mdot
+.93611 .60307 Mdot
+.93802 .60305 Mdot
+.93993 .60304 Mdot
+.94184 .60302 Mdot
+.94374 .603 Mdot
+.94565 .60313 Mdot
+.94756 .60311 Mdot
+.94947 .60314 Mdot
+.95138 .60312 Mdot
+.95329 .60317 Mdot
+.9552 .60326 Mdot
+.9571 .60326 Mdot
+.95901 .60326 Mdot
+.96092 .60325 Mdot
+.96283 .60323 Mdot
+.96474 .60321 Mdot
+.96665 .60319 Mdot
+.96856 .60318 Mdot
+.97046 .60316 Mdot
+.97237 .60314 Mdot
+.97428 .60315 Mdot
+.97619 .60318 Mdot
+% End of Graphics
+MathPictureEnd
+\
+\>"], "Graphics",
+  ImageSize->{288, 177.938},
+  ImageMargins->{{0, 0}, {0, 0}},
+  ImageRegion->{{0, 1}, {0, 1}},
+  ImageCacheValid->False],
+
+Cell[BoxData[
+    \("SEXTUPOLO:"\)], "Print"],
+
+Cell[GraphicsData["PostScript", "\<\
+%!
+%%Creator: Mathematica
+%%AspectRatio: .61803 
+MathPictureStart
+/Mabs {
+Mgmatrix idtransform
+Mtmatrix dtransform
+} bind def
+/Mabsadd { Mabs
+3 -1 roll add
+3 1 roll add
+exch } bind def
+%% Graphics
+%%IncludeResource: font Courier
+%%IncludeFont: Courier
+/Courier findfont 10  scalefont  setfont
+% Scaling calculations
+0.0238095 0.00190858 0.597424 0.00768027 [
+[.21467 .58492 -9 -9 ]
+[.21467 .58492 9 0 ]
+[.40553 .58492 -9 -9 ]
+[.40553 .58492 9 0 ]
+[.59638 .58492 -9 -9 ]
+[.59638 .58492 9 0 ]
+[.78724 .58492 -9 -9 ]
+[.78724 .58492 9 0 ]
+[.9781 .58492 -9 -9 ]
+[.9781 .58492 9 0 ]
+[.01131 .13661 -18 -4.5 ]
+[.01131 .13661 0 4.5 ]
+[.01131 .29021 -18 -4.5 ]
+[.01131 .29021 0 4.5 ]
+[.01131 .44382 -18 -4.5 ]
+[.01131 .44382 0 4.5 ]
+[ 0 0 0 0 ]
+[ 1 .61803 0 0 ]
+] MathScale
+% Start of Graphics
+1 setlinecap
+1 setlinejoin
+newpath
+0 g
+.25 Mabswid
+[ ] 0 setdash
+.21467 .59742 m
+.21467 .60367 L
+s
+[(100)] .21467 .58492 0 1 Mshowa
+.40553 .59742 m
+.40553 .60367 L
+s
+[(200)] .40553 .58492 0 1 Mshowa
+.59638 .59742 m
+.59638 .60367 L
+s
+[(300)] .59638 .58492 0 1 Mshowa
+.78724 .59742 m
+.78724 .60367 L
+s
+[(400)] .78724 .58492 0 1 Mshowa
+.9781 .59742 m
+.9781 .60367 L
+s
+[(500)] .9781 .58492 0 1 Mshowa
+.125 Mabswid
+.06198 .59742 m
+.06198 .60117 L
+s
+.10015 .59742 m
+.10015 .60117 L
+s
+.13832 .59742 m
+.13832 .60117 L
+s
+.1765 .59742 m
+.1765 .60117 L
+s
+.25284 .59742 m
+.25284 .60117 L
+s
+.29101 .59742 m
+.29101 .60117 L
+s
+.32918 .59742 m
+.32918 .60117 L
+s
+.36735 .59742 m
+.36735 .60117 L
+s
+.4437 .59742 m
+.4437 .60117 L
+s
+.48187 .59742 m
+.48187 .60117 L
+s
+.52004 .59742 m
+.52004 .60117 L
+s
+.55821 .59742 m
+.55821 .60117 L
+s
+.63455 .59742 m
+.63455 .60117 L
+s
+.67273 .59742 m
+.67273 .60117 L
+s
+.7109 .59742 m
+.7109 .60117 L
+s
+.74907 .59742 m
+.74907 .60117 L
+s
+.82541 .59742 m
+.82541 .60117 L
+s
+.86358 .59742 m
+.86358 .60117 L
+s
+.90176 .59742 m
+.90176 .60117 L
+s
+.93993 .59742 m
+.93993 .60117 L
+s
+.25 Mabswid
+0 .59742 m
+1 .59742 L
+s
+.02381 .13661 m
+.03006 .13661 L
+s
+[(-60)] .01131 .13661 1 0 Mshowa
+.02381 .29021 m
+.03006 .29021 L
+s
+[(-40)] .01131 .29021 1 0 Mshowa
+.02381 .44382 m
+.03006 .44382 L
+s
+[(-20)] .01131 .44382 1 0 Mshowa
+.125 Mabswid
+.02381 .17501 m
+.02756 .17501 L
+s
+.02381 .21341 m
+.02756 .21341 L
+s
+.02381 .25181 m
+.02756 .25181 L
+s
+.02381 .32861 m
+.02756 .32861 L
+s
+.02381 .36702 m
+.02756 .36702 L
+s
+.02381 .40542 m
+.02756 .40542 L
+s
+.02381 .48222 m
+.02756 .48222 L
+s
+.02381 .52062 m
+.02756 .52062 L
+s
+.02381 .55902 m
+.02756 .55902 L
+s
+.02381 .09821 m
+.02756 .09821 L
+s
+.02381 .05981 m
+.02756 .05981 L
+s
+.02381 .0214 m
+.02756 .0214 L
+s
+.25 Mabswid
+.02381 0 m
+.02381 .61803 L
+s
+0 0 m
+1 0 L
+1 .61803 L
+0 .61803 L
+closepath
+clip
+newpath
+.008 w
+.02572 .01568 Mdot
+.02763 .0194 Mdot
+.02954 .01927 Mdot
+.03144 .01774 Mdot
+.03335 .01806 Mdot
+.03526 .01756 Mdot
+.03717 .01887 Mdot
+.03908 .01798 Mdot
+.04099 .0171 Mdot
+.0429 .01703 Mdot
+.0448 .01728 Mdot
+.04671 .01721 Mdot
+.04862 .01786 Mdot
+.05053 .01766 Mdot
+.05244 .01791 Mdot
+.05435 .01773 Mdot
+.05626 .01733 Mdot
+.05816 .01688 Mdot
+.06007 .01673 Mdot
+.06198 .01695 Mdot
+.06389 .01691 Mdot
+.0658 .01646 Mdot
+.06771 .01639 Mdot
+.06962 .01633 Mdot
+.07152 .01655 Mdot
+.07343 .01619 Mdot
+.07534 .01629 Mdot
+.07725 .01611 Mdot
+.07916 .01582 Mdot
+.08107 .01574 Mdot
+.08298 .01597 Mdot
+.08488 .0162 Mdot
+.08679 .01616 Mdot
+.0887 .01632 Mdot
+.09061 .01635 Mdot
+.09252 .0162 Mdot
+.09443 .01589 Mdot
+.09634 .01583 Mdot
+.09824 .01595 Mdot
+.10015 .01582 Mdot
+.10206 .01595 Mdot
+.10397 .01595 Mdot
+.10588 .01556 Mdot
+.10779 .01554 Mdot
+.1097 .01567 Mdot
+.1116 .01564 Mdot
+.11351 .01567 Mdot
+.11542 .01551 Mdot
+.11733 .01552 Mdot
+.11924 .01523 Mdot
+.12115 .0152 Mdot
+.12306 .01517 Mdot
+.12496 .01516 Mdot
+.12687 .01522 Mdot
+.12878 .01522 Mdot
+.13069 .01516 Mdot
+.1326 .0152 Mdot
+.13451 .0153 Mdot
+.13642 .01519 Mdot
+.13832 .01516 Mdot
+.14023 .01501 Mdot
+.14214 .01492 Mdot
+.14405 .01508 Mdot
+.14596 .01504 Mdot
+.14787 .01496 Mdot
+.14978 .01503 Mdot
+.15168 .01498 Mdot
+.15359 .0151 Mdot
+.1555 .01514 Mdot
+.15741 .01507 Mdot
+.15932 .01507 Mdot
+.16123 .01506 Mdot
+.16314 .01499 Mdot
+.16504 .01493 Mdot
+.16695 .01498 Mdot
+.16886 .01499 Mdot
+.17077 .01511 Mdot
+.17268 .01508 Mdot
+.17459 .01504 Mdot
+.1765 .01504 Mdot
+.1784 .01509 Mdot
+.18031 .01513 Mdot
+.18222 .01521 Mdot
+.18413 .01521 Mdot
+.18604 .01526 Mdot
+.18795 .01522 Mdot
+.18986 .01521 Mdot
+.19176 .01535 Mdot
+.19367 .01534 Mdot
+.19558 .01535 Mdot
+.19749 .01546 Mdot
+.1994 .01547 Mdot
+.20131 .01553 Mdot
+.20322 .01563 Mdot
+.20512 .01567 Mdot
+.20703 .01564 Mdot
+.20894 .01557 Mdot
+.21085 .01563 Mdot
+.21276 .01556 Mdot
+.21467 .01557 Mdot
+.21658 .01561 Mdot
+.21848 .01575 Mdot
+.22039 .01572 Mdot
+.2223 .01576 Mdot
+.22421 .01576 Mdot
+.22612 .0157 Mdot
+.22803 .01568 Mdot
+.22994 .01565 Mdot
+.23184 .01562 Mdot
+.23375 .01562 Mdot
+.23566 .01558 Mdot
+.23757 .01557 Mdot
+.23948 .01555 Mdot
+.24139 .01554 Mdot
+.2433 .01543 Mdot
+.2452 .01548 Mdot
+.24711 .01546 Mdot
+.24902 .01544 Mdot
+.25093 .01536 Mdot
+.25284 .01534 Mdot
+.25475 .0153 Mdot
+.25666 .01533 Mdot
+.25856 .01528 Mdot
+.26047 .01532 Mdot
+.26238 .01534 Mdot
+.26429 .01534 Mdot
+.2662 .01532 Mdot
+.26811 .01531 Mdot
+.27002 .01532 Mdot
+.27192 .01527 Mdot
+.27383 .01519 Mdot
+.27574 .01523 Mdot
+.27765 .01521 Mdot
+.27956 .01522 Mdot
+.28147 .01523 Mdot
+.28338 .01527 Mdot
+.28528 .01522 Mdot
+.28719 .01519 Mdot
+.2891 .01519 Mdot
+.29101 .01519 Mdot
+.29292 .01518 Mdot
+.29483 .01518 Mdot
+.29674 .01518 Mdot
+.29864 .01523 Mdot
+.30055 .01521 Mdot
+.30246 .01518 Mdot
+.30437 .0152 Mdot
+.30628 .0152 Mdot
+.30819 .01519 Mdot
+.3101 .0152 Mdot
+.312 .0152 Mdot
+.31391 .01523 Mdot
+.31582 .0152 Mdot
+.31773 .01519 Mdot
+.31964 .01511 Mdot
+.32155 .01514 Mdot
+.32346 .01505 Mdot
+.32537 .01507 Mdot
+.32727 .01509 Mdot
+.32918 .01514 Mdot
+.33109 .01512 Mdot
+.333 .01513 Mdot
+.33491 .01508 Mdot
+.33682 .01503 Mdot
+.33873 .01503 Mdot
+.34063 .01501 Mdot
+.34254 .01502 Mdot
+.34445 .01501 Mdot
+.34636 .01499 Mdot
+.34827 .01498 Mdot
+.35018 .01492 Mdot
+.35209 .01493 Mdot
+.35399 .01492 Mdot
+.3559 .01494 Mdot
+.35781 .01486 Mdot
+.35972 .01485 Mdot
+.36163 .01486 Mdot
+.36354 .01485 Mdot
+.36545 .01486 Mdot
+.36735 .01489 Mdot
+.36926 .01489 Mdot
+.37117 .01488 Mdot
+.37308 .01492 Mdot
+.37499 .01493 Mdot
+.3769 .01489 Mdot
+.37881 .0149 Mdot
+.38071 .01488 Mdot
+.38262 .01481 Mdot
+.38453 .01482 Mdot
+.38644 .01477 Mdot
+.38835 .01481 Mdot
+.39026 .0148 Mdot
+.39217 .01486 Mdot
+.39407 .01489 Mdot
+.39598 .01492 Mdot
+.39789 .0149 Mdot
+.3998 .0149 Mdot
+.40171 .01487 Mdot
+.40362 .01484 Mdot
+.40553 .01485 Mdot
+.40743 .01486 Mdot
+.40934 .01482 Mdot
+.41125 .01483 Mdot
+.41316 .0148 Mdot
+.41507 .0148 Mdot
+.41698 .01475 Mdot
+.41889 .01472 Mdot
+.42079 .01474 Mdot
+.4227 .01477 Mdot
+.42461 .01476 Mdot
+.42652 .01479 Mdot
+.42843 .01478 Mdot
+.43034 .01477 Mdot
+.43225 .01476 Mdot
+.43415 .01477 Mdot
+.43606 .01476 Mdot
+.43797 .01478 Mdot
+.43988 .01479 Mdot
+.44179 .01477 Mdot
+.4437 .01478 Mdot
+.44561 .0148 Mdot
+.44751 .01481 Mdot
+.44942 .01481 Mdot
+.45133 .01481 Mdot
+.45324 .01483 Mdot
+.45515 .01481 Mdot
+.45706 .01482 Mdot
+.45897 .01484 Mdot
+.46087 .01481 Mdot
+.46278 .01481 Mdot
+.46469 .01479 Mdot
+.4666 .01477 Mdot
+.46851 .01479 Mdot
+.47042 .01481 Mdot
+.47233 .01481 Mdot
+.47423 .01482 Mdot
+.47614 .01482 Mdot
+.47805 .01481 Mdot
+.47996 .01484 Mdot
+.48187 .01481 Mdot
+.48378 .01485 Mdot
+.48569 .0148 Mdot
+.48759 .01482 Mdot
+.4895 .01481 Mdot
+.49141 .0148 Mdot
+.49332 .01479 Mdot
+.49523 .01478 Mdot
+.49714 .01478 Mdot
+.49905 .01481 Mdot
+.50095 .01478 Mdot
+.50286 .01477 Mdot
+.50477 .0148 Mdot
+.50668 .01482 Mdot
+.50859 .01481 Mdot
+.5105 .01481 Mdot
+.51241 .01481 Mdot
+.51431 .01483 Mdot
+.51622 .01482 Mdot
+.51813 .01483 Mdot
+.52004 .01486 Mdot
+.52195 .01485 Mdot
+.52386 .01481 Mdot
+.52577 .01482 Mdot
+.52767 .01487 Mdot
+.52958 .01488 Mdot
+.53149 .01485 Mdot
+.5334 .01486 Mdot
+.53531 .01486 Mdot
+.53722 .01486 Mdot
+.53913 .01485 Mdot
+.54103 .01486 Mdot
+.54294 .01485 Mdot
+.54485 .01483 Mdot
+.54676 .01485 Mdot
+.54867 .01487 Mdot
+.55058 .01486 Mdot
+.55249 .01486 Mdot
+.55439 .01484 Mdot
+.5563 .01482 Mdot
+.55821 .01486 Mdot
+.56012 .01488 Mdot
+.56203 .01487 Mdot
+.56394 .01484 Mdot
+.56585 .01484 Mdot
+.56775 .01485 Mdot
+.56966 .01484 Mdot
+.57157 .01484 Mdot
+.57348 .01484 Mdot
+.57539 .01483 Mdot
+.5773 .01481 Mdot
+.57921 .01481 Mdot
+.58111 .01478 Mdot
+.58302 .0148 Mdot
+.58493 .0148 Mdot
+.58684 .01476 Mdot
+.58875 .01477 Mdot
+.59066 .01481 Mdot
+.59257 .0148 Mdot
+.59447 .01483 Mdot
+.59638 .01484 Mdot
+.59829 .01484 Mdot
+.6002 .01484 Mdot
+.60211 .01484 Mdot
+.60402 .01486 Mdot
+.60593 .01487 Mdot
+.60783 .01487 Mdot
+.60974 .01487 Mdot
+.61165 .01487 Mdot
+.61356 .01487 Mdot
+.61547 .01484 Mdot
+.61738 .01485 Mdot
+.61929 .01484 Mdot
+.62119 .01484 Mdot
+.6231 .01484 Mdot
+.62501 .01483 Mdot
+.62692 .01483 Mdot
+.62883 .01483 Mdot
+.63074 .01486 Mdot
+.63265 .01487 Mdot
+.63455 .01486 Mdot
+.63646 .01485 Mdot
+.63837 .01485 Mdot
+.64028 .01487 Mdot
+.64219 .01486 Mdot
+.6441 .0149 Mdot
+.64601 .01489 Mdot
+.64791 .01489 Mdot
+.64982 .0149 Mdot
+.65173 .0149 Mdot
+.65364 .01488 Mdot
+.65555 .01489 Mdot
+.65746 .01488 Mdot
+.65937 .01485 Mdot
+.66127 .01482 Mdot
+.66318 .01485 Mdot
+.66509 .01483 Mdot
+.667 .01481 Mdot
+.66891 .01484 Mdot
+.67082 .01487 Mdot
+.67273 .01487 Mdot
+.67463 .01487 Mdot
+.67654 .01489 Mdot
+.67845 .01489 Mdot
+.68036 .01488 Mdot
+.68227 .01487 Mdot
+.68418 .0149 Mdot
+.68609 .0149 Mdot
+.688 .01491 Mdot
+.6899 .01491 Mdot
+.69181 .01491 Mdot
+.69372 .01492 Mdot
+.69563 .01494 Mdot
+.69754 .01498 Mdot
+.69945 .01497 Mdot
+.70136 .01495 Mdot
+.70326 .01495 Mdot
+.70517 .01498 Mdot
+.70708 .01498 Mdot
+.70899 .01499 Mdot
+.7109 .01498 Mdot
+.71281 .01499 Mdot
+.71472 .015 Mdot
+.71662 .01501 Mdot
+.71853 .01503 Mdot
+.72044 .01503 Mdot
+.72235 .01503 Mdot
+.72426 .01504 Mdot
+.72617 .01503 Mdot
+.72808 .01504 Mdot
+.72998 .01506 Mdot
+.73189 .01503 Mdot
+.7338 .01502 Mdot
+.73571 .01503 Mdot
+.73762 .01504 Mdot
+.73953 .01504 Mdot
+.74144 .01503 Mdot
+.74334 .01505 Mdot
+.74525 .01507 Mdot
+.74716 .01506 Mdot
+.74907 .01506 Mdot
+.75098 .01507 Mdot
+.75289 .01508 Mdot
+.7548 .01509 Mdot
+.7567 .01507 Mdot
+.75861 .01506 Mdot
+.76052 .0151 Mdot
+.76243 .01508 Mdot
+.76434 .01513 Mdot
+.76625 .01513 Mdot
+.76816 .01515 Mdot
+.77006 .01517 Mdot
+.77197 .01516 Mdot
+.77388 .01516 Mdot
+.77579 .01516 Mdot
+.7777 .01516 Mdot
+.77961 .01516 Mdot
+.78152 .01515 Mdot
+.78342 .01516 Mdot
+.78533 .01518 Mdot
+.78724 .01521 Mdot
+.78915 .0152 Mdot
+.79106 .0152 Mdot
+.79297 .01518 Mdot
+.79488 .01517 Mdot
+.79678 .01517 Mdot
+.79869 .01517 Mdot
+.8006 .01516 Mdot
+.80251 .01516 Mdot
+.80442 .01516 Mdot
+.80633 .01518 Mdot
+.80824 .01517 Mdot
+.81014 .01515 Mdot
+.81205 .01515 Mdot
+.81396 .01513 Mdot
+.81587 .01511 Mdot
+.81778 .01511 Mdot
+.81969 .01513 Mdot
+.8216 .01514 Mdot
+.8235 .01515 Mdot
+.82541 .01514 Mdot
+.82732 .01517 Mdot
+.82923 .01517 Mdot
+.83114 .01519 Mdot
+.83305 .01518 Mdot
+.83496 .01518 Mdot
+.83686 .01519 Mdot
+.83877 .0152 Mdot
+.84068 .01521 Mdot
+.84259 .01521 Mdot
+.8445 .01521 Mdot
+.84641 .01521 Mdot
+.84832 .01521 Mdot
+.85022 .01523 Mdot
+.85213 .01523 Mdot
+.85404 .01523 Mdot
+.85595 .01523 Mdot
+.85786 .01524 Mdot
+.85977 .01524 Mdot
+.86168 .01524 Mdot
+.86358 .01524 Mdot
+.86549 .01526 Mdot
+.8674 .01528 Mdot
+.86931 .01528 Mdot
+.87122 .01528 Mdot
+.87313 .01529 Mdot
+.87504 .01529 Mdot
+.87694 .01528 Mdot
+.87885 .01528 Mdot
+.88076 .01528 Mdot
+.88267 .01529 Mdot
+.88458 .0153 Mdot
+.88649 .01531 Mdot
+.8884 .01531 Mdot
+.8903 .01529 Mdot
+.89221 .01528 Mdot
+.89412 .01528 Mdot
+.89603 .01527 Mdot
+.89794 .01526 Mdot
+.89985 .01525 Mdot
+.90176 .01525 Mdot
+.90366 .01525 Mdot
+.90557 .01525 Mdot
+.90748 .01527 Mdot
+.90939 .01526 Mdot
+.9113 .01526 Mdot
+.91321 .01526 Mdot
+.91512 .01525 Mdot
+.91702 .01527 Mdot
+.91893 .01528 Mdot
+.92084 .01528 Mdot
+.92275 .01528 Mdot
+.92466 .0153 Mdot
+.92657 .0153 Mdot
+.92848 .01529 Mdot
+.93038 .01531 Mdot
+.93229 .01531 Mdot
+.9342 .01531 Mdot
+.93611 .01532 Mdot
+.93802 .01531 Mdot
+.93993 .01532 Mdot
+.94184 .01534 Mdot
+.94374 .01534 Mdot
+.94565 .01535 Mdot
+.94756 .01534 Mdot
+.94947 .01533 Mdot
+.95138 .01532 Mdot
+.95329 .01531 Mdot
+.9552 .01532 Mdot
+.9571 .0153 Mdot
+.95901 .0153 Mdot
+.96092 .0153 Mdot
+.96283 .0153 Mdot
+.96474 .01529 Mdot
+.96665 .01531 Mdot
+.96856 .0153 Mdot
+.97046 .01531 Mdot
+.97237 .01531 Mdot
+.97428 .0153 Mdot
+.97619 .0153 Mdot
+1 0 0 r
+.02572 .59742 Mdot
+.02763 .60114 Mdot
+.02954 .60047 Mdot
+.03144 .60117 Mdot
+.03335 .60083 Mdot
+.03526 .60073 Mdot
+.03717 .60186 Mdot
+.03908 .6022 Mdot
+.04099 .60257 Mdot
+.0429 .60231 Mdot
+.0448 .60215 Mdot
+.04671 .60195 Mdot
+.04862 .60232 Mdot
+.05053 .6022 Mdot
+.05244 .60213 Mdot
+.05435 .60204 Mdot
+.05626 .60218 Mdot
+.05816 .6024 Mdot
+.06007 .60231 Mdot
+.06198 .60229 Mdot
+.06389 .60217 Mdot
+.0658 .60249 Mdot
+.06771 .60239 Mdot
+.06962 .60229 Mdot
+.07152 .60231 Mdot
+.07343 .60253 Mdot
+.07534 .60246 Mdot
+.07725 .60247 Mdot
+.07916 .60261 Mdot
+.08107 .60254 Mdot
+.08298 .60261 Mdot
+.08488 .60269 Mdot
+.08679 .60262 Mdot
+.0887 .60262 Mdot
+.09061 .60255 Mdot
+.09252 .60255 Mdot
+.09443 .60281 Mdot
+.09634 .60275 Mdot
+.09824 .60274 Mdot
+.10015 .60274 Mdot
+.10206 .60274 Mdot
+.10397 .60267 Mdot
+.10588 .60321 Mdot
+.10779 .60314 Mdot
+.1097 .60314 Mdot
+.1116 .60308 Mdot
+.11351 .60302 Mdot
+.11542 .60307 Mdot
+.11733 .60301 Mdot
+.11924 .60332 Mdot
+.12115 .60326 Mdot
+.12306 .60321 Mdot
+.12496 .60316 Mdot
+.12687 .60312 Mdot
+.12878 .60307 Mdot
+.13069 .60303 Mdot
+.1326 .60299 Mdot
+.13451 .603 Mdot
+.13642 .60301 Mdot
+.13832 .60297 Mdot
+.14023 .60305 Mdot
+.14214 .60305 Mdot
+.14405 .60314 Mdot
+.14596 .60311 Mdot
+.14787 .6031 Mdot
+.14978 .60309 Mdot
+.15168 .60307 Mdot
+.15359 .60311 Mdot
+.1555 .60308 Mdot
+.15741 .60307 Mdot
+.15932 .60303 Mdot
+.16123 .60299 Mdot
+.16314 .60298 Mdot
+.16504 .60297 Mdot
+.16695 .60295 Mdot
+.16886 .60291 Mdot
+.17077 .60297 Mdot
+.17268 .60295 Mdot
+.17459 .60293 Mdot
+.1765 .60289 Mdot
+.1784 .60287 Mdot
+.18031 .60285 Mdot
+.18222 .60287 Mdot
+.18413 .60284 Mdot
+.18604 .60283 Mdot
+.18795 .6028 Mdot
+.18986 .60277 Mdot
+.19176 .60291 Mdot
+.19367 .60289 Mdot
+.19558 .60286 Mdot
+.19749 .60293 Mdot
+.1994 .6029 Mdot
+.20131 .6029 Mdot
+.20322 .60295 Mdot
+.20512 .60294 Mdot
+.20703 .60291 Mdot
+.20894 .60293 Mdot
+.21085 .60293 Mdot
+.21276 .60294 Mdot
+.21467 .60291 Mdot
+.21658 .6029 Mdot
+.21848 .60306 Mdot
+.22039 .60304 Mdot
+.2223 .60304 Mdot
+.22421 .60301 Mdot
+.22612 .60302 Mdot
+.22803 .603 Mdot
+.22994 .60298 Mdot
+.23184 .60296 Mdot
+.23375 .60294 Mdot
+.23566 .60293 Mdot
+.23757 .60291 Mdot
+.23948 .60288 Mdot
+.24139 .60286 Mdot
+.2433 .60296 Mdot
+.2452 .60295 Mdot
+.24711 .60293 Mdot
+.24902 .60292 Mdot
+.25093 .60295 Mdot
+.25284 .60293 Mdot
+.25475 .60293 Mdot
+.25666 .60292 Mdot
+.25856 .60293 Mdot
+.26047 .60293 Mdot
+.26238 .60291 Mdot
+.26429 .60289 Mdot
+.2662 .60287 Mdot
+.26811 .60285 Mdot
+.27002 .60283 Mdot
+.27192 .60284 Mdot
+.27383 .60291 Mdot
+.27574 .60291 Mdot
+.27765 .6029 Mdot
+.27956 .60288 Mdot
+.28147 .60286 Mdot
+.28338 .60286 Mdot
+.28528 .60287 Mdot
+.28719 .60286 Mdot
+.2891 .60284 Mdot
+.29101 .60282 Mdot
+.29292 .6028 Mdot
+.29483 .60278 Mdot
+.29674 .60276 Mdot
+.29864 .60279 Mdot
+.30055 .60277 Mdot
+.30246 .60277 Mdot
+.30437 .60275 Mdot
+.30628 .60273 Mdot
+.30819 .60272 Mdot
+.3101 .60271 Mdot
+.312 .60269 Mdot
+.31391 .60268 Mdot
+.31582 .60268 Mdot
+.31773 .60266 Mdot
+.31964 .60274 Mdot
+.32155 .60273 Mdot
+.32346 .60284 Mdot
+.32537 .60283 Mdot
+.32727 .60282 Mdot
+.32918 .60284 Mdot
+.33109 .60283 Mdot
+.333 .60281 Mdot
+.33491 .60284 Mdot
+.33682 .60285 Mdot
+.33873 .60284 Mdot
+.34063 .60282 Mdot
+.34254 .60281 Mdot
+.34445 .60279 Mdot
+.34636 .60278 Mdot
+.34827 .60277 Mdot
+.35018 .6028 Mdot
+.35209 .60279 Mdot
+.35399 .60277 Mdot
+.3559 .60277 Mdot
+.35781 .60285 Mdot
+.35972 .60284 Mdot
+.36163 .60282 Mdot
+.36354 .60281 Mdot
+.36545 .6028 Mdot
+.36735 .60279 Mdot
+.36926 .60278 Mdot
+.37117 .60276 Mdot
+.37308 .60277 Mdot
+.37499 .60276 Mdot
+.3769 .60277 Mdot
+.37881 .60275 Mdot
+.38071 .60274 Mdot
+.38262 .60281 Mdot
+.38453 .6028 Mdot
+.38644 .60281 Mdot
+.38835 .60282 Mdot
+.39026 .60281 Mdot
+.39217 .60286 Mdot
+.39407 .60287 Mdot
+.39598 .60286 Mdot
+.39789 .60285 Mdot
+.3998 .60284 Mdot
+.40171 .60284 Mdot
+.40362 .60285 Mdot
+.40553 .60284 Mdot
+.40743 .60283 Mdot
+.40934 .60285 Mdot
+.41125 .60285 Mdot
+.41316 .60285 Mdot
+.41507 .60284 Mdot
+.41698 .60287 Mdot
+.41889 .60287 Mdot
+.42079 .60287 Mdot
+.4227 .60288 Mdot
+.42461 .60287 Mdot
+.42652 .60287 Mdot
+.42843 .60286 Mdot
+.43034 .60285 Mdot
+.43225 .60284 Mdot
+.43415 .60283 Mdot
+.43606 .60282 Mdot
+.43797 .60282 Mdot
+.43988 .60281 Mdot
+.44179 .60281 Mdot
+.4437 .6028 Mdot
+.44561 .60279 Mdot
+.44751 .60278 Mdot
+.44942 .60277 Mdot
+.45133 .60276 Mdot
+.45324 .60276 Mdot
+.45515 .60276 Mdot
+.45706 .60275 Mdot
+.45897 .60275 Mdot
+.46087 .60275 Mdot
+.46278 .60274 Mdot
+.46469 .60273 Mdot
+.4666 .60273 Mdot
+.46851 .60273 Mdot
+.47042 .60273 Mdot
+.47233 .60271 Mdot
+.47423 .6027 Mdot
+.47614 .60269 Mdot
+.47805 .60269 Mdot
+.47996 .60269 Mdot
+.48187 .6027 Mdot
+.48378 .60272 Mdot
+.48569 .60277 Mdot
+.48759 .60277 Mdot
+.4895 .60276 Mdot
+.49141 .60275 Mdot
+.49332 .60274 Mdot
+.49523 .60273 Mdot
+.49714 .60272 Mdot
+.49905 .60272 Mdot
+.50095 .60272 Mdot
+.50286 .60272 Mdot
+.50477 .60274 Mdot
+.50668 .60273 Mdot
+.50859 .60273 Mdot
+.5105 .60272 Mdot
+.51241 .60271 Mdot
+.51431 .6027 Mdot
+.51622 .60269 Mdot
+.51813 .60268 Mdot
+.52004 .60269 Mdot
+.52195 .60268 Mdot
+.52386 .6027 Mdot
+.52577 .60269 Mdot
+.52767 .60273 Mdot
+.52958 .60272 Mdot
+.53149 .60273 Mdot
+.5334 .60272 Mdot
+.53531 .60271 Mdot
+.53722 .6027 Mdot
+.53913 .60269 Mdot
+.54103 .60269 Mdot
+.54294 .60268 Mdot
+.54485 .60268 Mdot
+.54676 .60268 Mdot
+.54867 .60268 Mdot
+.55058 .60267 Mdot
+.55249 .60266 Mdot
+.55439 .60266 Mdot
+.5563 .60266 Mdot
+.55821 .60268 Mdot
+.56012 .60269 Mdot
+.56203 .60269 Mdot
+.56394 .6027 Mdot
+.56585 .60269 Mdot
+.56775 .60268 Mdot
+.56966 .60268 Mdot
+.57157 .60267 Mdot
+.57348 .60266 Mdot
+.57539 .60265 Mdot
+.5773 .60266 Mdot
+.57921 .60265 Mdot
+.58111 .60266 Mdot
+.58302 .60266 Mdot
+.58493 .60265 Mdot
+.58684 .60269 Mdot
+.58875 .60269 Mdot
+.59066 .60273 Mdot
+.59257 .60273 Mdot
+.59447 .60274 Mdot
+.59638 .60274 Mdot
+.59829 .60273 Mdot
+.6002 .60272 Mdot
+.60211 .60271 Mdot
+.60402 .60271 Mdot
+.60593 .6027 Mdot
+.60783 .60269 Mdot
+.60974 .60269 Mdot
+.61165 .60268 Mdot
+.61356 .60267 Mdot
+.61547 .60268 Mdot
+.61738 .60267 Mdot
+.61929 .60267 Mdot
+.62119 .60266 Mdot
+.6231 .60266 Mdot
+.62501 .60265 Mdot
+.62692 .60264 Mdot
+.62883 .60264 Mdot
+.63074 .60265 Mdot
+.63265 .60264 Mdot
+.63455 .60264 Mdot
+.63646 .60263 Mdot
+.63837 .60262 Mdot
+.64028 .60263 Mdot
+.64219 .60262 Mdot
+.6441 .60266 Mdot
+.64601 .60265 Mdot
+.64791 .60264 Mdot
+.64982 .60264 Mdot
+.65173 .60263 Mdot
+.65364 .60263 Mdot
+.65555 .60263 Mdot
+.65746 .60263 Mdot
+.65937 .60264 Mdot
+.66127 .60267 Mdot
+.66318 .6027 Mdot
+.66509 .60271 Mdot
+.667 .60271 Mdot
+.66891 .60272 Mdot
+.67082 .60274 Mdot
+.67273 .60274 Mdot
+.67463 .60273 Mdot
+.67654 .60274 Mdot
+.67845 .60273 Mdot
+.68036 .60273 Mdot
+.68227 .60272 Mdot
+.68418 .60274 Mdot
+.68609 .60273 Mdot
+.688 .60273 Mdot
+.6899 .60272 Mdot
+.69181 .60271 Mdot
+.69372 .60271 Mdot
+.69563 .60271 Mdot
+.69754 .60275 Mdot
+.69945 .60274 Mdot
+.70136 .60274 Mdot
+.70326 .60274 Mdot
+.70517 .60275 Mdot
+.70708 .60275 Mdot
+.70899 .60274 Mdot
+.7109 .60273 Mdot
+.71281 .60273 Mdot
+.71472 .60273 Mdot
+.71662 .60272 Mdot
+.71853 .60273 Mdot
+.72044 .60272 Mdot
+.72235 .60272 Mdot
+.72426 .60271 Mdot
+.72617 .60271 Mdot
+.72808 .60271 Mdot
+.72998 .60271 Mdot
+.73189 .60273 Mdot
+.7338 .60273 Mdot
+.73571 .60273 Mdot
+.73762 .60272 Mdot
+.73953 .60272 Mdot
+.74144 .60271 Mdot
+.74334 .60271 Mdot
+.74525 .60272 Mdot
+.74716 .60271 Mdot
+.74907 .60271 Mdot
+.75098 .6027 Mdot
+.75289 .6027 Mdot
+.7548 .60269 Mdot
+.7567 .6027 Mdot
+.75861 .60269 Mdot
+.76052 .60273 Mdot
+.76243 .60273 Mdot
+.76434 .60282 Mdot
+.76625 .60281 Mdot
+.76816 .60282 Mdot
+.77006 .60282 Mdot
+.77197 .60282 Mdot
+.77388 .60282 Mdot
+.77579 .60281 Mdot
+.7777 .60281 Mdot
+.77961 .6028 Mdot
+.78152 .6028 Mdot
+.78342 .60279 Mdot
+.78533 .6028 Mdot
+.78724 .60282 Mdot
+.78915 .60281 Mdot
+.79106 .60281 Mdot
+.79297 .60282 Mdot
+.79488 .60281 Mdot
+.79678 .60281 Mdot
+.79869 .6028 Mdot
+.8006 .6028 Mdot
+.80251 .60279 Mdot
+.80442 .60279 Mdot
+.80633 .60279 Mdot
+.80824 .60279 Mdot
+.81014 .60279 Mdot
+.81205 .60278 Mdot
+.81396 .60279 Mdot
+.81587 .60281 Mdot
+.81778 .6028 Mdot
+.81969 .60281 Mdot
+.8216 .60281 Mdot
+.8235 .6028 Mdot
+.82541 .6028 Mdot
+.82732 .60282 Mdot
+.82923 .60281 Mdot
+.83114 .60283 Mdot
+.83305 .60283 Mdot
+.83496 .60282 Mdot
+.83686 .60282 Mdot
+.83877 .60282 Mdot
+.84068 .60282 Mdot
+.84259 .60281 Mdot
+.8445 .6028 Mdot
+.84641 .6028 Mdot
+.84832 .60279 Mdot
+.85022 .6028 Mdot
+.85213 .6028 Mdot
+.85404 .60279 Mdot
+.85595 .60278 Mdot
+.85786 .60278 Mdot
+.85977 .60278 Mdot
+.86168 .60277 Mdot
+.86358 .60277 Mdot
+.86549 .60278 Mdot
+.8674 .60278 Mdot
+.86931 .60278 Mdot
+.87122 .60277 Mdot
+.87313 .60277 Mdot
+.87504 .60277 Mdot
+.87694 .60277 Mdot
+.87885 .60276 Mdot
+.88076 .60275 Mdot
+.88267 .60276 Mdot
+.88458 .60275 Mdot
+.88649 .60276 Mdot
+.8884 .60275 Mdot
+.8903 .60276 Mdot
+.89221 .60276 Mdot
+.89412 .60276 Mdot
+.89603 .60275 Mdot
+.89794 .60276 Mdot
+.89985 .60275 Mdot
+.90176 .60275 Mdot
+.90366 .60274 Mdot
+.90557 .60274 Mdot
+.90748 .60274 Mdot
+.90939 .60274 Mdot
+.9113 .60273 Mdot
+.91321 .60273 Mdot
+.91512 .60272 Mdot
+.91702 .60273 Mdot
+.91893 .60272 Mdot
+.92084 .60272 Mdot
+.92275 .60271 Mdot
+.92466 .60272 Mdot
+.92657 .60272 Mdot
+.92848 .60271 Mdot
+.93038 .60272 Mdot
+.93229 .60271 Mdot
+.9342 .60271 Mdot
+.93611 .6027 Mdot
+.93802 .6027 Mdot
+.93993 .6027 Mdot
+.94184 .60271 Mdot
+.94374 .6027 Mdot
+.94565 .6027 Mdot
+.94756 .6027 Mdot
+.94947 .6027 Mdot
+.95138 .6027 Mdot
+.95329 .6027 Mdot
+.9552 .60269 Mdot
+.9571 .6027 Mdot
+.95901 .6027 Mdot
+.96092 .60269 Mdot
+.96283 .60269 Mdot
+.96474 .60269 Mdot
+.96665 .6027 Mdot
+.96856 .60269 Mdot
+.97046 .60269 Mdot
+.97237 .60268 Mdot
+.97428 .60269 Mdot
+.97619 .60269 Mdot
+% End of Graphics
+MathPictureEnd
+\
+\>"], "Graphics",
+  ImageSize->{288, 177.938},
+  ImageMargins->{{0, 0}, {0, 0}},
+  ImageRegion->{{0, 1}, {0, 1}},
+  ImageCacheValid->False],
+
+Cell[BoxData[
+    \("OCTUPOLO:"\)], "Print"],
+
+Cell[GraphicsData["PostScript", "\<\
+%!
+%%Creator: Mathematica
+%%AspectRatio: .61803 
+MathPictureStart
+/Mabs {
+Mgmatrix idtransform
+Mtmatrix dtransform
+} bind def
+/Mabsadd { Mabs
+3 -1 roll add
+3 1 roll add
+exch } bind def
+%% Graphics
+%%IncludeResource: font Courier
+%%IncludeFont: Courier
+/Courier findfont 10  scalefont  setfont
+% Scaling calculations
+0.0238095 0.00190858 0.0147151 0.0855212 [
+[.21467 .00222 -9 -9 ]
+[.21467 .00222 9 0 ]
+[.40553 .00222 -9 -9 ]
+[.40553 .00222 9 0 ]
+[.59638 .00222 -9 -9 ]
+[.59638 .00222 9 0 ]
+[.78724 .00222 -9 -9 ]
+[.78724 .00222 9 0 ]
+[.9781 .00222 -9 -9 ]
+[.9781 .00222 9 0 ]
+[.01131 .10024 -6 -4.5 ]
+[.01131 .10024 0 4.5 ]
+[.01131 .18576 -6 -4.5 ]
+[.01131 .18576 0 4.5 ]
+[.01131 .27128 -6 -4.5 ]
+[.01131 .27128 0 4.5 ]
+[.01131 .3568 -6 -4.5 ]
+[.01131 .3568 0 4.5 ]
+[.01131 .44232 -6 -4.5 ]
+[.01131 .44232 0 4.5 ]
+[.01131 .52784 -6 -4.5 ]
+[.01131 .52784 0 4.5 ]
+[.01131 .61336 -6 -4.5 ]
+[.01131 .61336 0 4.5 ]
+[ 0 0 0 0 ]
+[ 1 .61803 0 0 ]
+] MathScale
+% Start of Graphics
+1 setlinecap
+1 setlinejoin
+newpath
+0 g
+.25 Mabswid
+[ ] 0 setdash
+.21467 .01472 m
+.21467 .02097 L
+s
+[(100)] .21467 .00222 0 1 Mshowa
+.40553 .01472 m
+.40553 .02097 L
+s
+[(200)] .40553 .00222 0 1 Mshowa
+.59638 .01472 m
+.59638 .02097 L
+s
+[(300)] .59638 .00222 0 1 Mshowa
+.78724 .01472 m
+.78724 .02097 L
+s
+[(400)] .78724 .00222 0 1 Mshowa
+.9781 .01472 m
+.9781 .02097 L
+s
+[(500)] .9781 .00222 0 1 Mshowa
+.125 Mabswid
+.06198 .01472 m
+.06198 .01847 L
+s
+.10015 .01472 m
+.10015 .01847 L
+s
+.13832 .01472 m
+.13832 .01847 L
+s
+.1765 .01472 m
+.1765 .01847 L
+s
+.25284 .01472 m
+.25284 .01847 L
+s
+.29101 .01472 m
+.29101 .01847 L
+s
+.32918 .01472 m
+.32918 .01847 L
+s
+.36735 .01472 m
+.36735 .01847 L
+s
+.4437 .01472 m
+.4437 .01847 L
+s
+.48187 .01472 m
+.48187 .01847 L
+s
+.52004 .01472 m
+.52004 .01847 L
+s
+.55821 .01472 m
+.55821 .01847 L
+s
+.63455 .01472 m
+.63455 .01847 L
+s
+.67273 .01472 m
+.67273 .01847 L
+s
+.7109 .01472 m
+.7109 .01847 L
+s
+.74907 .01472 m
+.74907 .01847 L
+s
+.82541 .01472 m
+.82541 .01847 L
+s
+.86358 .01472 m
+.86358 .01847 L
+s
+.90176 .01472 m
+.90176 .01847 L
+s
+.93993 .01472 m
+.93993 .01847 L
+s
+.25 Mabswid
+0 .01472 m
+1 .01472 L
+s
+.02381 .10024 m
+.03006 .10024 L
+s
+[(1)] .01131 .10024 1 0 Mshowa
+.02381 .18576 m
+.03006 .18576 L
+s
+[(2)] .01131 .18576 1 0 Mshowa
+.02381 .27128 m
+.03006 .27128 L
+s
+[(3)] .01131 .27128 1 0 Mshowa
+.02381 .3568 m
+.03006 .3568 L
+s
+[(4)] .01131 .3568 1 0 Mshowa
+.02381 .44232 m
+.03006 .44232 L
+s
+[(5)] .01131 .44232 1 0 Mshowa
+.02381 .52784 m
+.03006 .52784 L
+s
+[(6)] .01131 .52784 1 0 Mshowa
+.02381 .61336 m
+.03006 .61336 L
+s
+[(7)] .01131 .61336 1 0 Mshowa
+.125 Mabswid
+.02381 .03182 m
+.02756 .03182 L
+s
+.02381 .04892 m
+.02756 .04892 L
+s
+.02381 .06603 m
+.02756 .06603 L
+s
+.02381 .08313 m
+.02756 .08313 L
+s
+.02381 .11734 m
+.02756 .11734 L
+s
+.02381 .13444 m
+.02756 .13444 L
+s
+.02381 .15155 m
+.02756 .15155 L
+s
+.02381 .16865 m
+.02756 .16865 L
+s
+.02381 .20286 m
+.02756 .20286 L
+s
+.02381 .21997 m
+.02756 .21997 L
+s
+.02381 .23707 m
+.02756 .23707 L
+s
+.02381 .25417 m
+.02756 .25417 L
+s
+.02381 .28838 m
+.02756 .28838 L
+s
+.02381 .30549 m
+.02756 .30549 L
+s
+.02381 .32259 m
+.02756 .32259 L
+s
+.02381 .3397 m
+.02756 .3397 L
+s
+.02381 .3739 m
+.02756 .3739 L
+s
+.02381 .39101 m
+.02756 .39101 L
+s
+.02381 .40811 m
+.02756 .40811 L
+s
+.02381 .42522 m
+.02756 .42522 L
+s
+.02381 .45943 m
+.02756 .45943 L
+s
+.02381 .47653 m
+.02756 .47653 L
+s
+.02381 .49363 m
+.02756 .49363 L
+s
+.02381 .51074 m
+.02756 .51074 L
+s
+.02381 .54495 m
+.02756 .54495 L
+s
+.02381 .56205 m
+.02756 .56205 L
+s
+.02381 .57916 m
+.02756 .57916 L
+s
+.02381 .59626 m
+.02756 .59626 L
+s
+.25 Mabswid
+.02381 0 m
+.02381 .61803 L
+s
+0 0 m
+1 0 L
+1 .61803 L
+0 .61803 L
+closepath
+clip
+newpath
+.008 w
+.02572 .47731 Mdot
+.02763 .50067 Mdot
+.02954 .52224 Mdot
+.03144 .54181 Mdot
+.03335 .60332 Mdot
+.03526 .578 Mdot
+.03717 .57123 Mdot
+.03908 .52011 Mdot
+.04099 .50149 Mdot
+.0429 .51164 Mdot
+.0448 .50321 Mdot
+.04671 .50782 Mdot
+.04862 .50323 Mdot
+.05053 .50753 Mdot
+.05244 .49869 Mdot
+.05435 .48977 Mdot
+.05626 .47828 Mdot
+.05816 .47668 Mdot
+.06007 .46195 Mdot
+.06198 .47047 Mdot
+.06389 .46246 Mdot
+.0658 .4537 Mdot
+.06771 .45811 Mdot
+.06962 .46203 Mdot
+.07152 .45765 Mdot
+.07343 .46697 Mdot
+.07534 .47136 Mdot
+.07725 .47663 Mdot
+.07916 .47993 Mdot
+.08107 .48017 Mdot
+.08298 .48452 Mdot
+.08488 .47948 Mdot
+.08679 .47866 Mdot
+.0887 .48502 Mdot
+.09061 .4876 Mdot
+.09252 .48878 Mdot
+.09443 .48519 Mdot
+.09634 .48236 Mdot
+.09824 .48072 Mdot
+.10015 .48666 Mdot
+.10206 .48776 Mdot
+.10397 .49169 Mdot
+.10588 .48752 Mdot
+.10779 .48996 Mdot
+.1097 .4946 Mdot
+.1116 .50091 Mdot
+.11351 .50158 Mdot
+.11542 .50405 Mdot
+.11733 .49907 Mdot
+.11924 .50004 Mdot
+.12115 .50046 Mdot
+.12306 .49739 Mdot
+.12496 .49339 Mdot
+.12687 .49204 Mdot
+.12878 .4927 Mdot
+.13069 .49838 Mdot
+.1326 .4977 Mdot
+.13451 .49837 Mdot
+.13642 .49712 Mdot
+.13832 .49551 Mdot
+.14023 .49069 Mdot
+.14214 .49344 Mdot
+.14405 .49374 Mdot
+.14596 .49235 Mdot
+.14787 .49119 Mdot
+.14978 .4912 Mdot
+.15168 .49045 Mdot
+.15359 .48939 Mdot
+.1555 .48704 Mdot
+.15741 .48513 Mdot
+.15932 .48356 Mdot
+.16123 .4834 Mdot
+.16314 .48142 Mdot
+.16504 .48101 Mdot
+.16695 .48371 Mdot
+.16886 .48129 Mdot
+.17077 .48519 Mdot
+.17268 .48443 Mdot
+.17459 .4846 Mdot
+.1765 .48533 Mdot
+.1784 .48145 Mdot
+.18031 .482 Mdot
+.18222 .48581 Mdot
+.18413 .4859 Mdot
+.18604 .48406 Mdot
+.18795 .4868 Mdot
+.18986 .48615 Mdot
+.19176 .48606 Mdot
+.19367 .48809 Mdot
+.19558 .49024 Mdot
+.19749 .48992 Mdot
+.1994 .49151 Mdot
+.20131 .49408 Mdot
+.20322 .49102 Mdot
+.20512 .49175 Mdot
+.20703 .49134 Mdot
+.20894 .49158 Mdot
+.21085 .49181 Mdot
+.21276 .49302 Mdot
+.21467 .49378 Mdot
+.21658 .49129 Mdot
+.21848 .49276 Mdot
+.22039 .49447 Mdot
+.2223 .49618 Mdot
+.22421 .49698 Mdot
+.22612 .49445 Mdot
+.22803 .49506 Mdot
+.22994 .49325 Mdot
+.23184 .49539 Mdot
+.23375 .49444 Mdot
+.23566 .4935 Mdot
+.23757 .49522 Mdot
+.23948 .49377 Mdot
+.24139 .49346 Mdot
+.2433 .4912 Mdot
+.2452 .4911 Mdot
+.24711 .49469 Mdot
+.24902 .49597 Mdot
+.25093 .49724 Mdot
+.25284 .498 Mdot
+.25475 .49786 Mdot
+.25666 .49876 Mdot
+.25856 .50047 Mdot
+.26047 .5005 Mdot
+.26238 .49967 Mdot
+.26429 .49972 Mdot
+.2662 .49942 Mdot
+.26811 .49776 Mdot
+.27002 .49789 Mdot
+.27192 .49841 Mdot
+.27383 .49723 Mdot
+.27574 .49717 Mdot
+.27765 .4951 Mdot
+.27956 .49338 Mdot
+.28147 .49343 Mdot
+.28338 .49496 Mdot
+.28528 .49441 Mdot
+.28719 .49296 Mdot
+.2891 .49229 Mdot
+.29101 .4916 Mdot
+.29292 .49208 Mdot
+.29483 .4918 Mdot
+.29674 .49261 Mdot
+.29864 .49195 Mdot
+.30055 .49147 Mdot
+.30246 .48998 Mdot
+.30437 .48964 Mdot
+.30628 .49074 Mdot
+.30819 .49022 Mdot
+.3101 .49073 Mdot
+.312 .49135 Mdot
+.31391 .49336 Mdot
+.31582 .49443 Mdot
+.31773 .49337 Mdot
+.31964 .4923 Mdot
+.32155 .49211 Mdot
+.32346 .49096 Mdot
+.32537 .49098 Mdot
+.32727 .49197 Mdot
+.32918 .49164 Mdot
+.33109 .49146 Mdot
+.333 .49047 Mdot
+.33491 .49004 Mdot
+.33682 .49049 Mdot
+.33873 .4898 Mdot
+.34063 .48902 Mdot
+.34254 .48925 Mdot
+.34445 .48944 Mdot
+.34636 .48947 Mdot
+.34827 .48995 Mdot
+.35018 .49 Mdot
+.35209 .4912 Mdot
+.35399 .49131 Mdot
+.3559 .49261 Mdot
+.35781 .4924 Mdot
+.35972 .4927 Mdot
+.36163 .49302 Mdot
+.36354 .49273 Mdot
+.36545 .49355 Mdot
+.36735 .49362 Mdot
+.36926 .49301 Mdot
+.37117 .49274 Mdot
+.37308 .49322 Mdot
+.37499 .49425 Mdot
+.3769 .49398 Mdot
+.37881 .4945 Mdot
+.38071 .49223 Mdot
+.38262 .49299 Mdot
+.38453 .4934 Mdot
+.38644 .49243 Mdot
+.38835 .49166 Mdot
+.39026 .49069 Mdot
+.39217 .49227 Mdot
+.39407 .4935 Mdot
+.39598 .49326 Mdot
+.39789 .49408 Mdot
+.3998 .49431 Mdot
+.40171 .49418 Mdot
+.40362 .49421 Mdot
+.40553 .4953 Mdot
+.40743 .49457 Mdot
+.40934 .49401 Mdot
+.41125 .49505 Mdot
+.41316 .49604 Mdot
+.41507 .49505 Mdot
+.41698 .49491 Mdot
+.41889 .49465 Mdot
+.42079 .49509 Mdot
+.4227 .49598 Mdot
+.42461 .49527 Mdot
+.42652 .49595 Mdot
+.42843 .49576 Mdot
+.43034 .49711 Mdot
+.43225 .49585 Mdot
+.43415 .49474 Mdot
+.43606 .49404 Mdot
+.43797 .49299 Mdot
+.43988 .49193 Mdot
+.44179 .4922 Mdot
+.4437 .4921 Mdot
+.44561 .49223 Mdot
+.44751 .4914 Mdot
+.44942 .49067 Mdot
+.45133 .49026 Mdot
+.45324 .49092 Mdot
+.45515 .49082 Mdot
+.45706 .49078 Mdot
+.45897 .49184 Mdot
+.46087 .49181 Mdot
+.46278 .49298 Mdot
+.46469 .49334 Mdot
+.4666 .49309 Mdot
+.46851 .4925 Mdot
+.47042 .49265 Mdot
+.47233 .49218 Mdot
+.47423 .49238 Mdot
+.47614 .49226 Mdot
+.47805 .49135 Mdot
+.47996 .49271 Mdot
+.48187 .49203 Mdot
+.48378 .49293 Mdot
+.48569 .49288 Mdot
+.48759 .49308 Mdot
+.4895 .49326 Mdot
+.49141 .49364 Mdot
+.49332 .49449 Mdot
+.49523 .49346 Mdot
+.49714 .49467 Mdot
+.49905 .49533 Mdot
+.50095 .4959 Mdot
+.50286 .49591 Mdot
+.50477 .49652 Mdot
+.50668 .49691 Mdot
+.50859 .49613 Mdot
+.5105 .49635 Mdot
+.51241 .49676 Mdot
+.51431 .49685 Mdot
+.51622 .49667 Mdot
+.51813 .49699 Mdot
+.52004 .49684 Mdot
+.52195 .49609 Mdot
+.52386 .49581 Mdot
+.52577 .49575 Mdot
+.52767 .49633 Mdot
+.52958 .49619 Mdot
+.53149 .49645 Mdot
+.5334 .49569 Mdot
+.53531 .49543 Mdot
+.53722 .49592 Mdot
+.53913 .49611 Mdot
+.54103 .49686 Mdot
+.54294 .49692 Mdot
+.54485 .49738 Mdot
+.54676 .49725 Mdot
+.54867 .49768 Mdot
+.55058 .49718 Mdot
+.55249 .49705 Mdot
+.55439 .49623 Mdot
+.5563 .49588 Mdot
+.55821 .49732 Mdot
+.56012 .49727 Mdot
+.56203 .49535 Mdot
+.56394 .49424 Mdot
+.56585 .49337 Mdot
+.56775 .49353 Mdot
+.56966 .49381 Mdot
+.57157 .49339 Mdot
+.57348 .49394 Mdot
+.57539 .49359 Mdot
+.5773 .49285 Mdot
+.57921 .49253 Mdot
+.58111 .49203 Mdot
+.58302 .49189 Mdot
+.58493 .49221 Mdot
+.58684 .49162 Mdot
+.58875 .49168 Mdot
+.59066 .49207 Mdot
+.59257 .49181 Mdot
+.59447 .49257 Mdot
+.59638 .49188 Mdot
+.59829 .49165 Mdot
+.6002 .49224 Mdot
+.60211 .49196 Mdot
+.60402 .49171 Mdot
+.60593 .49085 Mdot
+.60783 .4904 Mdot
+.60974 .49047 Mdot
+.61165 .49025 Mdot
+.61356 .49053 Mdot
+.61547 .49097 Mdot
+.61738 .49095 Mdot
+.61929 .49071 Mdot
+.62119 .49059 Mdot
+.6231 .49071 Mdot
+.62501 .49083 Mdot
+.62692 .49083 Mdot
+.62883 .49141 Mdot
+.63074 .48979 Mdot
+.63265 .48915 Mdot
+.63455 .4888 Mdot
+.63646 .48918 Mdot
+.63837 .48848 Mdot
+.64028 .48785 Mdot
+.64219 .48785 Mdot
+.6441 .48823 Mdot
+.64601 .48815 Mdot
+.64791 .48764 Mdot
+.64982 .48735 Mdot
+.65173 .48786 Mdot
+.65364 .48734 Mdot
+.65555 .48742 Mdot
+.65746 .48756 Mdot
+.65937 .48792 Mdot
+.66127 .48634 Mdot
+.66318 .48666 Mdot
+.66509 .48622 Mdot
+.667 .48684 Mdot
+.66891 .4868 Mdot
+.67082 .48594 Mdot
+.67273 .48565 Mdot
+.67463 .48544 Mdot
+.67654 .48516 Mdot
+.67845 .48525 Mdot
+.68036 .48487 Mdot
+.68227 .48526 Mdot
+.68418 .48595 Mdot
+.68609 .48617 Mdot
+.688 .48667 Mdot
+.6899 .4863 Mdot
+.69181 .48597 Mdot
+.69372 .48598 Mdot
+.69563 .48588 Mdot
+.69754 .48563 Mdot
+.69945 .48553 Mdot
+.70136 .48487 Mdot
+.70326 .48465 Mdot
+.70517 .48489 Mdot
+.70708 .48523 Mdot
+.70899 .48494 Mdot
+.7109 .48526 Mdot
+.71281 .48463 Mdot
+.71472 .48439 Mdot
+.71662 .48412 Mdot
+.71853 .48477 Mdot
+.72044 .4842 Mdot
+.72235 .48373 Mdot
+.72426 .48355 Mdot
+.72617 .48397 Mdot
+.72808 .48398 Mdot
+.72998 .48347 Mdot
+.73189 .48335 Mdot
+.7338 .48323 Mdot
+.73571 .4826 Mdot
+.73762 .48341 Mdot
+.73953 .48392 Mdot
+.74144 .48415 Mdot
+.74334 .48403 Mdot
+.74525 .48456 Mdot
+.74716 .48437 Mdot
+.74907 .48502 Mdot
+.75098 .4854 Mdot
+.75289 .48616 Mdot
+.7548 .48541 Mdot
+.7567 .48553 Mdot
+.75861 .48563 Mdot
+.76052 .48586 Mdot
+.76243 .48473 Mdot
+.76434 .48541 Mdot
+.76625 .48543 Mdot
+.76816 .48531 Mdot
+.77006 .4865 Mdot
+.77197 .48725 Mdot
+.77388 .48751 Mdot
+.77579 .48749 Mdot
+.7777 .48767 Mdot
+.77961 .4874 Mdot
+.78152 .48795 Mdot
+.78342 .48761 Mdot
+.78533 .48821 Mdot
+.78724 .48756 Mdot
+.78915 .48761 Mdot
+.79106 .48741 Mdot
+.79297 .48725 Mdot
+.79488 .48659 Mdot
+.79678 .48621 Mdot
+.79869 .48634 Mdot
+.8006 .48648 Mdot
+.80251 .48633 Mdot
+.80442 .48608 Mdot
+.80633 .48574 Mdot
+.80824 .48568 Mdot
+.81014 .48579 Mdot
+.81205 .48631 Mdot
+.81396 .48615 Mdot
+.81587 .4847 Mdot
+.81778 .48432 Mdot
+.81969 .48459 Mdot
+.8216 .48469 Mdot
+.8235 .48425 Mdot
+.82541 .48444 Mdot
+.82732 .48418 Mdot
+.82923 .48363 Mdot
+.83114 .48456 Mdot
+.83305 .48457 Mdot
+.83496 .48447 Mdot
+.83686 .48403 Mdot
+.83877 .48426 Mdot
+.84068 .48367 Mdot
+.84259 .48418 Mdot
+.8445 .48423 Mdot
+.84641 .48423 Mdot
+.84832 .48394 Mdot
+.85022 .48397 Mdot
+.85213 .48353 Mdot
+.85404 .48355 Mdot
+.85595 .48345 Mdot
+.85786 .48381 Mdot
+.85977 .48398 Mdot
+.86168 .4839 Mdot
+.86358 .48419 Mdot
+.86549 .4848 Mdot
+.8674 .48505 Mdot
+.86931 .4855 Mdot
+.87122 .48576 Mdot
+.87313 .48556 Mdot
+.87504 .4855 Mdot
+.87694 .48578 Mdot
+.87885 .48534 Mdot
+.88076 .48551 Mdot
+.88267 .4852 Mdot
+.88458 .48549 Mdot
+.88649 .48538 Mdot
+.8884 .48581 Mdot
+.8903 .4867 Mdot
+.89221 .48652 Mdot
+.89412 .48664 Mdot
+.89603 .48631 Mdot
+.89794 .48616 Mdot
+.89985 .48633 Mdot
+.90176 .48648 Mdot
+.90366 .48601 Mdot
+.90557 .48656 Mdot
+.90748 .4871 Mdot
+.90939 .48699 Mdot
+.9113 .48635 Mdot
+.91321 .48585 Mdot
+.91512 .48545 Mdot
+.91702 .48576 Mdot
+.91893 .4851 Mdot
+.92084 .48503 Mdot
+.92275 .48481 Mdot
+.92466 .48505 Mdot
+.92657 .4851 Mdot
+.92848 .4849 Mdot
+.93038 .48478 Mdot
+.93229 .4844 Mdot
+.9342 .48431 Mdot
+.93611 .4844 Mdot
+.93802 .48419 Mdot
+.93993 .4841 Mdot
+.94184 .48395 Mdot
+.94374 .48403 Mdot
+.94565 .48481 Mdot
+.94756 .48522 Mdot
+.94947 .4855 Mdot
+.95138 .48561 Mdot
+.95329 .485 Mdot
+.9552 .48544 Mdot
+.9571 .48509 Mdot
+.95901 .4846 Mdot
+.96092 .48485 Mdot
+.96283 .48483 Mdot
+.96474 .48505 Mdot
+.96665 .48498 Mdot
+.96856 .48476 Mdot
+.97046 .48498 Mdot
+.97237 .48496 Mdot
+.97428 .48476 Mdot
+.97619 .48509 Mdot
+1 0 0 r
+.02572 .01472 Mdot
+.02763 .03807 Mdot
+.02954 .05069 Mdot
+.03144 .06077 Mdot
+.03335 .14444 Mdot
+.03526 .14598 Mdot
+.03717 .13736 Mdot
+.03908 .19205 Mdot
+.04099 .19002 Mdot
+.0429 .18379 Mdot
+.0448 .17811 Mdot
+.04671 .1719 Mdot
+.04862 .16656 Mdot
+.05053 .16186 Mdot
+.05244 .16066 Mdot
+.05435 .16019 Mdot
+.05626 .16315 Mdot
+.05816 .15912 Mdot
+.06007 .16855 Mdot
+.06198 .16918 Mdot
+.06389 .16965 Mdot
+.0658 .17132 Mdot
+.06771 .16927 Mdot
+.06962 .16718 Mdot
+.07152 .16563 Mdot
+.07343 .16986 Mdot
+.07534 .16859 Mdot
+.07725 .16828 Mdot
+.07916 .16661 Mdot
+.08107 .16407 Mdot
+.08298 .16355 Mdot
+.08488 .16387 Mdot
+.08679 .16166 Mdot
+.0887 .16402 Mdot
+.09061 .16264 Mdot
+.09252 .16074 Mdot
+.09443 .16036 Mdot
+.09634 .15946 Mdot
+.09824 .15795 Mdot
+.10015 .16093 Mdot
+.10206 .15931 Mdot
+.10397 .15977 Mdot
+.10588 .16059 Mdot
+.10779 .15981 Mdot
+.1097 .16146 Mdot
+.1116 .1659 Mdot
+.11351 .16435 Mdot
+.11542 .16375 Mdot
+.11733 .1662 Mdot
+.11924 .16483 Mdot
+.12115 .16338 Mdot
+.12306 .16357 Mdot
+.12496 .16495 Mdot
+.12687 .16387 Mdot
+.12878 .16259 Mdot
+.13069 .16719 Mdot
+.1326 .16593 Mdot
+.13451 .16471 Mdot
+.13642 .16374 Mdot
+.13832 .163 Mdot
+.14023 .16646 Mdot
+.14214 .16675 Mdot
+.14405 .16556 Mdot
+.14596 .16478 Mdot
+.14787 .16391 Mdot
+.14978 .16278 Mdot
+.15168 .1618 Mdot
+.15359 .16097 Mdot
+.1555 .16119 Mdot
+.15741 .16101 Mdot
+.15932 .16057 Mdot
+.16123 .15956 Mdot
+.16314 .15954 Mdot
+.16504 .1586 Mdot
+.16695 .1595 Mdot
+.16886 .16006 Mdot
+.17077 .16306 Mdot
+.17268 .16225 Mdot
+.17459 .16132 Mdot
+.1765 .16055 Mdot
+.1784 .16375 Mdot
+.18031 .16292 Mdot
+.18222 .16602 Mdot
+.18413 .16512 Mdot
+.18604 .16518 Mdot
+.18795 .16643 Mdot
+.18986 .16568 Mdot
+.19176 .16482 Mdot
+.19367 .16519 Mdot
+.19558 .16572 Mdot
+.19749 .16492 Mdot
+.1994 .16487 Mdot
+.20131 .16608 Mdot
+.20322 .16814 Mdot
+.20512 .16749 Mdot
+.20703 .16675 Mdot
+.20894 .16598 Mdot
+.21085 .16522 Mdot
+.21276 .16494 Mdot
+.21467 .16438 Mdot
+.21658 .1657 Mdot
+.21848 .16569 Mdot
+.22039 .16594 Mdot
+.2223 .16621 Mdot
+.22421 .1657 Mdot
+.22612 .1672 Mdot
+.22803 .16662 Mdot
+.22994 .16707 Mdot
+.23184 .16799 Mdot
+.23375 .16761 Mdot
+.23566 .16724 Mdot
+.23757 .16764 Mdot
+.23948 .16773 Mdot
+.24139 .1671 Mdot
+.2433 .16834 Mdot
+.2452 .16768 Mdot
+.24711 .17187 Mdot
+.24902 .17181 Mdot
+.25093 .17176 Mdot
+.25284 .17132 Mdot
+.25475 .17068 Mdot
+.25666 .17036 Mdot
+.25856 .17087 Mdot
+.26047 .17024 Mdot
+.26238 .16989 Mdot
+.26429 .16928 Mdot
+.2662 .1687 Mdot
+.26811 .16924 Mdot
+.27002 .16864 Mdot
+.27192 .16816 Mdot
+.27383 .16816 Mdot
+.27574 .16758 Mdot
+.27765 .16885 Mdot
+.27956 .16954 Mdot
+.28147 .16897 Mdot
+.28338 .16942 Mdot
+.28528 .16899 Mdot
+.28719 .16936 Mdot
+.2891 .169 Mdot
+.29101 .16867 Mdot
+.29292 .16822 Mdot
+.29483 .16772 Mdot
+.29674 .16748 Mdot
+.29864 .16716 Mdot
+.30055 .16674 Mdot
+.30246 .16728 Mdot
+.30437 .16682 Mdot
+.30628 .16688 Mdot
+.30819 .1665 Mdot
+.3101 .16613 Mdot
+.312 .16582 Mdot
+.31391 .16733 Mdot
+.31582 .1674 Mdot
+.31773 .16748 Mdot
+.31964 .16757 Mdot
+.32155 .16709 Mdot
+.32346 .16728 Mdot
+.32537 .1668 Mdot
+.32727 .16683 Mdot
+.32918 .16641 Mdot
+.33109 .16595 Mdot
+.333 .16601 Mdot
+.33491 .16564 Mdot
+.33682 .1653 Mdot
+.33873 .1651 Mdot
+.34063 .16499 Mdot
+.34254 .16456 Mdot
+.34445 .16414 Mdot
+.34636 .1637 Mdot
+.34827 .16339 Mdot
+.35018 .16295 Mdot
+.35209 .16335 Mdot
+.35399 .16293 Mdot
+.3559 .16348 Mdot
+.35781 .16308 Mdot
+.35972 .16272 Mdot
+.36163 .16236 Mdot
+.36354 .16199 Mdot
+.36545 .16199 Mdot
+.36735 .16159 Mdot
+.36926 .16142 Mdot
+.37117 .16106 Mdot
+.37308 .1608 Mdot
+.37499 .16108 Mdot
+.3769 .16073 Mdot
+.37881 .16051 Mdot
+.38071 .16337 Mdot
+.38262 .16334 Mdot
+.38453 .16306 Mdot
+.38644 .16326 Mdot
+.38835 .16326 Mdot
+.39026 .16347 Mdot
+.39217 .1647 Mdot
+.39407 .16528 Mdot
+.39598 .16494 Mdot
+.39789 .16498 Mdot
+.3998 .16464 Mdot
+.40171 .16427 Mdot
+.40362 .16389 Mdot
+.40553 .16431 Mdot
+.40743 .1643 Mdot
+.40934 .16414 Mdot
+.41125 .16451 Mdot
+.41316 .1648 Mdot
+.41507 .1651 Mdot
+.41698 .16475 Mdot
+.41889 .16443 Mdot
+.42079 .16421 Mdot
+.4227 .1644 Mdot
+.42461 .1644 Mdot
+.42652 .16437 Mdot
+.42843 .16404 Mdot
+.43034 .16498 Mdot
+.43225 .16575 Mdot
+.43415 .16626 Mdot
+.43606 .16626 Mdot
+.43797 .1667 Mdot
+.43988 .16716 Mdot
+.44179 .16686 Mdot
+.4437 .16653 Mdot
+.44561 .16619 Mdot
+.44751 .16635 Mdot
+.44942 .1664 Mdot
+.45133 .16618 Mdot
+.45324 .16616 Mdot
+.45515 .16583 Mdot
+.45706 .1655 Mdot
+.45897 .16602 Mdot
+.46087 .16569 Mdot
+.46278 .16639 Mdot
+.46469 .16616 Mdot
+.4666 .16588 Mdot
+.46851 .16581 Mdot
+.47042 .16551 Mdot
+.47233 .16536 Mdot
+.47423 .16507 Mdot
+.47614 .16477 Mdot
+.47805 .1651 Mdot
+.47996 .16624 Mdot
+.48187 .16628 Mdot
+.48378 .16661 Mdot
+.48569 .1663 Mdot
+.48759 .16602 Mdot
+.4895 .16573 Mdot
+.49141 .16554 Mdot
+.49332 .16582 Mdot
+.49523 .16637 Mdot
+.49714 .16724 Mdot
+.49905 .16729 Mdot
+.50095 .16726 Mdot
+.50286 .16695 Mdot
+.50477 .16695 Mdot
+.50668 .16678 Mdot
+.50859 .16699 Mdot
+.5105 .16673 Mdot
+.51241 .16657 Mdot
+.51431 .16628 Mdot
+.51622 .16602 Mdot
+.51813 .16581 Mdot
+.52004 .16554 Mdot
+.52195 .16574 Mdot
+.52386 .16552 Mdot
+.52577 .16523 Mdot
+.52767 .16523 Mdot
+.52958 .16497 Mdot
+.53149 .16474 Mdot
+.5334 .16497 Mdot
+.53531 .16475 Mdot
+.53722 .16468 Mdot
+.53913 .16444 Mdot
+.54103 .16467 Mdot
+.54294 .1644 Mdot
+.54485 .16431 Mdot
+.54676 .16406 Mdot
+.54867 .16395 Mdot
+.55058 .1639 Mdot
+.55249 .16365 Mdot
+.55439 .16401 Mdot
+.5563 .16386 Mdot
+.55821 .16553 Mdot
+.56012 .16526 Mdot
+.56203 .16841 Mdot
+.56394 .16926 Mdot
+.56585 .16968 Mdot
+.56775 .16943 Mdot
+.56966 .16923 Mdot
+.57157 .16913 Mdot
+.57348 .16914 Mdot
+.57539 .16898 Mdot
+.5773 .16923 Mdot
+.57921 .16907 Mdot
+.58111 .16903 Mdot
+.58302 .16879 Mdot
+.58493 .16862 Mdot
+.58684 .16869 Mdot
+.58875 .16844 Mdot
+.59066 .16833 Mdot
+.59257 .16813 Mdot
+.59447 .16843 Mdot
+.59638 .16864 Mdot
+.59829 .16844 Mdot
+.6002 .16852 Mdot
+.60211 .16834 Mdot
+.60402 .16814 Mdot
+.60593 .16862 Mdot
+.60783 .16857 Mdot
+.60974 .16832 Mdot
+.61165 .16812 Mdot
+.61356 .16796 Mdot
+.61547 .1679 Mdot
+.61738 .16765 Mdot
+.61929 .16747 Mdot
+.62119 .16724 Mdot
+.6231 .16701 Mdot
+.62501 .16679 Mdot
+.62692 .16655 Mdot
+.62883 .16665 Mdot
+.63074 .16912 Mdot
+.63265 .16929 Mdot
+.63455 .16918 Mdot
+.63646 .16909 Mdot
+.63837 .16937 Mdot
+.64028 .16955 Mdot
+.64219 .16931 Mdot
+.6441 .16922 Mdot
+.64601 .16899 Mdot
+.64791 .16903 Mdot
+.64982 .16888 Mdot
+.65173 .16892 Mdot
+.65364 .16897 Mdot
+.65555 .16875 Mdot
+.65746 .16854 Mdot
+.65937 .16845 Mdot
+.66127 .17091 Mdot
+.66318 .17079 Mdot
+.66509 .17076 Mdot
+.667 .17095 Mdot
+.66891 .17072 Mdot
+.67082 .17129 Mdot
+.67273 .17115 Mdot
+.67463 .17097 Mdot
+.67654 .17083 Mdot
+.67845 .17061 Mdot
+.68036 .17053 Mdot
+.68227 .17048 Mdot
+.68418 .17077 Mdot
+.68609 .1706 Mdot
+.688 .17065 Mdot
+.6899 .17058 Mdot
+.69181 .17048 Mdot
+.69372 .17026 Mdot
+.69563 .17005 Mdot
+.69754 .16989 Mdot
+.69945 .16969 Mdot
+.70136 .16996 Mdot
+.70326 .1698 Mdot
+.70517 .16966 Mdot
+.70708 .16957 Mdot
+.70899 .16944 Mdot
+.7109 .16935 Mdot
+.71281 .1696 Mdot
+.71472 .16945 Mdot
+.71662 .16932 Mdot
+.71853 .16962 Mdot
+.72044 .16979 Mdot
+.72235 .16984 Mdot
+.72426 .16967 Mdot
+.72617 .16967 Mdot
+.72808 .16946 Mdot
+.72998 .16956 Mdot
+.73189 .16936 Mdot
+.7338 .16918 Mdot
+.73571 .16944 Mdot
+.73762 .17 Mdot
+.73953 .17012 Mdot
+.74144 .16997 Mdot
+.74334 .16978 Mdot
+.74525 .16992 Mdot
+.74716 .16976 Mdot
+.74907 .17007 Mdot
+.75098 .17004 Mdot
+.75289 .17056 Mdot
+.7548 .17105 Mdot
+.7567 .17086 Mdot
+.75861 .17067 Mdot
+.76052 .17053 Mdot
+.76243 .17191 Mdot
+.76434 .17228 Mdot
+.76625 .17208 Mdot
+.76816 .17189 Mdot
+.77006 .17345 Mdot
+.77197 .17393 Mdot
+.77388 .17382 Mdot
+.77579 .17362 Mdot
+.7777 .17346 Mdot
+.77961 .17335 Mdot
+.78152 .17353 Mdot
+.78342 .17347 Mdot
+.78533 .17373 Mdot
+.78724 .17406 Mdot
+.78915 .17386 Mdot
+.79106 .17372 Mdot
+.79297 .17355 Mdot
+.79488 .1739 Mdot
+.79678 .17389 Mdot
+.79869 .17372 Mdot
+.8006 .17355 Mdot
+.80251 .17339 Mdot
+.80442 .17327 Mdot
+.80633 .17323 Mdot
+.80824 .17304 Mdot
+.81014 .17287 Mdot
+.81205 .17302 Mdot
+.81396 .17287 Mdot
+.81587 .17542 Mdot
+.81778 .17542 Mdot
+.81969 .17532 Mdot
+.8216 .17514 Mdot
+.8235 .1752 Mdot
+.82541 .17506 Mdot
+.82732 .17495 Mdot
+.82923 .17517 Mdot
+.83114 .17613 Mdot
+.83305 .17594 Mdot
+.83496 .17576 Mdot
+.83686 .17582 Mdot
+.83877 .1757 Mdot
+.84068 .17598 Mdot
+.84259 .17613 Mdot
+.8445 .17594 Mdot
+.84641 .17576 Mdot
+.84832 .17568 Mdot
+.85022 .17549 Mdot
+.85213 .17556 Mdot
+.85404 .17537 Mdot
+.85595 .1752 Mdot
+.85786 .1752 Mdot
+.85977 .17506 Mdot
+.86168 .17488 Mdot
+.86358 .17482 Mdot
+.86549 .17515 Mdot
+.8674 .17505 Mdot
+.86931 .17515 Mdot
+.87122 .17506 Mdot
+.87313 .17494 Mdot
+.87504 .17476 Mdot
+.87694 .1747 Mdot
+.87885 .17479 Mdot
+.88076 .17465 Mdot
+.88267 .1746 Mdot
+.88458 .17454 Mdot
+.88649 .17438 Mdot
+.8884 .17446 Mdot
+.8903 .1754 Mdot
+.89221 .17527 Mdot
+.89412 .17512 Mdot
+.89603 .1751 Mdot
+.89794 .17495 Mdot
+.89985 .17482 Mdot
+.90176 .17468 Mdot
+.90366 .17483 Mdot
+.90557 .1751 Mdot
+.90748 .17534 Mdot
+.90939 .17519 Mdot
+.9113 .1756 Mdot
+.91321 .17579 Mdot
+.91512 .17585 Mdot
+.91702 .17581 Mdot
+.91893 .17626 Mdot
+.92084 .1761 Mdot
+.92275 .17599 Mdot
+.92466 .17591 Mdot
+.92657 .17574 Mdot
+.92848 .17563 Mdot
+.93038 .17548 Mdot
+.93229 .17552 Mdot
+.9342 .17536 Mdot
+.93611 .17521 Mdot
+.93802 .17511 Mdot
+.93993 .17495 Mdot
+.94184 .17482 Mdot
+.94374 .17466 Mdot
+.94565 .17542 Mdot
+.94756 .1755 Mdot
+.94947 .17545 Mdot
+.95138 .1753 Mdot
+.95329 .1757 Mdot
+.9552 .17583 Mdot
+.9571 .17584 Mdot
+.95901 .17605 Mdot
+.96092 .17598 Mdot
+.96283 .17581 Mdot
+.96474 .17572 Mdot
+.96665 .17557 Mdot
+.96856 .17549 Mdot
+.97046 .1754 Mdot
+.97237 .17524 Mdot
+.97428 .17515 Mdot
+.97619 .17516 Mdot
+% End of Graphics
+MathPictureEnd
+\
+\>"], "Graphics",
+  ImageSize->{288, 177.938},
+  ImageMargins->{{0, 0}, {0, 0}},
+  ImageRegion->{{0, 1}, {0, 1}},
+  ImageCacheValid->False],
+
+Cell[BoxData[
+    \("DECAPOLO:"\)], "Print"],
+
+Cell[GraphicsData["PostScript", "\<\
+%!
+%%Creator: Mathematica
+%%AspectRatio: .61803 
+MathPictureStart
+/Mabs {
+Mgmatrix idtransform
+Mtmatrix dtransform
+} bind def
+/Mabsadd { Mabs
+3 -1 roll add
+3 1 roll add
+exch } bind def
+%% Graphics
+%%IncludeResource: font Courier
+%%IncludeFont: Courier
+/Courier findfont 10  scalefont  setfont
+% Scaling calculations
+0.0238095 0.00190858 0.0147151 0.089335 [
+[.21467 .00222 -9 -9 ]
+[.21467 .00222 9 0 ]
+[.40553 .00222 -9 -9 ]
+[.40553 .00222 9 0 ]
+[.59638 .00222 -9 -9 ]
+[.59638 .00222 9 0 ]
+[.78724 .00222 -9 -9 ]
+[.78724 .00222 9 0 ]
+[.9781 .00222 -9 -9 ]
+[.9781 .00222 9 0 ]
+[.01131 .10405 -6 -4.5 ]
+[.01131 .10405 0 4.5 ]
+[.01131 .19339 -6 -4.5 ]
+[.01131 .19339 0 4.5 ]
+[.01131 .28272 -6 -4.5 ]
+[.01131 .28272 0 4.5 ]
+[.01131 .37206 -6 -4.5 ]
+[.01131 .37206 0 4.5 ]
+[.01131 .46139 -6 -4.5 ]
+[.01131 .46139 0 4.5 ]
+[.01131 .55073 -6 -4.5 ]
+[.01131 .55073 0 4.5 ]
+[ 0 0 0 0 ]
+[ 1 .61803 0 0 ]
+] MathScale
+% Start of Graphics
+1 setlinecap
+1 setlinejoin
+newpath
+0 g
+.25 Mabswid
+[ ] 0 setdash
+.21467 .01472 m
+.21467 .02097 L
+s
+[(100)] .21467 .00222 0 1 Mshowa
+.40553 .01472 m
+.40553 .02097 L
+s
+[(200)] .40553 .00222 0 1 Mshowa
+.59638 .01472 m
+.59638 .02097 L
+s
+[(300)] .59638 .00222 0 1 Mshowa
+.78724 .01472 m
+.78724 .02097 L
+s
+[(400)] .78724 .00222 0 1 Mshowa
+.9781 .01472 m
+.9781 .02097 L
+s
+[(500)] .9781 .00222 0 1 Mshowa
+.125 Mabswid
+.06198 .01472 m
+.06198 .01847 L
+s
+.10015 .01472 m
+.10015 .01847 L
+s
+.13832 .01472 m
+.13832 .01847 L
+s
+.1765 .01472 m
+.1765 .01847 L
+s
+.25284 .01472 m
+.25284 .01847 L
+s
+.29101 .01472 m
+.29101 .01847 L
+s
+.32918 .01472 m
+.32918 .01847 L
+s
+.36735 .01472 m
+.36735 .01847 L
+s
+.4437 .01472 m
+.4437 .01847 L
+s
+.48187 .01472 m
+.48187 .01847 L
+s
+.52004 .01472 m
+.52004 .01847 L
+s
+.55821 .01472 m
+.55821 .01847 L
+s
+.63455 .01472 m
+.63455 .01847 L
+s
+.67273 .01472 m
+.67273 .01847 L
+s
+.7109 .01472 m
+.7109 .01847 L
+s
+.74907 .01472 m
+.74907 .01847 L
+s
+.82541 .01472 m
+.82541 .01847 L
+s
+.86358 .01472 m
+.86358 .01847 L
+s
+.90176 .01472 m
+.90176 .01847 L
+s
+.93993 .01472 m
+.93993 .01847 L
+s
+.25 Mabswid
+0 .01472 m
+1 .01472 L
+s
+.02381 .10405 m
+.03006 .10405 L
+s
+[(1)] .01131 .10405 1 0 Mshowa
+.02381 .19339 m
+.03006 .19339 L
+s
+[(2)] .01131 .19339 1 0 Mshowa
+.02381 .28272 m
+.03006 .28272 L
+s
+[(3)] .01131 .28272 1 0 Mshowa
+.02381 .37206 m
+.03006 .37206 L
+s
+[(4)] .01131 .37206 1 0 Mshowa
+.02381 .46139 m
+.03006 .46139 L
+s
+[(5)] .01131 .46139 1 0 Mshowa
+.02381 .55073 m
+.03006 .55073 L
+s
+[(6)] .01131 .55073 1 0 Mshowa
+.125 Mabswid
+.02381 .03258 m
+.02756 .03258 L
+s
+.02381 .05045 m
+.02756 .05045 L
+s
+.02381 .06832 m
+.02756 .06832 L
+s
+.02381 .08618 m
+.02756 .08618 L
+s
+.02381 .12192 m
+.02756 .12192 L
+s
+.02381 .13978 m
+.02756 .13978 L
+s
+.02381 .15765 m
+.02756 .15765 L
+s
+.02381 .17552 m
+.02756 .17552 L
+s
+.02381 .21125 m
+.02756 .21125 L
+s
+.02381 .22912 m
+.02756 .22912 L
+s
+.02381 .24699 m
+.02756 .24699 L
+s
+.02381 .26485 m
+.02756 .26485 L
+s
+.02381 .30059 m
+.02756 .30059 L
+s
+.02381 .31845 m
+.02756 .31845 L
+s
+.02381 .33632 m
+.02756 .33632 L
+s
+.02381 .35419 m
+.02756 .35419 L
+s
+.02381 .38992 m
+.02756 .38992 L
+s
+.02381 .40779 m
+.02756 .40779 L
+s
+.02381 .42566 m
+.02756 .42566 L
+s
+.02381 .44352 m
+.02756 .44352 L
+s
+.02381 .47926 m
+.02756 .47926 L
+s
+.02381 .49712 m
+.02756 .49712 L
+s
+.02381 .51499 m
+.02756 .51499 L
+s
+.02381 .53286 m
+.02756 .53286 L
+s
+.02381 .56859 m
+.02756 .56859 L
+s
+.02381 .58646 m
+.02756 .58646 L
+s
+.02381 .60433 m
+.02756 .60433 L
+s
+.25 Mabswid
+.02381 0 m
+.02381 .61803 L
+s
+0 0 m
+1 0 L
+1 .61803 L
+0 .61803 L
+closepath
+clip
+newpath
+.008 w
+.02572 .58028 Mdot
+.02763 .54511 Mdot
+.02954 .55591 Mdot
+.03144 .57432 Mdot
+.03335 .5624 Mdot
+.03526 .57357 Mdot
+.03717 .55513 Mdot
+.03908 .57061 Mdot
+.04099 .58119 Mdot
+.0429 .57962 Mdot
+.0448 .57808 Mdot
+.04671 .58075 Mdot
+.04862 .5707 Mdot
+.05053 .57539 Mdot
+.05244 .57173 Mdot
+.05435 .57527 Mdot
+.05626 .57942 Mdot
+.05816 .58348 Mdot
+.06007 .58575 Mdot
+.06198 .58303 Mdot
+.06389 .5844 Mdot
+.0658 .58928 Mdot
+.06771 .59093 Mdot
+.06962 .59248 Mdot
+.07152 .59029 Mdot
+.07343 .5935 Mdot
+.07534 .59178 Mdot
+.07725 .59325 Mdot
+.07916 .5959 Mdot
+.08107 .59667 Mdot
+.08298 .59307 Mdot
+.08488 .59011 Mdot
+.08679 .59045 Mdot
+.0887 .58828 Mdot
+.09061 .58791 Mdot
+.09252 .58973 Mdot
+.09443 .59273 Mdot
+.09634 .59381 Mdot
+.09824 .59158 Mdot
+.10015 .59335 Mdot
+.10206 .59152 Mdot
+.10397 .59111 Mdot
+.10588 .59521 Mdot
+.10779 .59566 Mdot
+.1097 .59392 Mdot
+.1116 .59416 Mdot
+.11351 .59385 Mdot
+.11542 .59506 Mdot
+.11733 .59509 Mdot
+.11924 .59832 Mdot
+.12115 .59938 Mdot
+.12306 .60042 Mdot
+.12496 .60013 Mdot
+.12687 .59944 Mdot
+.12878 .59929 Mdot
+.13069 .59959 Mdot
+.1326 .59924 Mdot
+.13451 .59798 Mdot
+.13642 .599 Mdot
+.13832 .59914 Mdot
+.14023 .60093 Mdot
+.14214 .60193 Mdot
+.14405 .59972 Mdot
+.14596 .60042 Mdot
+.14787 .6011 Mdot
+.14978 .60036 Mdot
+.15168 .60062 Mdot
+.15359 .59956 Mdot
+.1555 .5989 Mdot
+.15741 .60005 Mdot
+.15932 .60027 Mdot
+.16123 .60059 Mdot
+.16314 .60119 Mdot
+.16504 .60184 Mdot
+.16695 .601 Mdot
+.16886 .60123 Mdot
+.17077 .60007 Mdot
+.17268 .60019 Mdot
+.17459 .60102 Mdot
+.1765 .60081 Mdot
+.1784 .60053 Mdot
+.18031 .59984 Mdot
+.18222 .5991 Mdot
+.18413 .59921 Mdot
+.18604 .59867 Mdot
+.18795 .59896 Mdot
+.18986 .59897 Mdot
+.19176 .59726 Mdot
+.19367 .59771 Mdot
+.19558 .59757 Mdot
+.19749 .59608 Mdot
+.1994 .59605 Mdot
+.20131 .59538 Mdot
+.20322 .59423 Mdot
+.20512 .59343 Mdot
+.20703 .59371 Mdot
+.20894 .5944 Mdot
+.21085 .59373 Mdot
+.21276 .59469 Mdot
+.21467 .59472 Mdot
+.21658 .59452 Mdot
+.21848 .59286 Mdot
+.22039 .59302 Mdot
+.2223 .59246 Mdot
+.22421 .59225 Mdot
+.22612 .59333 Mdot
+.22803 .59342 Mdot
+.22994 .59342 Mdot
+.23184 .5939 Mdot
+.23375 .59339 Mdot
+.23566 .59392 Mdot
+.23757 .5938 Mdot
+.23948 .59393 Mdot
+.24139 .5939 Mdot
+.2433 .59535 Mdot
+.2452 .59519 Mdot
+.24711 .59543 Mdot
+.24902 .59555 Mdot
+.25093 .59641 Mdot
+.25284 .59649 Mdot
+.25475 .59698 Mdot
+.25666 .59654 Mdot
+.25856 .59716 Mdot
+.26047 .59673 Mdot
+.26238 .59665 Mdot
+.26429 .59676 Mdot
+.2662 .59693 Mdot
+.26811 .59684 Mdot
+.27002 .59692 Mdot
+.27192 .5976 Mdot
+.27383 .59861 Mdot
+.27574 .59799 Mdot
+.27765 .59826 Mdot
+.27956 .59852 Mdot
+.28147 .59846 Mdot
+.28338 .59807 Mdot
+.28528 .5985 Mdot
+.28719 .59892 Mdot
+.2891 .59876 Mdot
+.29101 .59885 Mdot
+.29292 .59884 Mdot
+.29483 .59915 Mdot
+.29674 .59895 Mdot
+.29864 .59835 Mdot
+.30055 .59845 Mdot
+.30246 .59878 Mdot
+.30437 .59838 Mdot
+.30628 .59816 Mdot
+.30819 .59845 Mdot
+.3101 .59826 Mdot
+.312 .59796 Mdot
+.31391 .59755 Mdot
+.31582 .59779 Mdot
+.31773 .59785 Mdot
+.31964 .59882 Mdot
+.32155 .59838 Mdot
+.32346 .59936 Mdot
+.32537 .59923 Mdot
+.32727 .59897 Mdot
+.32918 .59842 Mdot
+.33109 .59888 Mdot
+.333 .59895 Mdot
+.33491 .59957 Mdot
+.33682 .60012 Mdot
+.33873 .60021 Mdot
+.34063 .60026 Mdot
+.34254 .60037 Mdot
+.34445 .60063 Mdot
+.34636 .60072 Mdot
+.34827 .60067 Mdot
+.35018 .60134 Mdot
+.35209 .60138 Mdot
+.35399 .60135 Mdot
+.3559 .60106 Mdot
+.35781 .60189 Mdot
+.35972 .60216 Mdot
+.36163 .60218 Mdot
+.36354 .60226 Mdot
+.36545 .60209 Mdot
+.36735 .60194 Mdot
+.36926 .60188 Mdot
+.37117 .60208 Mdot
+.37308 .60146 Mdot
+.37499 .60126 Mdot
+.3769 .60182 Mdot
+.37881 .60169 Mdot
+.38071 .60178 Mdot
+.38262 .60249 Mdot
+.38453 .60237 Mdot
+.38644 .6029 Mdot
+.38835 .60251 Mdot
+.39026 .60268 Mdot
+.39217 .6019 Mdot
+.39407 .60151 Mdot
+.39598 .60122 Mdot
+.39789 .60126 Mdot
+.3998 .60118 Mdot
+.40171 .60162 Mdot
+.40362 .60213 Mdot
+.40553 .60185 Mdot
+.40743 .6018 Mdot
+.40934 .60233 Mdot
+.41125 .60224 Mdot
+.41316 .60264 Mdot
+.41507 .60269 Mdot
+.41698 .60311 Mdot
+.41889 .60332 Mdot
+.42079 .60302 Mdot
+.4227 .60258 Mdot
+.42461 .60278 Mdot
+.42652 .60259 Mdot
+.42843 .60263 Mdot
+.43034 .60259 Mdot
+.43225 .6028 Mdot
+.43415 .60268 Mdot
+.43606 .60298 Mdot
+.43797 .60278 Mdot
+.43988 .60281 Mdot
+.44179 .60317 Mdot
+.4437 .60294 Mdot
+.44561 .60267 Mdot
+.44751 .60264 Mdot
+.44942 .60257 Mdot
+.45133 .60241 Mdot
+.45324 .60198 Mdot
+.45515 .60229 Mdot
+.45706 .60205 Mdot
+.45897 .6018 Mdot
+.46087 .602 Mdot
+.46278 .60201 Mdot
+.46469 .60232 Mdot
+.4666 .60259 Mdot
+.46851 .60249 Mdot
+.47042 .60218 Mdot
+.47233 .60221 Mdot
+.47423 .60201 Mdot
+.47614 .60191 Mdot
+.47805 .60223 Mdot
+.47996 .60199 Mdot
+.48187 .60224 Mdot
+.48378 .60179 Mdot
+.48569 .60227 Mdot
+.48759 .60204 Mdot
+.4895 .60208 Mdot
+.49141 .60226 Mdot
+.49332 .60238 Mdot
+.49523 .60236 Mdot
+.49714 .60233 Mdot
+.49905 .60215 Mdot
+.50095 .60238 Mdot
+.50286 .60261 Mdot
+.50477 .60219 Mdot
+.50668 .60197 Mdot
+.50859 .60207 Mdot
+.5105 .60195 Mdot
+.51241 .60189 Mdot
+.51431 .60178 Mdot
+.51622 .60189 Mdot
+.51813 .60184 Mdot
+.52004 .60148 Mdot
+.52195 .60149 Mdot
+.52386 .60175 Mdot
+.52577 .60162 Mdot
+.52767 .60114 Mdot
+.52958 .601 Mdot
+.53149 .60125 Mdot
+.5334 .60121 Mdot
+.53531 .60129 Mdot
+.53722 .6013 Mdot
+.53913 .60138 Mdot
+.54103 .60133 Mdot
+.54294 .60155 Mdot
+.54485 .60171 Mdot
+.54676 .6015 Mdot
+.54867 .60123 Mdot
+.55058 .60129 Mdot
+.55249 .60131 Mdot
+.55439 .60166 Mdot
+.5563 .60186 Mdot
+.55821 .6015 Mdot
+.56012 .60113 Mdot
+.56203 .60144 Mdot
+.56394 .60184 Mdot
+.56585 .60186 Mdot
+.56775 .60176 Mdot
+.56966 .60188 Mdot
+.57157 .60191 Mdot
+.57348 .6018 Mdot
+.57539 .6019 Mdot
+.5773 .60221 Mdot
+.57921 .60216 Mdot
+.58111 .60238 Mdot
+.58302 .60205 Mdot
+.58493 .60209 Mdot
+.58684 .60242 Mdot
+.58875 .60217 Mdot
+.59066 .60173 Mdot
+.59257 .60177 Mdot
+.59447 .60146 Mdot
+.59638 .60138 Mdot
+.59829 .60145 Mdot
+.6002 .60147 Mdot
+.60211 .60138 Mdot
+.60402 .60125 Mdot
+.60593 .60121 Mdot
+.60783 .60129 Mdot
+.60974 .60132 Mdot
+.61165 .60138 Mdot
+.61356 .60135 Mdot
+.61547 .60152 Mdot
+.61738 .60145 Mdot
+.61929 .60164 Mdot
+.62119 .60155 Mdot
+.6231 .60159 Mdot
+.62501 .60179 Mdot
+.62692 .60189 Mdot
+.62883 .60183 Mdot
+.63074 .60169 Mdot
+.63265 .60152 Mdot
+.63455 .6016 Mdot
+.63646 .60172 Mdot
+.63837 .60176 Mdot
+.64028 .60156 Mdot
+.64219 .60171 Mdot
+.6441 .60126 Mdot
+.64601 .60141 Mdot
+.64791 .60136 Mdot
+.64982 .60133 Mdot
+.65173 .60129 Mdot
+.65364 .60158 Mdot
+.65555 .60158 Mdot
+.65746 .60172 Mdot
+.65937 .60204 Mdot
+.66127 .6025 Mdot
+.66318 .60219 Mdot
+.66509 .60243 Mdot
+.667 .60262 Mdot
+.66891 .60231 Mdot
+.67082 .602 Mdot
+.67273 .60199 Mdot
+.67463 .60201 Mdot
+.67654 .60177 Mdot
+.67845 .60167 Mdot
+.68036 .60181 Mdot
+.68227 .60182 Mdot
+.68418 .60151 Mdot
+.68609 .60144 Mdot
+.688 .60146 Mdot
+.6899 .60138 Mdot
+.69181 .60123 Mdot
+.69372 .60104 Mdot
+.69563 .60081 Mdot
+.69754 .60043 Mdot
+.69945 .60046 Mdot
+.70136 .60061 Mdot
+.70326 .60057 Mdot
+.70517 .60018 Mdot
+.70708 .60014 Mdot
+.70899 .60001 Mdot
+.7109 .60013 Mdot
+.71281 .59997 Mdot
+.71472 .59993 Mdot
+.71662 .59984 Mdot
+.71853 .59963 Mdot
+.72044 .59959 Mdot
+.72235 .5996 Mdot
+.72426 .59946 Mdot
+.72617 .59954 Mdot
+.72808 .59933 Mdot
+.72998 .5991 Mdot
+.73189 .59942 Mdot
+.7338 .59954 Mdot
+.73571 .59947 Mdot
+.73762 .59935 Mdot
+.73953 .5993 Mdot
+.74144 .5993 Mdot
+.74334 .59913 Mdot
+.74525 .59886 Mdot
+.74716 .59878 Mdot
+.74907 .59875 Mdot
+.75098 .59857 Mdot
+.75289 .59847 Mdot
+.7548 .59842 Mdot
+.7567 .59863 Mdot
+.75861 .59876 Mdot
+.76052 .59833 Mdot
+.76243 .59856 Mdot
+.76434 .59792 Mdot
+.76625 .598 Mdot
+.76816 .59778 Mdot
+.77006 .59755 Mdot
+.77197 .59765 Mdot
+.77388 .59759 Mdot
+.77579 .59763 Mdot
+.7777 .59757 Mdot
+.77961 .5976 Mdot
+.78152 .59776 Mdot
+.78342 .59752 Mdot
+.78533 .59731 Mdot
+.78724 .59703 Mdot
+.78915 .59713 Mdot
+.79106 .59719 Mdot
+.79297 .59745 Mdot
+.79488 .59756 Mdot
+.79678 .59752 Mdot
+.79869 .59755 Mdot
+.8006 .59762 Mdot
+.80251 .59772 Mdot
+.80442 .59767 Mdot
+.80633 .59749 Mdot
+.80824 .59761 Mdot
+.81014 .59787 Mdot
+.81205 .59787 Mdot
+.81396 .59809 Mdot
+.81587 .59849 Mdot
+.81778 .59848 Mdot
+.81969 .5984 Mdot
+.8216 .59833 Mdot
+.8235 .59816 Mdot
+.82541 .59827 Mdot
+.82732 .59799 Mdot
+.82923 .59805 Mdot
+.83114 .59781 Mdot
+.83305 .59789 Mdot
+.83496 .59795 Mdot
+.83686 .59784 Mdot
+.83877 .59772 Mdot
+.84068 .59764 Mdot
+.84259 .59757 Mdot
+.8445 .59765 Mdot
+.84641 .59765 Mdot
+.84832 .59763 Mdot
+.85022 .5974 Mdot
+.85213 .59745 Mdot
+.85404 .59745 Mdot
+.85595 .59752 Mdot
+.85786 .5975 Mdot
+.85977 .5974 Mdot
+.86168 .59739 Mdot
+.86358 .59743 Mdot
+.86549 .59724 Mdot
+.8674 .59704 Mdot
+.86931 .59702 Mdot
+.87122 .59696 Mdot
+.87313 .59677 Mdot
+.87504 .59681 Mdot
+.87694 .59694 Mdot
+.87885 .59694 Mdot
+.88076 .59697 Mdot
+.88267 .59678 Mdot
+.88458 .59673 Mdot
+.88649 .59655 Mdot
+.8884 .59664 Mdot
+.8903 .5967 Mdot
+.89221 .59694 Mdot
+.89412 .59693 Mdot
+.89603 .59703 Mdot
+.89794 .5972 Mdot
+.89985 .59724 Mdot
+.90176 .59724 Mdot
+.90366 .5973 Mdot
+.90557 .59721 Mdot
+.90748 .59707 Mdot
+.90939 .59717 Mdot
+.9113 .59719 Mdot
+.91321 .5972 Mdot
+.91512 .59729 Mdot
+.91702 .59709 Mdot
+.91893 .59698 Mdot
+.92084 .59694 Mdot
+.92275 .597 Mdot
+.92466 .59684 Mdot
+.92657 .59675 Mdot
+.92848 .59682 Mdot
+.93038 .59666 Mdot
+.93229 .59666 Mdot
+.9342 .59659 Mdot
+.93611 .59649 Mdot
+.93802 .59655 Mdot
+.93993 .59638 Mdot
+.94184 .59621 Mdot
+.94374 .5961 Mdot
+.94565 .59605 Mdot
+.94756 .59615 Mdot
+.94947 .59623 Mdot
+.95138 .5964 Mdot
+.95329 .59642 Mdot
+.9552 .59637 Mdot
+.9571 .59656 Mdot
+.95901 .59662 Mdot
+.96092 .59659 Mdot
+.96283 .59648 Mdot
+.96474 .59664 Mdot
+.96665 .59649 Mdot
+.96856 .59651 Mdot
+.97046 .59646 Mdot
+.97237 .59633 Mdot
+.97428 .59644 Mdot
+.97619 .5965 Mdot
+1 0 0 r
+.02572 .01472 Mdot
+.02763 .04989 Mdot
+.02954 .04725 Mdot
+.03144 .05726 Mdot
+.03335 .05961 Mdot
+.03526 .06271 Mdot
+.03717 .07808 Mdot
+.03908 .08675 Mdot
+.04099 .08893 Mdot
+.0429 .08528 Mdot
+.0448 .08217 Mdot
+.04671 .0799 Mdot
+.04862 .08638 Mdot
+.05053 .08581 Mdot
+.05244 .08474 Mdot
+.05435 .08389 Mdot
+.05626 .08385 Mdot
+.05816 .08396 Mdot
+.06007 .08279 Mdot
+.06198 .08211 Mdot
+.06389 .08077 Mdot
+.0658 .08302 Mdot
+.06771 .08197 Mdot
+.06962 .08097 Mdot
+.07152 .08052 Mdot
+.07343 .08121 Mdot
+.07534 .08056 Mdot
+.07725 .07982 Mdot
+.07916 .0802 Mdot
+.08107 .07924 Mdot
+.08298 .08118 Mdot
+.08488 .08217 Mdot
+.08679 .08117 Mdot
+.0887 .08136 Mdot
+.09061 .08044 Mdot
+.09252 .0804 Mdot
+.09443 .08196 Mdot
+.09634 .0814 Mdot
+.09824 .08195 Mdot
+.10015 .08202 Mdot
+.10206 .0822 Mdot
+.10397 .08144 Mdot
+.10588 .0858 Mdot
+.10779 .08505 Mdot
+.1097 .08522 Mdot
+.1116 .08446 Mdot
+.11351 .08375 Mdot
+.11542 .08353 Mdot
+.11733 .08282 Mdot
+.11924 .08582 Mdot
+.12115 .08552 Mdot
+.12306 .08522 Mdot
+.12496 .08459 Mdot
+.12687 .08412 Mdot
+.12878 .08349 Mdot
+.13069 .08291 Mdot
+.1326 .08236 Mdot
+.13451 .08244 Mdot
+.13642 .08231 Mdot
+.13832 .08176 Mdot
+.14023 .08263 Mdot
+.14214 .08253 Mdot
+.14405 .0842 Mdot
+.14596 .08389 Mdot
+.14787 .08357 Mdot
+.14978 .0833 Mdot
+.15168 .08282 Mdot
+.15359 .08288 Mdot
+.1555 .0826 Mdot
+.15741 .08279 Mdot
+.15932 .08233 Mdot
+.16123 .08191 Mdot
+.16314 .08165 Mdot
+.16504 .08142 Mdot
+.16695 .08138 Mdot
+.16886 .08097 Mdot
+.17077 .0813 Mdot
+.17268 .08088 Mdot
+.17459 .08087 Mdot
+.1765 .08048 Mdot
+.1784 .08012 Mdot
+.18031 .08001 Mdot
+.18222 .07997 Mdot
+.18413 .07958 Mdot
+.18604 .07938 Mdot
+.18795 .07906 Mdot
+.18986 .07869 Mdot
+.19176 .08029 Mdot
+.19367 .08005 Mdot
+.19558 .0797 Mdot
+.19749 .08087 Mdot
+.1994 .08051 Mdot
+.20131 .08047 Mdot
+.20322 .08106 Mdot
+.20512 .08116 Mdot
+.20703 .08086 Mdot
+.20894 .08087 Mdot
+.21085 .08086 Mdot
+.21276 .0812 Mdot
+.21467 .08087 Mdot
+.21658 .08057 Mdot
+.21848 .08233 Mdot
+.22039 .08203 Mdot
+.2223 .08195 Mdot
+.22421 .08166 Mdot
+.22612 .08227 Mdot
+.22803 .08196 Mdot
+.22994 .08165 Mdot
+.23184 .08152 Mdot
+.23375 .08143 Mdot
+.23566 .08136 Mdot
+.23757 .08108 Mdot
+.23948 .0808 Mdot
+.24139 .08051 Mdot
+.2433 .08202 Mdot
+.2452 .08175 Mdot
+.24711 .08151 Mdot
+.24902 .08124 Mdot
+.25093 .0816 Mdot
+.25284 .08133 Mdot
+.25475 .08127 Mdot
+.25666 .08116 Mdot
+.25856 .08124 Mdot
+.26047 .08114 Mdot
+.26238 .08088 Mdot
+.26429 .08063 Mdot
+.2662 .0804 Mdot
+.26811 .08015 Mdot
+.27002 .0799 Mdot
+.27192 .0801 Mdot
+.27383 .08086 Mdot
+.27574 .08098 Mdot
+.27765 .0808 Mdot
+.27956 .08062 Mdot
+.28147 .08038 Mdot
+.28338 .08029 Mdot
+.28528 .08024 Mdot
+.28719 .08019 Mdot
+.2891 .07998 Mdot
+.29101 .07975 Mdot
+.29292 .07952 Mdot
+.29483 .0794 Mdot
+.29674 .07922 Mdot
+.29864 .07939 Mdot
+.30055 .07918 Mdot
+.30246 .07907 Mdot
+.30437 .07903 Mdot
+.30628 .07887 Mdot
+.30819 .07875 Mdot
+.3101 .07857 Mdot
+.312 .07846 Mdot
+.31391 .07846 Mdot
+.31582 .07832 Mdot
+.31773 .07812 Mdot
+.31964 .07906 Mdot
+.32155 .07909 Mdot
+.32346 .08005 Mdot
+.32537 .07986 Mdot
+.32727 .07974 Mdot
+.32918 .0799 Mdot
+.33109 .07995 Mdot
+.333 .07975 Mdot
+.33491 .08003 Mdot
+.33682 .08021 Mdot
+.33873 .08002 Mdot
+.34063 .07983 Mdot
+.34254 .07965 Mdot
+.34445 .07954 Mdot
+.34636 .07936 Mdot
+.34827 .07917 Mdot
+.35018 .07956 Mdot
+.35209 .07938 Mdot
+.35399 .07919 Mdot
+.3559 .07912 Mdot
+.35781 .07986 Mdot
+.35972 .07978 Mdot
+.36163 .07959 Mdot
+.36354 .07942 Mdot
+.36545 .07928 Mdot
+.36735 .07913 Mdot
+.36926 .07896 Mdot
+.37117 .07884 Mdot
+.37308 .07921 Mdot
+.37499 .07909 Mdot
+.3769 .07936 Mdot
+.37881 .07921 Mdot
+.38071 .07905 Mdot
+.38262 .07961 Mdot
+.38453 .07946 Mdot
+.38644 .0797 Mdot
+.38835 .07975 Mdot
+.39026 .07963 Mdot
+.39217 .08037 Mdot
+.39407 .08042 Mdot
+.39598 .08037 Mdot
+.39789 .08021 Mdot
+.3998 .08005 Mdot
+.40171 .08018 Mdot
+.40362 .08041 Mdot
+.40553 .08036 Mdot
+.40743 .0802 Mdot
+.40934 .08048 Mdot
+.41125 .08034 Mdot
+.41316 .08042 Mdot
+.41507 .08027 Mdot
+.41698 .08039 Mdot
+.41889 .0803 Mdot
+.42079 .08028 Mdot
+.4227 .08043 Mdot
+.42461 .08033 Mdot
+.42652 .08024 Mdot
+.42843 .08008 Mdot
+.43034 .07993 Mdot
+.43225 .07986 Mdot
+.43415 .07973 Mdot
+.43606 .07973 Mdot
+.43797 .07965 Mdot
+.43988 .07951 Mdot
+.44179 .07958 Mdot
+.4437 .07953 Mdot
+.44561 .0795 Mdot
+.44751 .07936 Mdot
+.44942 .07922 Mdot
+.45133 .07912 Mdot
+.45324 .0793 Mdot
+.45515 .07933 Mdot
+.45706 .07929 Mdot
+.45897 .07927 Mdot
+.46087 .0792 Mdot
+.46278 .07906 Mdot
+.46469 .07909 Mdot
+.4666 .07908 Mdot
+.46851 .07896 Mdot
+.47042 .079 Mdot
+.47233 .07886 Mdot
+.47423 .07881 Mdot
+.47614 .07869 Mdot
+.47805 .07875 Mdot
+.47996 .07872 Mdot
+.48187 .07871 Mdot
+.48378 .07895 Mdot
+.48569 .07926 Mdot
+.48759 .07922 Mdot
+.4895 .07909 Mdot
+.49141 .07902 Mdot
+.49332 .07892 Mdot
+.49523 .07879 Mdot
+.49714 .07866 Mdot
+.49905 .07859 Mdot
+.50095 .07856 Mdot
+.50286 .07854 Mdot
+.50477 .07876 Mdot
+.50668 .07874 Mdot
+.50859 .07863 Mdot
+.5105 .07853 Mdot
+.51241 .07842 Mdot
+.51431 .07832 Mdot
+.51622 .07822 Mdot
+.51813 .0781 Mdot
+.52004 .07824 Mdot
+.52195 .07812 Mdot
+.52386 .07813 Mdot
+.52577 .07805 Mdot
+.52767 .0784 Mdot
+.52958 .07832 Mdot
+.53149 .07833 Mdot
+.5334 .07822 Mdot
+.53531 .07811 Mdot
+.53722 .07799 Mdot
+.53913 .07789 Mdot
+.54103 .07778 Mdot
+.54294 .07777 Mdot
+.54485 .07771 Mdot
+.54676 .0777 Mdot
+.54867 .07774 Mdot
+.55058 .07763 Mdot
+.55249 .07752 Mdot
+.55439 .07767 Mdot
+.5563 .07765 Mdot
+.55821 .07783 Mdot
+.56012 .07803 Mdot
+.56203 .07813 Mdot
+.56394 .07838 Mdot
+.56585 .07827 Mdot
+.56775 .07818 Mdot
+.56966 .0781 Mdot
+.57157 .07799 Mdot
+.57348 .07791 Mdot
+.57539 .07782 Mdot
+.5773 .07792 Mdot
+.57921 .07782 Mdot
+.58111 .07782 Mdot
+.58302 .07796 Mdot
+.58493 .07786 Mdot
+.58684 .07801 Mdot
+.58875 .07804 Mdot
+.59066 .0784 Mdot
+.59257 .0783 Mdot
+.59447 .07841 Mdot
+.59638 .07832 Mdot
+.59829 .07822 Mdot
+.6002 .07812 Mdot
+.60211 .07803 Mdot
+.60402 .07797 Mdot
+.60593 .07787 Mdot
+.60783 .07778 Mdot
+.60974 .07768 Mdot
+.61165 .07759 Mdot
+.61356 .07749 Mdot
+.61547 .07746 Mdot
+.61738 .07738 Mdot
+.61929 .07736 Mdot
+.62119 .07729 Mdot
+.6231 .07719 Mdot
+.62501 .07719 Mdot
+.62692 .07712 Mdot
+.62883 .07703 Mdot
+.63074 .07699 Mdot
+.63265 .07696 Mdot
+.63455 .07688 Mdot
+.63646 .07682 Mdot
+.63837 .07673 Mdot
+.64028 .07673 Mdot
+.64219 .07669 Mdot
+.6441 .07711 Mdot
+.64601 .07707 Mdot
+.64791 .07698 Mdot
+.64982 .07689 Mdot
+.65173 .0768 Mdot
+.65364 .07694 Mdot
+.65555 .07684 Mdot
+.65746 .0768 Mdot
+.65937 .07699 Mdot
+.66127 .07746 Mdot
+.66318 .07764 Mdot
+.66509 .07769 Mdot
+.667 .0777 Mdot
+.66891 .07785 Mdot
+.67082 .07801 Mdot
+.67273 .07792 Mdot
+.67463 .07783 Mdot
+.67654 .07789 Mdot
+.67845 .07783 Mdot
+.68036 .07779 Mdot
+.68227 .0777 Mdot
+.68418 .07787 Mdot
+.68609 .07779 Mdot
+.688 .0777 Mdot
+.6899 .07763 Mdot
+.69181 .0776 Mdot
+.69372 .07761 Mdot
+.69563 .07767 Mdot
+.69754 .07798 Mdot
+.69945 .07789 Mdot
+.70136 .07787 Mdot
+.70326 .07778 Mdot
+.70517 .07813 Mdot
+.70708 .07804 Mdot
+.70899 .078 Mdot
+.7109 .07795 Mdot
+.71281 .07794 Mdot
+.71472 .07785 Mdot
+.71662 .07779 Mdot
+.71853 .07783 Mdot
+.72044 .07775 Mdot
+.72235 .07766 Mdot
+.72426 .07763 Mdot
+.72617 .07756 Mdot
+.72808 .0776 Mdot
+.72998 .07767 Mdot
+.73189 .07788 Mdot
+.7338 .07783 Mdot
+.73571 .07776 Mdot
+.73762 .07772 Mdot
+.73953 .07764 Mdot
+.74144 .07756 Mdot
+.74334 .07757 Mdot
+.74525 .07769 Mdot
+.74716 .07763 Mdot
+.74907 .07755 Mdot
+.75098 .07756 Mdot
+.75289 .07751 Mdot
+.7548 .07743 Mdot
+.7567 .07749 Mdot
+.75861 .07745 Mdot
+.76052 .07793 Mdot
+.76243 .07801 Mdot
+.76434 .07919 Mdot
+.76625 .07913 Mdot
+.76816 .0792 Mdot
+.77006 .07928 Mdot
+.77197 .07923 Mdot
+.77388 .07916 Mdot
+.77579 .07908 Mdot
+.7777 .07901 Mdot
+.77961 .07894 Mdot
+.78152 .07893 Mdot
+.78342 .07903 Mdot
+.78533 .07909 Mdot
+.78724 .07926 Mdot
+.78915 .07922 Mdot
+.79106 .07915 Mdot
+.79297 .07927 Mdot
+.79488 .07923 Mdot
+.79678 .07915 Mdot
+.79869 .07908 Mdot
+.8006 .07902 Mdot
+.80251 .07896 Mdot
+.80442 .07889 Mdot
+.80633 .07892 Mdot
+.80824 .07889 Mdot
+.81014 .07903 Mdot
+.81205 .07895 Mdot
+.81396 .07902 Mdot
+.81587 .07946 Mdot
+.81778 .07938 Mdot
+.81969 .07933 Mdot
+.8216 .07926 Mdot
+.8235 .07928 Mdot
+.82541 .07924 Mdot
+.82732 .07941 Mdot
+.82923 .07935 Mdot
+.83114 .07946 Mdot
+.83305 .0794 Mdot
+.83496 .07934 Mdot
+.83686 .0793 Mdot
+.83877 .07928 Mdot
+.84068 .07922 Mdot
+.84259 .07917 Mdot
+.8445 .07911 Mdot
+.84641 .07904 Mdot
+.84832 .07897 Mdot
+.85022 .07908 Mdot
+.85213 .07901 Mdot
+.85404 .07894 Mdot
+.85595 .07888 Mdot
+.85786 .07881 Mdot
+.85977 .07877 Mdot
+.86168 .0787 Mdot
+.86358 .07863 Mdot
+.86549 .07868 Mdot
+.8674 .07874 Mdot
+.86931 .07867 Mdot
+.87122 .07861 Mdot
+.87313 .07866 Mdot
+.87504 .0786 Mdot
+.87694 .07859 Mdot
+.87885 .07852 Mdot
+.88076 .07845 Mdot
+.88267 .07851 Mdot
+.88458 .07845 Mdot
+.88649 .0785 Mdot
+.8884 .07846 Mdot
+.8903 .0784 Mdot
+.89221 .07854 Mdot
+.89412 .07847 Mdot
+.89603 .07843 Mdot
+.89794 .07847 Mdot
+.89985 .0784 Mdot
+.90176 .07834 Mdot
+.90366 .07828 Mdot
+.90557 .07824 Mdot
+.90748 .07825 Mdot
+.90939 .07822 Mdot
+.9113 .07815 Mdot
+.91321 .07809 Mdot
+.91512 .07804 Mdot
+.91702 .07813 Mdot
+.91893 .0781 Mdot
+.92084 .07804 Mdot
+.92275 .07798 Mdot
+.92466 .078 Mdot
+.92657 .07796 Mdot
+.92848 .07791 Mdot
+.93038 .07793 Mdot
+.93229 .07787 Mdot
+.9342 .07782 Mdot
+.93611 .07779 Mdot
+.93802 .07773 Mdot
+.93993 .07778 Mdot
+.94184 .07782 Mdot
+.94374 .0778 Mdot
+.94565 .07774 Mdot
+.94756 .07772 Mdot
+.94947 .07768 Mdot
+.95138 .07772 Mdot
+.95329 .07766 Mdot
+.9552 .0776 Mdot
+.9571 .07769 Mdot
+.95901 .07764 Mdot
+.96092 .07758 Mdot
+.96283 .07756 Mdot
+.96474 .07759 Mdot
+.96665 .07761 Mdot
+.96856 .07755 Mdot
+.97046 .07749 Mdot
+.97237 .07749 Mdot
+.97428 .07748 Mdot
+.97619 .07743 Mdot
+% End of Graphics
+MathPictureEnd
+\
+\>"], "Graphics",
+  ImageSize->{288, 177.938},
+  ImageMargins->{{0, 0}, {0, 0}},
+  ImageRegion->{{0, 1}, {0, 1}},
+  ImageCacheValid->False],
+
+Cell[BoxData[
+    \("DUODECAPOLO:"\)], "Print"],
+
+Cell[GraphicsData["PostScript", "\<\
+%!
+%%Creator: Mathematica
+%%AspectRatio: .61803 
+MathPictureStart
+/Mabs {
+Mgmatrix idtransform
+Mtmatrix dtransform
+} bind def
+/Mabsadd { Mabs
+3 -1 roll add
+3 1 roll add
+exch } bind def
+%% Graphics
+%%IncludeResource: font Courier
+%%IncludeFont: Courier
+/Courier findfont 10  scalefont  setfont
+% Scaling calculations
+0.0238095 0.00190858 -1.146 1.05167 [
+[.21467 -0.00167 -9 -9 ]
+[.21467 -0.00167 9 0 ]
+[.40553 -0.00167 -9 -9 ]
+[.40553 -0.00167 9 0 ]
+[.59638 -0.00167 -9 -9 ]
+[.59638 -0.00167 9 0 ]
+[.78724 -0.00167 -9 -9 ]
+[.78724 -0.00167 9 0 ]
+[.9781 -0.00167 -9 -9 ]
+[.9781 -0.00167 9 0 ]
+[.01131 .116 -18 -4.5 ]
+[.01131 .116 0 4.5 ]
+[.01131 .22117 -18 -4.5 ]
+[.01131 .22117 0 4.5 ]
+[.01131 .32633 -18 -4.5 ]
+[.01131 .32633 0 4.5 ]
+[.01131 .4315 -18 -4.5 ]
+[.01131 .4315 0 4.5 ]
+[.01131 .53667 -18 -4.5 ]
+[.01131 .53667 0 4.5 ]
+[ 0 0 0 0 ]
+[ 1 .61803 0 0 ]
+] MathScale
+% Start of Graphics
+1 setlinecap
+1 setlinejoin
+newpath
+0 g
+.25 Mabswid
+[ ] 0 setdash
+.21467 .01083 m
+.21467 .01708 L
+s
+[(100)] .21467 -0.00167 0 1 Mshowa
+.40553 .01083 m
+.40553 .01708 L
+s
+[(200)] .40553 -0.00167 0 1 Mshowa
+.59638 .01083 m
+.59638 .01708 L
+s
+[(300)] .59638 -0.00167 0 1 Mshowa
+.78724 .01083 m
+.78724 .01708 L
+s
+[(400)] .78724 -0.00167 0 1 Mshowa
+.9781 .01083 m
+.9781 .01708 L
+s
+[(500)] .9781 -0.00167 0 1 Mshowa
+.125 Mabswid
+.06198 .01083 m
+.06198 .01458 L
+s
+.10015 .01083 m
+.10015 .01458 L
+s
+.13832 .01083 m
+.13832 .01458 L
+s
+.1765 .01083 m
+.1765 .01458 L
+s
+.25284 .01083 m
+.25284 .01458 L
+s
+.29101 .01083 m
+.29101 .01458 L
+s
+.32918 .01083 m
+.32918 .01458 L
+s
+.36735 .01083 m
+.36735 .01458 L
+s
+.4437 .01083 m
+.4437 .01458 L
+s
+.48187 .01083 m
+.48187 .01458 L
+s
+.52004 .01083 m
+.52004 .01458 L
+s
+.55821 .01083 m
+.55821 .01458 L
+s
+.63455 .01083 m
+.63455 .01458 L
+s
+.67273 .01083 m
+.67273 .01458 L
+s
+.7109 .01083 m
+.7109 .01458 L
+s
+.74907 .01083 m
+.74907 .01458 L
+s
+.82541 .01083 m
+.82541 .01458 L
+s
+.86358 .01083 m
+.86358 .01458 L
+s
+.90176 .01083 m
+.90176 .01458 L
+s
+.93993 .01083 m
+.93993 .01458 L
+s
+.25 Mabswid
+0 .01083 m
+1 .01083 L
+s
+.02381 .116 m
+.03006 .116 L
+s
+[(1.2)] .01131 .116 1 0 Mshowa
+.02381 .22117 m
+.03006 .22117 L
+s
+[(1.3)] .01131 .22117 1 0 Mshowa
+.02381 .32633 m
+.03006 .32633 L
+s
+[(1.4)] .01131 .32633 1 0 Mshowa
+.02381 .4315 m
+.03006 .4315 L
+s
+[(1.5)] .01131 .4315 1 0 Mshowa
+.02381 .53667 m
+.03006 .53667 L
+s
+[(1.6)] .01131 .53667 1 0 Mshowa
+.125 Mabswid
+.02381 .03187 m
+.02756 .03187 L
+s
+.02381 .0529 m
+.02756 .0529 L
+s
+.02381 .07393 m
+.02756 .07393 L
+s
+.02381 .09497 m
+.02756 .09497 L
+s
+.02381 .13703 m
+.02756 .13703 L
+s
+.02381 .15807 m
+.02756 .15807 L
+s
+.02381 .1791 m
+.02756 .1791 L
+s
+.02381 .20013 m
+.02756 .20013 L
+s
+.02381 .2422 m
+.02756 .2422 L
+s
+.02381 .26323 m
+.02756 .26323 L
+s
+.02381 .28427 m
+.02756 .28427 L
+s
+.02381 .3053 m
+.02756 .3053 L
+s
+.02381 .34737 m
+.02756 .34737 L
+s
+.02381 .3684 m
+.02756 .3684 L
+s
+.02381 .38943 m
+.02756 .38943 L
+s
+.02381 .41047 m
+.02756 .41047 L
+s
+.02381 .45253 m
+.02756 .45253 L
+s
+.02381 .47357 m
+.02756 .47357 L
+s
+.02381 .4946 m
+.02756 .4946 L
+s
+.02381 .51563 m
+.02756 .51563 L
+s
+.02381 .5577 m
+.02756 .5577 L
+s
+.02381 .57873 m
+.02756 .57873 L
+s
+.02381 .59977 m
+.02756 .59977 L
+s
+.25 Mabswid
+.02381 0 m
+.02381 .61803 L
+s
+0 0 m
+1 0 L
+1 .61803 L
+0 .61803 L
+closepath
+clip
+newpath
+.008 w
+.0448 .0014 Mdot
+.04671 .00958 Mdot
+.04862 .0255 Mdot
+.05053 .06235 Mdot
+.05244 .1351 Mdot
+.05435 .24801 Mdot
+.05626 .38502 Mdot
+.05816 .43153 Mdot
+.06007 .54445 Mdot
+.06198 .43694 Mdot
+.06389 .50606 Mdot
+.0658 .57939 Mdot
+.06771 .52653 Mdot
+.06962 .47015 Mdot
+.07152 .51446 Mdot
+.07343 .4234 Mdot
+.07534 .37151 Mdot
+.07725 .31862 Mdot
+.07916 .30027 Mdot
+.08107 .31562 Mdot
+.08298 .2738 Mdot
+.08488 .30012 Mdot
+.08679 .31532 Mdot
+.0887 .25409 Mdot
+.09061 .23142 Mdot
+.09252 .22686 Mdot
+.09443 .26731 Mdot
+.09634 .31366 Mdot
+.09824 .32702 Mdot
+.10015 .28604 Mdot
+.10206 .26157 Mdot
+.10397 .22434 Mdot
+.10588 .26734 Mdot
+.10779 .2498 Mdot
+.1097 .19698 Mdot
+.1116 .13711 Mdot
+.11351 .12673 Mdot
+.11542 .0991 Mdot
+.11733 .14028 Mdot
+.11924 .14044 Mdot
+.12115 .1364 Mdot
+.12306 .17177 Mdot
+.12496 .21551 Mdot
+.12687 .23076 Mdot
+.12878 .21877 Mdot
+.13069 .1767 Mdot
+.1326 .17901 Mdot
+.13451 .166 Mdot
+.13642 .19312 Mdot
+.13832 .21067 Mdot
+.14023 .25862 Mdot
+.14214 .23605 Mdot
+.14405 .22961 Mdot
+.14596 .24307 Mdot
+.14787 .25488 Mdot
+.14978 .2511 Mdot
+.15168 .25335 Mdot
+.15359 .25246 Mdot
+.1555 .26942 Mdot
+.15741 .28539 Mdot
+.15932 .30325 Mdot
+.16123 .30845 Mdot
+.16314 .32791 Mdot
+.16504 .33726 Mdot
+.16695 .31273 Mdot
+.16886 .33371 Mdot
+.17077 .2928 Mdot
+.17268 .29484 Mdot
+.17459 .30055 Mdot
+.1765 .29723 Mdot
+.1784 .33809 Mdot
+.18031 .33164 Mdot
+.18222 .29313 Mdot
+.18413 .29243 Mdot
+.18604 .30823 Mdot
+.18795 .28293 Mdot
+.18986 .28968 Mdot
+.19176 .28676 Mdot
+.19367 .27128 Mdot
+.19558 .25012 Mdot
+.19749 .2493 Mdot
+.1994 .23099 Mdot
+.20131 .1989 Mdot
+.20322 .22626 Mdot
+.20512 .22302 Mdot
+.20703 .2233 Mdot
+.20894 .22314 Mdot
+.21085 .21924 Mdot
+.21276 .21204 Mdot
+.21467 .20529 Mdot
+.21658 .23305 Mdot
+.21848 .21422 Mdot
+.22039 .19899 Mdot
+.2223 .17996 Mdot
+.22421 .17181 Mdot
+.22612 .19522 Mdot
+.22803 .19539 Mdot
+.22994 .21052 Mdot
+.23184 .18835 Mdot
+.23375 .18973 Mdot
+.23566 .20509 Mdot
+.23757 .19002 Mdot
+.23948 .20226 Mdot
+.24139 .20763 Mdot
+.2433 .22777 Mdot
+.2452 .22576 Mdot
+.24711 .19437 Mdot
+.24902 .17839 Mdot
+.25093 .16621 Mdot
+.25284 .15896 Mdot
+.25475 .1604 Mdot
+.25666 .15047 Mdot
+.25856 .13286 Mdot
+.26047 .13352 Mdot
+.26238 .13969 Mdot
+.26429 .13859 Mdot
+.2662 .14262 Mdot
+.26811 .1599 Mdot
+.27002 .16074 Mdot
+.27192 .16191 Mdot
+.27383 .17333 Mdot
+.27574 .17276 Mdot
+.27765 .19054 Mdot
+.27956 .20968 Mdot
+.28147 .21059 Mdot
+.28338 .19365 Mdot
+.28528 .19745 Mdot
+.28719 .21471 Mdot
+.2891 .22167 Mdot
+.29101 .22886 Mdot
+.29292 .22407 Mdot
+.29483 .22661 Mdot
+.29674 .21861 Mdot
+.29864 .22477 Mdot
+.30055 .22852 Mdot
+.30246 .24078 Mdot
+.30437 .24261 Mdot
+.30628 .23115 Mdot
+.30819 .2354 Mdot
+.3101 .23055 Mdot
+.312 .22089 Mdot
+.31391 .20258 Mdot
+.31582 .19387 Mdot
+.31773 .20254 Mdot
+.31964 .21426 Mdot
+.32155 .2163 Mdot
+.32346 .22779 Mdot
+.32537 .22663 Mdot
+.32727 .21594 Mdot
+.32918 .21683 Mdot
+.33109 .21968 Mdot
+.333 .22845 Mdot
+.33491 .23409 Mdot
+.33682 .22831 Mdot
+.33873 .23511 Mdot
+.34063 .24229 Mdot
+.34254 .24105 Mdot
+.34445 .23989 Mdot
+.34636 .24219 Mdot
+.34827 .23981 Mdot
+.35018 .24028 Mdot
+.35209 .22796 Mdot
+.35399 .22547 Mdot
+.3559 .21599 Mdot
+.35781 .21895 Mdot
+.35972 .21748 Mdot
+.36163 .21399 Mdot
+.36354 .21367 Mdot
+.36545 .2059 Mdot
+.36735 .20448 Mdot
+.36926 .2103 Mdot
+.37117 .21298 Mdot
+.37308 .20581 Mdot
+.37499 .1951 Mdot
+.3769 .1982 Mdot
+.37881 .1927 Mdot
+.38071 .21291 Mdot
+.38262 .20784 Mdot
+.38453 .20179 Mdot
+.38644 .21132 Mdot
+.38835 .21816 Mdot
+.39026 .22641 Mdot
+.39217 .21135 Mdot
+.39407 .19844 Mdot
+.39598 .19993 Mdot
+.39789 .193 Mdot
+.3998 .18978 Mdot
+.40171 .19312 Mdot
+.40362 .19506 Mdot
+.40553 .18514 Mdot
+.40743 .19302 Mdot
+.40934 .19897 Mdot
+.41125 .18838 Mdot
+.41316 .18071 Mdot
+.41507 .19111 Mdot
+.41698 .19197 Mdot
+.41889 .19337 Mdot
+.42079 .18869 Mdot
+.4227 .17959 Mdot
+.42461 .18654 Mdot
+.42652 .17961 Mdot
+.42843 .18209 Mdot
+.43034 .17149 Mdot
+.43225 .18477 Mdot
+.43415 .19406 Mdot
+.43606 .20301 Mdot
+.43797 .21351 Mdot
+.43988 .22171 Mdot
+.44179 .22019 Mdot
+.4437 .21985 Mdot
+.44561 .21788 Mdot
+.44751 .22627 Mdot
+.44942 .23292 Mdot
+.45133 .23608 Mdot
+.45324 .23041 Mdot
+.45515 .2326 Mdot
+.45706 .23182 Mdot
+.45897 .22219 Mdot
+.46087 .22425 Mdot
+.46278 .21357 Mdot
+.46469 .21193 Mdot
+.4666 .21657 Mdot
+.46851 .22279 Mdot
+.47042 .22166 Mdot
+.47233 .22692 Mdot
+.47423 .225 Mdot
+.47614 .22714 Mdot
+.47805 .23601 Mdot
+.47996 .22286 Mdot
+.48187 .22979 Mdot
+.48378 .22416 Mdot
+.48569 .22423 Mdot
+.48759 .22256 Mdot
+.4895 .2214 Mdot
+.49141 .21861 Mdot
+.49332 .21071 Mdot
+.49523 .22069 Mdot
+.49714 .20882 Mdot
+.49905 .20363 Mdot
+.50095 .19939 Mdot
+.50286 .2025 Mdot
+.50477 .19493 Mdot
+.50668 .18912 Mdot
+.50859 .19633 Mdot
+.5105 .19519 Mdot
+.51241 .19359 Mdot
+.51431 .1915 Mdot
+.51622 .19371 Mdot
+.51813 .1915 Mdot
+.52004 .19276 Mdot
+.52195 .19776 Mdot
+.52386 .20031 Mdot
+.52577 .20079 Mdot
+.52767 .19558 Mdot
+.52958 .19664 Mdot
+.53149 .19528 Mdot
+.5334 .2036 Mdot
+.53531 .20777 Mdot
+.53722 .20262 Mdot
+.53913 .1997 Mdot
+.54103 .19223 Mdot
+.54294 .18988 Mdot
+.54485 .18553 Mdot
+.54676 .18669 Mdot
+.54867 .1824 Mdot
+.55058 .18754 Mdot
+.55249 .18794 Mdot
+.55439 .19545 Mdot
+.5563 .19923 Mdot
+.55821 .18437 Mdot
+.56012 .18484 Mdot
+.56203 .20385 Mdot
+.56394 .21526 Mdot
+.56585 .22287 Mdot
+.56775 .22165 Mdot
+.56966 .21813 Mdot
+.57157 .22215 Mdot
+.57348 .21668 Mdot
+.57539 .21975 Mdot
+.5773 .22561 Mdot
+.57921 .22667 Mdot
+.58111 .23208 Mdot
+.58302 .23331 Mdot
+.58493 .22959 Mdot
+.58684 .23455 Mdot
+.58875 .23497 Mdot
+.59066 .23028 Mdot
+.59257 .23263 Mdot
+.59447 .22491 Mdot
+.59638 .23181 Mdot
+.59829 .23407 Mdot
+.6002 .23067 Mdot
+.60211 .23235 Mdot
+.60402 .23436 Mdot
+.60593 .2415 Mdot
+.60783 .24333 Mdot
+.60974 .24294 Mdot
+.61165 .24551 Mdot
+.61356 .24334 Mdot
+.61547 .23951 Mdot
+.61738 .24025 Mdot
+.61929 .24437 Mdot
+.62119 .24605 Mdot
+.6231 .24431 Mdot
+.62501 .24538 Mdot
+.62692 .24503 Mdot
+.62883 .23914 Mdot
+.63074 .25377 Mdot
+.63265 .2589 Mdot
+.63455 .2627 Mdot
+.63646 .26021 Mdot
+.63837 .26645 Mdot
+.64028 .27162 Mdot
+.64219 .27151 Mdot
+.6441 .26525 Mdot
+.64601 .26584 Mdot
+.64791 .27022 Mdot
+.64982 .27237 Mdot
+.65173 .26845 Mdot
+.65364 .27243 Mdot
+.65555 .27125 Mdot
+.65746 .27171 Mdot
+.65937 .26799 Mdot
+.66127 .282 Mdot
+.66318 .27793 Mdot
+.66509 .28192 Mdot
+.667 .27765 Mdot
+.66891 .27868 Mdot
+.67082 .28643 Mdot
+.67273 .28643 Mdot
+.67463 .28604 Mdot
+.67654 .28862 Mdot
+.67845 .2885 Mdot
+.68036 .29318 Mdot
+.68227 .28931 Mdot
+.68418 .28225 Mdot
+.68609 .28013 Mdot
+.688 .27558 Mdot
+.6899 .28052 Mdot
+.69181 .28345 Mdot
+.69372 .28452 Mdot
+.69563 .28661 Mdot
+.69754 .28728 Mdot
+.69945 .28647 Mdot
+.70136 .2935 Mdot
+.70326 .29505 Mdot
+.70517 .29135 Mdot
+.70708 .28874 Mdot
+.70899 .29045 Mdot
+.7109 .28826 Mdot
+.71281 .29483 Mdot
+.71472 .29783 Mdot
+.71662 .30132 Mdot
+.71853 .29552 Mdot
+.72044 .30157 Mdot
+.72235 .3063 Mdot
+.72426 .30747 Mdot
+.72617 .30398 Mdot
+.72808 .3033 Mdot
+.72998 .30794 Mdot
+.73189 .31006 Mdot
+.7338 .31174 Mdot
+.73571 .31815 Mdot
+.73762 .31122 Mdot
+.73953 .30759 Mdot
+.74144 .30541 Mdot
+.74334 .30703 Mdot
+.74525 .30136 Mdot
+.74716 .30321 Mdot
+.74907 .29727 Mdot
+.75098 .2946 Mdot
+.75289 .28775 Mdot
+.7548 .29427 Mdot
+.7567 .29405 Mdot
+.75861 .29286 Mdot
+.76052 .28861 Mdot
+.76243 .29886 Mdot
+.76434 .29189 Mdot
+.76625 .29176 Mdot
+.76816 .29219 Mdot
+.77006 .28065 Mdot
+.77197 .27319 Mdot
+.77388 .27 Mdot
+.77579 .27038 Mdot
+.7777 .26855 Mdot
+.77961 .27145 Mdot
+.78152 .26605 Mdot
+.78342 .26868 Mdot
+.78533 .26292 Mdot
+.78724 .26851 Mdot
+.78915 .26868 Mdot
+.79106 .27058 Mdot
+.79297 .2717 Mdot
+.79488 .27925 Mdot
+.79678 .282 Mdot
+.79869 .28224 Mdot
+.8006 .28044 Mdot
+.80251 .28156 Mdot
+.80442 .28438 Mdot
+.80633 .28721 Mdot
+.80824 .2871 Mdot
+.81014 .28691 Mdot
+.81205 .28062 Mdot
+.81396 .28233 Mdot
+.81587 .29662 Mdot
+.81778 .30095 Mdot
+.81969 .29814 Mdot
+.8216 .29732 Mdot
+.8235 .30057 Mdot
+.82541 .29971 Mdot
+.82732 .30149 Mdot
+.82923 .30731 Mdot
+.83114 .29856 Mdot
+.83305 .29819 Mdot
+.83496 .29872 Mdot
+.83686 .30291 Mdot
+.83877 .30136 Mdot
+.84068 .30752 Mdot
+.84259 .30287 Mdot
+.8445 .30273 Mdot
+.84641 .30331 Mdot
+.84832 .30616 Mdot
+.85022 .30574 Mdot
+.85213 .31041 Mdot
+.85404 .3101 Mdot
+.85595 .30989 Mdot
+.85786 .30672 Mdot
+.85977 .30447 Mdot
+.86168 .30454 Mdot
+.86358 .30167 Mdot
+.86549 .29543 Mdot
+.8674 .29251 Mdot
+.86931 .28825 Mdot
+.87122 .28596 Mdot
+.87313 .28643 Mdot
+.87504 .28729 Mdot
+.87694 .28434 Mdot
+.87885 .28871 Mdot
+.88076 .28663 Mdot
+.88267 .28932 Mdot
+.88458 .28659 Mdot
+.88649 .28721 Mdot
+.8884 .28304 Mdot
+.8903 .27585 Mdot
+.89221 .27838 Mdot
+.89412 .27683 Mdot
+.89603 .28063 Mdot
+.89794 .28302 Mdot
+.89985 .28109 Mdot
+.90176 .27966 Mdot
+.90366 .28425 Mdot
+.90557 .27939 Mdot
+.90748 .27446 Mdot
+.90939 .27642 Mdot
+.9113 .28154 Mdot
+.91321 .28694 Mdot
+.91512 .29091 Mdot
+.91702 .28778 Mdot
+.91893 .29385 Mdot
+.92084 .29456 Mdot
+.92275 .29662 Mdot
+.92466 .29412 Mdot
+.92657 .29249 Mdot
+.92848 .29471 Mdot
+.93038 .29557 Mdot
+.93229 .29885 Mdot
+.9342 .30006 Mdot
+.93611 .29862 Mdot
+.93802 .3004 Mdot
+.93993 .30052 Mdot
+.94184 .30179 Mdot
+.94374 .30111 Mdot
+.94565 .29431 Mdot
+.94756 .2894 Mdot
+.94947 .28847 Mdot
+.95138 .28738 Mdot
+.95329 .29298 Mdot
+.9552 .28973 Mdot
+.9571 .29306 Mdot
+.95901 .2983 Mdot
+.96092 .29595 Mdot
+.96283 .29589 Mdot
+.96474 .29355 Mdot
+.96665 .29466 Mdot
+.96856 .29721 Mdot
+.97046 .29446 Mdot
+.97237 .29426 Mdot
+.97428 .2957 Mdot
+.97619 .29356 Mdot
+1 0 0 r
+.03908 .60046 Mdot
+.04099 .60332 Mdot
+.0429 .5201 Mdot
+.0448 .49034 Mdot
+.04671 .42091 Mdot
+.04862 .36045 Mdot
+.05053 .31172 Mdot
+.05244 .28835 Mdot
+.05435 .31002 Mdot
+.05626 .36915 Mdot
+.05816 .33889 Mdot
+.06007 .37661 Mdot
+.06198 .41029 Mdot
+.06389 .40392 Mdot
+.0658 .40512 Mdot
+.06771 .39116 Mdot
+.06962 .38289 Mdot
+.07152 .36765 Mdot
+.07343 .40652 Mdot
+.07534 .4003 Mdot
+.07725 .39711 Mdot
+.07916 .37338 Mdot
+.08107 .35013 Mdot
+.08298 .34352 Mdot
+.08488 .32736 Mdot
+.08679 .30741 Mdot
+.0887 .32844 Mdot
+.09061 .31323 Mdot
+.09252 .29307 Mdot
+.09443 .2941 Mdot
+.09634 .30271 Mdot
+.09824 .28639 Mdot
+.10015 .29134 Mdot
+.10206 .28211 Mdot
+.10397 .28501 Mdot
+.10588 .29547 Mdot
+.10779 .28362 Mdot
+.1097 .31041 Mdot
+.1116 .34945 Mdot
+.11351 .33513 Mdot
+.11542 .33181 Mdot
+.11733 .34421 Mdot
+.11924 .32923 Mdot
+.12115 .31498 Mdot
+.12306 .32274 Mdot
+.12496 .34263 Mdot
+.12687 .33295 Mdot
+.12878 .32209 Mdot
+.13069 .34199 Mdot
+.1326 .32898 Mdot
+.13451 .31951 Mdot
+.13642 .32164 Mdot
+.13832 .31559 Mdot
+.14023 .3504 Mdot
+.14214 .34872 Mdot
+.14405 .33767 Mdot
+.14596 .32991 Mdot
+.14787 .32156 Mdot
+.14978 .31071 Mdot
+.15168 .29992 Mdot
+.15359 .28927 Mdot
+.1555 .28567 Mdot
+.15741 .28159 Mdot
+.15932 .27936 Mdot
+.16123 .2701 Mdot
+.16314 .27003 Mdot
+.16504 .2627 Mdot
+.16695 .2691 Mdot
+.16886 .27145 Mdot
+.17077 .30668 Mdot
+.17268 .29745 Mdot
+.17459 .28917 Mdot
+.1765 .28047 Mdot
+.1784 .31798 Mdot
+.18031 .31018 Mdot
+.18222 .3428 Mdot
+.18413 .33393 Mdot
+.18604 .3323 Mdot
+.18795 .34207 Mdot
+.18986 .33482 Mdot
+.19176 .32663 Mdot
+.19367 .32552 Mdot
+.19558 .33088 Mdot
+.19749 .32277 Mdot
+.1994 .32516 Mdot
+.20131 .34927 Mdot
+.20322 .36452 Mdot
+.20512 .35688 Mdot
+.20703 .34903 Mdot
+.20894 .3413 Mdot
+.21085 .3342 Mdot
+.21276 .32843 Mdot
+.21467 .32257 Mdot
+.21658 .34142 Mdot
+.21848 .34616 Mdot
+.22039 .34684 Mdot
+.2223 .35216 Mdot
+.22421 .34732 Mdot
+.22612 .35949 Mdot
+.22803 .35244 Mdot
+.22994 .35367 Mdot
+.23184 .36445 Mdot
+.23375 .35764 Mdot
+.23566 .3595 Mdot
+.23757 .36115 Mdot
+.23948 .36005 Mdot
+.24139 .35452 Mdot
+.2433 .36337 Mdot
+.2452 .35701 Mdot
+.24711 .38827 Mdot
+.24902 .39151 Mdot
+.25093 .39074 Mdot
+.25284 .38636 Mdot
+.25475 .3801 Mdot
+.25666 .37775 Mdot
+.25856 .38395 Mdot
+.26047 .37778 Mdot
+.26238 .37323 Mdot
+.26429 .36724 Mdot
+.2662 .36195 Mdot
+.26811 .36861 Mdot
+.27002 .36276 Mdot
+.27192 .357 Mdot
+.27383 .35691 Mdot
+.27574 .35123 Mdot
+.27765 .35951 Mdot
+.27956 .37004 Mdot
+.28147 .36445 Mdot
+.28338 .37171 Mdot
+.28528 .36681 Mdot
+.28719 .3748 Mdot
+.2891 .37152 Mdot
+.29101 .36847 Mdot
+.29292 .36416 Mdot
+.29483 .35913 Mdot
+.29674 .35688 Mdot
+.29864 .35346 Mdot
+.30055 .34896 Mdot
+.30246 .35112 Mdot
+.30437 .34619 Mdot
+.30628 .34761 Mdot
+.30819 .34349 Mdot
+.3101 .33969 Mdot
+.312 .33949 Mdot
+.31391 .35159 Mdot
+.31582 .35054 Mdot
+.31773 .34952 Mdot
+.31964 .35178 Mdot
+.32155 .34718 Mdot
+.32346 .34932 Mdot
+.32537 .34465 Mdot
+.32727 .34602 Mdot
+.32918 .34139 Mdot
+.33109 .3372 Mdot
+.333 .3368 Mdot
+.33491 .33398 Mdot
+.33682 .33131 Mdot
+.33873 .3294 Mdot
+.34063 .32784 Mdot
+.34254 .32351 Mdot
+.34445 .3192 Mdot
+.34636 .31516 Mdot
+.34827 .31119 Mdot
+.35018 .30694 Mdot
+.35209 .31165 Mdot
+.35399 .30779 Mdot
+.3559 .30896 Mdot
+.35781 .30532 Mdot
+.35972 .30132 Mdot
+.36163 .29797 Mdot
+.36354 .29391 Mdot
+.36545 .29362 Mdot
+.36735 .28974 Mdot
+.36926 .28789 Mdot
+.37117 .2844 Mdot
+.37308 .28377 Mdot
+.37499 .28722 Mdot
+.3769 .28395 Mdot
+.37881 .28207 Mdot
+.38071 .30469 Mdot
+.38262 .30249 Mdot
+.38453 .30103 Mdot
+.38644 .30314 Mdot
+.38835 .30242 Mdot
+.39026 .30313 Mdot
+.39217 .31436 Mdot
+.39407 .32158 Mdot
+.39598 .31796 Mdot
+.39789 .31743 Mdot
+.3998 .31441 Mdot
+.40171 .31147 Mdot
+.40362 .30806 Mdot
+.40553 .31115 Mdot
+.40743 .31178 Mdot
+.40934 .31062 Mdot
+.41125 .3148 Mdot
+.41316 .31532 Mdot
+.41507 .31929 Mdot
+.41698 .31579 Mdot
+.41889 .31239 Mdot
+.42079 .31044 Mdot
+.4227 .31286 Mdot
+.42461 .31284 Mdot
+.42652 .31284 Mdot
+.42843 .30984 Mdot
+.43034 .31459 Mdot
+.43225 .324 Mdot
+.43415 .32686 Mdot
+.43606 .32929 Mdot
+.43797 .33395 Mdot
+.43988 .3355 Mdot
+.44179 .33228 Mdot
+.4437 .32893 Mdot
+.44561 .32587 Mdot
+.44751 .32784 Mdot
+.44942 .32786 Mdot
+.45133 .32533 Mdot
+.45324 .3245 Mdot
+.45515 .32161 Mdot
+.45706 .31842 Mdot
+.45897 .32239 Mdot
+.46087 .31951 Mdot
+.46278 .32524 Mdot
+.46469 .32226 Mdot
+.4666 .32078 Mdot
+.46851 .3207 Mdot
+.47042 .31767 Mdot
+.47233 .31676 Mdot
+.47423 .31396 Mdot
+.47614 .31125 Mdot
+.47805 .31458 Mdot
+.47996 .32557 Mdot
+.48187 .32641 Mdot
+.48378 .32593 Mdot
+.48569 .32289 Mdot
+.48759 .32009 Mdot
+.4895 .3172 Mdot
+.49141 .31486 Mdot
+.49332 .31712 Mdot
+.49523 .32253 Mdot
+.49714 .3314 Mdot
+.49905 .3307 Mdot
+.50095 .32925 Mdot
+.50286 .32713 Mdot
+.50477 .32909 Mdot
+.50668 .32906 Mdot
+.50859 .33062 Mdot
+.5105 .32784 Mdot
+.51241 .32518 Mdot
+.51431 .32269 Mdot
+.51622 .32027 Mdot
+.51813 .31786 Mdot
+.52004 .31519 Mdot
+.52195 .31461 Mdot
+.52386 .3124 Mdot
+.52577 .30965 Mdot
+.52767 .30935 Mdot
+.52958 .3067 Mdot
+.53149 .30414 Mdot
+.5334 .30776 Mdot
+.53531 .30664 Mdot
+.53722 .30639 Mdot
+.53913 .30448 Mdot
+.54103 .30701 Mdot
+.54294 .30485 Mdot
+.54485 .30396 Mdot
+.54676 .30144 Mdot
+.54867 .30054 Mdot
+.55058 .30043 Mdot
+.55249 .29783 Mdot
+.55439 .30064 Mdot
+.5563 .29942 Mdot
+.55821 .31804 Mdot
+.56012 .31545 Mdot
+.56203 .34725 Mdot
+.56394 .35688 Mdot
+.56585 .35968 Mdot
+.56775 .35718 Mdot
+.56966 .35573 Mdot
+.57157 .35465 Mdot
+.57348 .35491 Mdot
+.57539 .35322 Mdot
+.5773 .35395 Mdot
+.57921 .35148 Mdot
+.58111 .35177 Mdot
+.58302 .34935 Mdot
+.58493 .34816 Mdot
+.58684 .34805 Mdot
+.58875 .34554 Mdot
+.59066 .34521 Mdot
+.59257 .34326 Mdot
+.59447 .34672 Mdot
+.59638 .34899 Mdot
+.59829 .34702 Mdot
+.6002 .34571 Mdot
+.60211 .34354 Mdot
+.60402 .3415 Mdot
+.60593 .34427 Mdot
+.60783 .34218 Mdot
+.60974 .33977 Mdot
+.61165 .33804 Mdot
+.61356 .33612 Mdot
+.61547 .33526 Mdot
+.61738 .33293 Mdot
+.61929 .33235 Mdot
+.62119 .33028 Mdot
+.6231 .32825 Mdot
+.62501 .32603 Mdot
+.62692 .32371 Mdot
+.62883 .32512 Mdot
+.63074 .34574 Mdot
+.63265 .3462 Mdot
+.63455 .34541 Mdot
+.63646 .34375 Mdot
+.63837 .34563 Mdot
+.64028 .34621 Mdot
+.64219 .34391 Mdot
+.6441 .34587 Mdot
+.64601 .34362 Mdot
+.64791 .34344 Mdot
+.64982 .34168 Mdot
+.65173 .34111 Mdot
+.65364 .34061 Mdot
+.65555 .33852 Mdot
+.65746 .3363 Mdot
+.65937 .33563 Mdot
+.66127 .35535 Mdot
+.66318 .35495 Mdot
+.66509 .35449 Mdot
+.667 .35431 Mdot
+.66891 .35221 Mdot
+.67082 .35676 Mdot
+.67273 .35455 Mdot
+.67463 .35236 Mdot
+.67654 .35093 Mdot
+.67845 .34875 Mdot
+.68036 .34909 Mdot
+.68227 .34865 Mdot
+.68418 .35223 Mdot
+.68609 .35059 Mdot
+.688 .35085 Mdot
+.6899 .35154 Mdot
+.69181 .3504 Mdot
+.69372 .3484 Mdot
+.69563 .34679 Mdot
+.69754 .34473 Mdot
+.69945 .3427 Mdot
+.70136 .34646 Mdot
+.70326 .34465 Mdot
+.70517 .3442 Mdot
+.70708 .34294 Mdot
+.70899 .34121 Mdot
+.7109 .33972 Mdot
+.71281 .34288 Mdot
+.71472 .34192 Mdot
+.71662 .34135 Mdot
+.71853 .34343 Mdot
+.72044 .34586 Mdot
+.72235 .34656 Mdot
+.72426 .34469 Mdot
+.72617 .34417 Mdot
+.72808 .34221 Mdot
+.72998 .34287 Mdot
+.73189 .34142 Mdot
+.7338 .33977 Mdot
+.73571 .34292 Mdot
+.73762 .34694 Mdot
+.73953 .3466 Mdot
+.74144 .34521 Mdot
+.74334 .34356 Mdot
+.74525 .34566 Mdot
+.74716 .34413 Mdot
+.74907 .34665 Mdot
+.75098 .3456 Mdot
+.75289 .34964 Mdot
+.7548 .35311 Mdot
+.7567 .35117 Mdot
+.75861 .34941 Mdot
+.76052 .34979 Mdot
+.76243 .36137 Mdot
+.76434 .36566 Mdot
+.76625 .36372 Mdot
+.76816 .36181 Mdot
+.77006 .37702 Mdot
+.77197 .38222 Mdot
+.77388 .38159 Mdot
+.77579 .37966 Mdot
+.7777 .37817 Mdot
+.77961 .37734 Mdot
+.78152 .37921 Mdot
+.78342 .3782 Mdot
+.78533 .38062 Mdot
+.78724 .38279 Mdot
+.78915 .38089 Mdot
+.79106 .37946 Mdot
+.79297 .37774 Mdot
+.79488 .38337 Mdot
+.79678 .38248 Mdot
+.79869 .38061 Mdot
+.8006 .37917 Mdot
+.80251 .37746 Mdot
+.80442 .37666 Mdot
+.80633 .37588 Mdot
+.80824 .37403 Mdot
+.81014 .37219 Mdot
+.81205 .37572 Mdot
+.81396 .37428 Mdot
+.81587 .40002 Mdot
+.81778 .40068 Mdot
+.81969 .39989 Mdot
+.8216 .39813 Mdot
+.8235 .39772 Mdot
+.82541 .39598 Mdot
+.82732 .39458 Mdot
+.82923 .39737 Mdot
+.83114 .40598 Mdot
+.83305 .40416 Mdot
+.83496 .40238 Mdot
+.83686 .40297 Mdot
+.83877 .40149 Mdot
+.84068 .40492 Mdot
+.84259 .4061 Mdot
+.8445 .4043 Mdot
+.84641 .40254 Mdot
+.84832 .40188 Mdot
+.85022 .40011 Mdot
+.85213 .40138 Mdot
+.85404 .39961 Mdot
+.85595 .39784 Mdot
+.85786 .39749 Mdot
+.85977 .39645 Mdot
+.86168 .3947 Mdot
+.86358 .39412 Mdot
+.86549 .39792 Mdot
+.8674 .3974 Mdot
+.86931 .39826 Mdot
+.87122 .39727 Mdot
+.87313 .39557 Mdot
+.87504 .39395 Mdot
+.87694 .39348 Mdot
+.87885 .39453 Mdot
+.88076 .39344 Mdot
+.88267 .39279 Mdot
+.88458 .39217 Mdot
+.88649 .39052 Mdot
+.8884 .39138 Mdot
+.8903 .39728 Mdot
+.89221 .39652 Mdot
+.89412 .39518 Mdot
+.89603 .39563 Mdot
+.89794 .39479 Mdot
+.89985 .39367 Mdot
+.90176 .3923 Mdot
+.90366 .39378 Mdot
+.90557 .39565 Mdot
+.90748 .39763 Mdot
+.90939 .39654 Mdot
+.9113 .39882 Mdot
+.91321 .40155 Mdot
+.91512 .40227 Mdot
+.91702 .4021 Mdot
+.91893 .40602 Mdot
+.92084 .40445 Mdot
+.92275 .40344 Mdot
+.92466 .40274 Mdot
+.92657 .40151 Mdot
+.92848 .40063 Mdot
+.93038 .39912 Mdot
+.93229 .39915 Mdot
+.9342 .39775 Mdot
+.93611 .39646 Mdot
+.93802 .39533 Mdot
+.93993 .39373 Mdot
+.94184 .39238 Mdot
+.94374 .39085 Mdot
+.94565 .39649 Mdot
+.94756 .39868 Mdot
+.94947 .39722 Mdot
+.95138 .39582 Mdot
+.95329 .39917 Mdot
+.9552 .39926 Mdot
+.9571 .39942 Mdot
+.95901 .4022 Mdot
+.96092 .4015 Mdot
+.96283 .39992 Mdot
+.96474 .39923 Mdot
+.96665 .39786 Mdot
+.96856 .39734 Mdot
+.97046 .39699 Mdot
+.97237 .39544 Mdot
+.97428 .39423 Mdot
+.97619 .39343 Mdot
+% End of Graphics
+MathPictureEnd
+\
+\>"], "Graphics",
+  ImageSize->{288, 177.938},
+  ImageMargins->{{0, 0}, {0, 0}},
+  ImageRegion->{{0, 1}, {0, 1}},
+  ImageCacheValid->False]
+}, Open  ]],
+
+Cell[BoxData[{
+    \(\(ptsize\  = \ 0.02;\)\), "\[IndentingNewLine]", 
+    \(\(\(ebsize\  = \ 0.1;\)\(\[IndentingNewLine]\)
+    \)\), "\[IndentingNewLine]", 
+    \(\(minx\  = \ Min[posxBobG];\)\), "\[IndentingNewLine]", 
+    \(\(maxx\  = \ Max[posxBobG];\)\), "\[IndentingNewLine]", 
+    \(\(gBobG\  = \ 
+        Plot[Sum[
+            multBobG[\([i, 1]\)]*x^\((i - 1)\), {i, 1, 
+              Length[multBobG]}], \ {x, minx, maxx}, \ 
+          DisplayFunction \[Rule] Identity];\)\), "\[IndentingNewLine]", 
+    \(\(\(g\  = \ {};\)\(\[IndentingNewLine]\)
+    \)\), "\[IndentingNewLine]", 
+    \(\({vx, vy, vs}\  = {posxBobG, \ i1BobG, 
+          dataBobG[\([All, 3]\)]};\)\), "\[IndentingNewLine]", 
+    \(\(points\  = \ 
+        Table[Point[{vx[\([i]\)], vy[\([i]\)]}], {i, 1, 
+            Length[vx]}];\)\), "\[IndentingNewLine]", 
+    \(\(errorbars1\  = \ 
+        Table[Line[{{vx[\([i]\)], vy[\([i]\)] - vs[\([i]\)]}, {vx[\([i]\)], 
+                vy[\([i]\)] + vs[\([i]\)]}}], \ {i, 1, 
+            Length[vx]}];\)\), "\[IndentingNewLine]", 
+    \(\(errorbars2\  = \ \ Table[
+          Line[{{vx[\([i]\)] - ebsize, 
+                vy[\([i]\)] - vs[\([i]\)]}, {vx[\([i]\)] + ebsize, 
+                vy[\([i]\)] - vs[\([i]\)]}}], \ {i, 1, 
+            Length[vx]}];\)\ \), "\[IndentingNewLine]", 
+    \(\(errorbars3\  = \ \ Table[
+          Line[{{vx[\([i]\)] - ebsize, 
+                vy[\([i]\)] + vs[\([i]\)]}, {vx[\([i]\)] + ebsize, 
+                vy[\([i]\)] + vs[\([i]\)]}}], \ {i, 1, 
+            Length[vx]}];\)\ \), "\[IndentingNewLine]", 
+    \(\(g\  = \ 
+        Join[g, {RGBColor[0, 0, 1], \ PointSize[ptsize]}, points, errorbars1, 
+          errorbars2, errorbars3];\)\ \), "\[IndentingNewLine]", 
+    \(\)}], "Input"]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Results", "Section"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(\(\(\(multBobGTM\  = \ 
+        Table[multBobG[\([i]\)]\ *\ \((10^\((\(-4\))\))\)/\((10^\((\(-2\))\))\
+\)^\((i - 2)\), \ {i, 1, Length[multBobG]}];\)\[IndentingNewLine]
+    \(Print["\<GAUSS/CM:\>", 
+        MatrixForm[{"\<BOBINA GIRANTE\>", 
+            MatrixForm[multBobG]}]];\)\[IndentingNewLine]
+    \(Print["\<T/M:\>", 
+        MatrixForm[{"\<BOBINA GIRANTE\>", 
+            MatrixForm[multBobGTM]}]];\)\[IndentingNewLine]
+    \(Export["\<skew_mutipoles_BobG_gap\>" <> ToString[gap] <> "\<_range\>" <> 
+          ToString[myrange[\([1]\)]] <> "\<_\>" <> 
+          ToString[myrange[\([2]\)]] <> "\<.txt\>", 
+        multBobGTM, \ "\<Table\>"];\)\)\(\ \)\)\)], "Input"],
+
+Cell[BoxData[
+    InterpretationBox[
+      RowBox[{"\<\"GAUSS/CM:\"\>", "\[InvisibleSpace]", 
+        InterpretationBox[
+          RowBox[{"(", "\[NoBreak]", GridBox[{
+                {"\<\"BOBINA GIRANTE\"\>"},
+                {
+                  TagBox[
+                    RowBox[{"(", "\[NoBreak]", GridBox[{
+                          {\(-59.76065276962673`\), "0.13778121369549642`"},
+                          {\(-13.37002818859477`\), "0.5437386774803679`"},
+                          {\(-75.79537862727788`\), "0.6849807355457791`"},
+                          {"5.500043683251438`", "1.8760266228402278`"},
+                          {"6.5124313117055666`", "0.702005986474532`"},
+                          {"1.368836310646894`", "1.4638020865353756`"}
+                          }], "\[NoBreak]", ")"}],
+                    Function[ BoxForm`e$, 
+                      MatrixForm[ BoxForm`e$]]]}
+                }], "\[NoBreak]", ")"}],
+          MatrixForm[ {"BOBINA GIRANTE", 
+            
+            MatrixForm[ {{-59.760652769626731, .13778121369549642}, \
+{-13.37002818859477, .54373867748036786}, {-75.795378627277884, \
+.6849807355457791}, {5.5000436832514383, 1.8760266228402278}, {
+              6.5124313117055666, .70200598647453205}, {1.3688363106468939, 
+              1.4638020865353756}}]}]]}],
+      SequenceForm[ "GAUSS/CM:", 
+        MatrixForm[ {"BOBINA GIRANTE", 
+          
+          MatrixForm[ {{-59.760652769626731, .13778121369549642}, \
+{-13.37002818859477, .54373867748036786}, {-75.795378627277884, \
+.6849807355457791}, {5.5000436832514383, 1.8760266228402278}, {
+            6.5124313117055666, .70200598647453205}, {1.3688363106468939, 
+            1.4638020865353756}}]}]],
+      Editable->False]], "Print"],
+
+Cell[BoxData[
+    InterpretationBox[
+      RowBox[{"\<\"T/M:\"\>", "\[InvisibleSpace]", 
+        InterpretationBox[
+          RowBox[{"(", "\[NoBreak]", GridBox[{
+                {"\<\"BOBINA GIRANTE\"\>"},
+                {
+                  TagBox[
+                    RowBox[{"(", "\[NoBreak]", GridBox[{
+                          {\(-0.000059760652769626734`\), 
+                            "1.3778121369549644`*^-7"},
+                          {\(-0.0013370028188594769`\), 
+                            "0.000054373867748036786`"},
+                          {\(-0.7579537862727789`\), 
+                            "0.006849807355457791`"},
+                          {"5.500043683251438`", "1.8760266228402278`"},
+                          {"651.2431311705567`", "70.2005986474532`"},
+                          {"13688.36310646894`", "14638.020865353756`"}
+                          }], "\[NoBreak]", ")"}],
+                    Function[ BoxForm`e$, 
+                      MatrixForm[ BoxForm`e$]]]}
+                }], "\[NoBreak]", ")"}],
+          MatrixForm[ {"BOBINA GIRANTE", 
+            
+            MatrixForm[ {{-.000059760652769626734, .13778121369549644*^-6}, \
+{-.0013370028188594769, .000054373867748036786}, {-.75795378627277887, \
+.0068498073554577911}, {5.5000436832514383, 1.8760266228402278}, {
+              651.24313117055669, 70.200598647453205}, {13688.36310646894, 
+              14638.020865353756}}]}]]}],
+      SequenceForm[ "T/M:", 
+        MatrixForm[ {"BOBINA GIRANTE", 
+          
+          MatrixForm[ {{-.000059760652769626734, .13778121369549644*^-6}, \
+{-.0013370028188594769, .000054373867748036786}, {-.75795378627277887, \
+.0068498073554577911}, {5.5000436832514383, 1.8760266228402278}, {
+            651.24313117055669, 70.200598647453205}, {13688.36310646894, 
+            14638.020865353756}}]}]],
+      Editable->False]], "Print"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(\(Show[gBobG, \ Graphics[g], \ 
+        gBobG, \ \ DisplayFunction \[Rule] $DisplayFunction];\)\)], "Input"],
+
+Cell[GraphicsData["PostScript", "\<\
+%!
+%%Creator: Mathematica
+%%AspectRatio: .61803 
+MathPictureStart
+/Mabs {
+Mgmatrix idtransform
+Mtmatrix dtransform
+} bind def
+/Mabsadd { Mabs
+3 -1 roll add
+3 1 roll add
+exch } bind def
+%% Graphics
+%%IncludeResource: font Courier
+%%IncludeFont: Courier
+/Courier findfont 10  scalefont  setfont
+% Scaling calculations
+0.5 0.4329 1.05708 0.00766817 [
+[.0671 .43113 -6 -9 ]
+[.0671 .43113 6 0 ]
+[.28355 .43113 -12 -9 ]
+[.28355 .43113 12 0 ]
+[.71645 .43113 -9 -9 ]
+[.71645 .43113 9 0 ]
+[.9329 .43113 -3 -9 ]
+[.9329 .43113 3 0 ]
+[.4875 .1369 -24 -4.5 ]
+[.4875 .1369 0 4.5 ]
+[.4875 .29026 -24 -4.5 ]
+[.4875 .29026 0 4.5 ]
+[.4875 .59699 -18 -4.5 ]
+[.4875 .59699 0 4.5 ]
+[ 0 0 0 0 ]
+[ 1 .61803 0 0 ]
+] MathScale
+% Start of Graphics
+1 setlinecap
+1 setlinejoin
+newpath
+0 g
+.25 Mabswid
+[ ] 0 setdash
+.0671 .44363 m
+.0671 .44988 L
+s
+[(-1)] .0671 .43113 0 1 Mshowa
+.28355 .44363 m
+.28355 .44988 L
+s
+[(-0.5)] .28355 .43113 0 1 Mshowa
+.71645 .44363 m
+.71645 .44988 L
+s
+[(0.5)] .71645 .43113 0 1 Mshowa
+.9329 .44363 m
+.9329 .44988 L
+s
+[(1)] .9329 .43113 0 1 Mshowa
+.125 Mabswid
+.11039 .44363 m
+.11039 .44738 L
+s
+.15368 .44363 m
+.15368 .44738 L
+s
+.19697 .44363 m
+.19697 .44738 L
+s
+.24026 .44363 m
+.24026 .44738 L
+s
+.32684 .44363 m
+.32684 .44738 L
+s
+.37013 .44363 m
+.37013 .44738 L
+s
+.41342 .44363 m
+.41342 .44738 L
+s
+.45671 .44363 m
+.45671 .44738 L
+s
+.54329 .44363 m
+.54329 .44738 L
+s
+.58658 .44363 m
+.58658 .44738 L
+s
+.62987 .44363 m
+.62987 .44738 L
+s
+.67316 .44363 m
+.67316 .44738 L
+s
+.75974 .44363 m
+.75974 .44738 L
+s
+.80303 .44363 m
+.80303 .44738 L
+s
+.84632 .44363 m
+.84632 .44738 L
+s
+.88961 .44363 m
+.88961 .44738 L
+s
+.02381 .44363 m
+.02381 .44738 L
+s
+.97619 .44363 m
+.97619 .44738 L
+s
+.25 Mabswid
+0 .44363 m
+1 .44363 L
+s
+.5 .1369 m
+.50625 .1369 L
+s
+[(-120)] .4875 .1369 1 0 Mshowa
+.5 .29026 m
+.50625 .29026 L
+s
+[(-100)] .4875 .29026 1 0 Mshowa
+.5 .59699 m
+.50625 .59699 L
+s
+[(-60)] .4875 .59699 1 0 Mshowa
+.125 Mabswid
+.5 .17524 m
+.50375 .17524 L
+s
+.5 .21358 m
+.50375 .21358 L
+s
+.5 .25192 m
+.50375 .25192 L
+s
+.5 .3286 m
+.50375 .3286 L
+s
+.5 .36694 m
+.50375 .36694 L
+s
+.5 .40528 m
+.50375 .40528 L
+s
+.5 .48197 m
+.50375 .48197 L
+s
+.5 .52031 m
+.50375 .52031 L
+s
+.5 .55865 m
+.50375 .55865 L
+s
+.5 .09856 m
+.50375 .09856 L
+s
+.5 .06022 m
+.50375 .06022 L
+s
+.5 .02188 m
+.50375 .02188 L
+s
+.25 Mabswid
+.5 0 m
+.5 .61803 L
+s
+0 0 m
+1 0 L
+1 .61803 L
+0 .61803 L
+closepath
+clip
+newpath
+.5 Mabswid
+.0671 .1174 m
+.10222 .19831 L
+.14053 .27864 L
+.1765 .3464 L
+.2111 .40437 L
+.24792 .45816 L
+.28337 .5021 L
+.32105 .54024 L
+.35735 .56854 L
+.37397 .57871 L
+.39227 .58788 L
+.41031 .59483 L
+.42018 .59776 L
+.42942 .59994 L
+.43394 .60081 L
+.43886 .60161 L
+.4432 .60219 L
+.44783 .60267 L
+.45019 .60287 L
+.45241 .60302 L
+.45457 .60314 L
+.45552 .60318 L
+.45656 .60322 L
+.45748 .60325 L
+.45846 .60328 L
+.45949 .6033 L
+.46046 .60331 L
+.46159 .60332 L
+.46266 .60332 L
+.46362 .60331 L
+.46467 .6033 L
+.46578 .60328 L
+.46679 .60325 L
+.46908 .60317 L
+.47109 .60307 L
+.47322 .60293 L
+.47772 .60256 L
+.48265 .602 L
+.49254 .60042 L
+.50175 .5984 L
+.52034 .59273 L
+.53724 .58573 L
+.57359 .56485 L
+.60856 .53744 L
+.64576 .50071 L
+.68158 .45836 L
+.71602 .4116 L
+.75269 .35584 L
+.78799 .29697 L
+.82551 .22953 L
+Mistroke
+.86166 .16071 L
+.89643 .09181 L
+.9329 .0177 L
+Mfstroke
+0 0 1 r
+.02 w
+.0671 .11767 Mdot
+.11039 .21475 Mdot
+.15368 .30714 Mdot
+.19697 .38108 Mdot
+.24026 .44886 Mdot
+.28355 .50163 Mdot
+.32684 .54765 Mdot
+.37013 .57629 Mdot
+.41342 .59535 Mdot
+.45671 .60026 Mdot
+.5 .59966 Mdot
+.54329 .58287 Mdot
+.58658 .55419 Mdot
+.62987 .51611 Mdot
+.67316 .47066 Mdot
+.71645 .41147 Mdot
+.75974 .34595 Mdot
+.80303 .27001 Mdot
+.84632 .18938 Mdot
+.88961 .1064 Mdot
+.9329 .01743 Mdot
+.5 Mabswid
+.0671 .11578 m
+.0671 .11955 L
+s
+.11039 .21147 m
+.11039 .21802 L
+s
+.15368 .30286 m
+.15368 .31142 L
+s
+.19697 .38017 m
+.19697 .38199 L
+s
+.24026 .44752 m
+.24026 .45021 L
+s
+.28355 .49985 m
+.28355 .50341 L
+s
+.32684 .54475 m
+.32684 .55054 L
+s
+.37013 .57385 m
+.37013 .57872 L
+s
+.41342 .5929 m
+.41342 .5978 L
+s
+.45671 .5972 m
+.45671 .60332 L
+s
+.5 .59773 m
+.5 .60159 L
+s
+.54329 .58024 m
+.54329 .58549 L
+s
+.58658 .55156 m
+.58658 .55683 L
+s
+.62987 .51078 m
+.62987 .52143 L
+s
+.67316 .46698 m
+.67316 .47434 L
+s
+.71645 .4097 m
+.71645 .41323 L
+s
+.75974 .34159 m
+.75974 .35031 L
+s
+.80303 .26791 m
+.80303 .27211 L
+s
+.84632 .18777 m
+.84632 .19099 L
+s
+.88961 .1047 m
+.88961 .1081 L
+s
+.9329 .01472 m
+.9329 .02014 L
+s
+.02381 .11578 m
+.11039 .11578 L
+s
+.0671 .21147 m
+.15368 .21147 L
+s
+.11039 .30286 m
+.19697 .30286 L
+s
+.15368 .38017 m
+.24026 .38017 L
+s
+.19697 .44752 m
+.28355 .44752 L
+s
+.24026 .49985 m
+.32684 .49985 L
+s
+.28355 .54475 m
+.37013 .54475 L
+s
+.32684 .57385 m
+.41342 .57385 L
+s
+.37013 .5929 m
+.45671 .5929 L
+s
+.41342 .5972 m
+.5 .5972 L
+s
+.45671 .59773 m
+.54329 .59773 L
+s
+.5 .58024 m
+.58658 .58024 L
+s
+.54329 .55156 m
+.62987 .55156 L
+s
+.58658 .51078 m
+.67316 .51078 L
+s
+.62987 .46698 m
+.71645 .46698 L
+s
+.67316 .4097 m
+.75974 .4097 L
+s
+.71645 .34159 m
+.80303 .34159 L
+s
+.75974 .26791 m
+.84632 .26791 L
+s
+.80303 .18777 m
+.88961 .18777 L
+s
+.84632 .1047 m
+.9329 .1047 L
+s
+.88961 .01472 m
+.97619 .01472 L
+s
+.02381 .11955 m
+.11039 .11955 L
+s
+.0671 .21802 m
+.15368 .21802 L
+s
+.11039 .31142 m
+.19697 .31142 L
+s
+.15368 .38199 m
+.24026 .38199 L
+s
+.19697 .45021 m
+.28355 .45021 L
+s
+.24026 .50341 m
+.32684 .50341 L
+s
+.28355 .55054 m
+.37013 .55054 L
+s
+.32684 .57872 m
+.41342 .57872 L
+s
+.37013 .5978 m
+.45671 .5978 L
+s
+.41342 .60332 m
+.5 .60332 L
+s
+.45671 .60159 m
+.54329 .60159 L
+s
+.5 .58549 m
+.58658 .58549 L
+s
+.54329 .55683 m
+.62987 .55683 L
+s
+.58658 .52143 m
+.67316 .52143 L
+s
+.62987 .47434 m
+.71645 .47434 L
+s
+.67316 .41323 m
+.75974 .41323 L
+s
+.71645 .35031 m
+.80303 .35031 L
+s
+.75974 .27211 m
+.84632 .27211 L
+s
+.80303 .19099 m
+.88961 .19099 L
+s
+.84632 .1081 m
+.9329 .1081 L
+s
+.88961 .02014 m
+.97619 .02014 L
+s
+0 g
+.0671 .1174 m
+.10222 .19831 L
+.14053 .27864 L
+.1765 .3464 L
+.2111 .40437 L
+.24792 .45816 L
+.28337 .5021 L
+.32105 .54024 L
+.35735 .56854 L
+.37397 .57871 L
+.39227 .58788 L
+.41031 .59483 L
+.42018 .59776 L
+.42942 .59994 L
+.43394 .60081 L
+.43886 .60161 L
+.4432 .60219 L
+.44783 .60267 L
+.45019 .60287 L
+.45241 .60302 L
+.45457 .60314 L
+.45552 .60318 L
+.45656 .60322 L
+.45748 .60325 L
+.45846 .60328 L
+.45949 .6033 L
+.46046 .60331 L
+.46159 .60332 L
+.46266 .60332 L
+.46362 .60331 L
+.46467 .6033 L
+.46578 .60328 L
+.46679 .60325 L
+.46908 .60317 L
+.47109 .60307 L
+.47322 .60293 L
+.47772 .60256 L
+.48265 .602 L
+.49254 .60042 L
+.50175 .5984 L
+.52034 .59273 L
+.53724 .58573 L
+.57359 .56485 L
+.60856 .53744 L
+.64576 .50071 L
+.68158 .45836 L
+.71602 .4116 L
+.75269 .35584 L
+.78799 .29697 L
+.82551 .22953 L
+Mistroke
+.86166 .16071 L
+.89643 .09181 L
+.9329 .0177 L
+Mfstroke
+% End of Graphics
+MathPictureEnd
+\
+\>"], "Graphics",
+  ImageSize->{288, 177.938},
+  ImageMargins->{{0, 0}, {0, 0}},
+  ImageRegion->{{0, 1}, {0, 1}},
+  ImageCache->GraphicsData["Bitmap", "\<\
+CF5dJ6E]HGAYHf4PAg9QL6QYHg<PAVmbKF5d0`40004P0000/A000`40O003h00OSgoo00<007ooOol0
+SWoo002?Ool00`00Oomoo`2>Ool008moo`03001oogoo08ioo`00Sgoo00<007ooOol0N7oo0`0O4goo
+002?Ool00`00Oomoo`1]OolI01l8Ool008moo`03001oogoo06eoo``07`0300007`0O00X07`Qoo`00
+Sgoo0P00N7oo00<07`0001l00P0O4Woo002?Ool00`00Oomoo`1hOol00`0001l07`0COol008moo`03
+001oogoo07Moo`03001oogoo01Aoo`00Sgoo00<007ooOol0Mgoo00<007ooOol057oo002?Ool00`00
+Oomoo`1fOol00`00Oomoo`0EOol008moo`03001oogoo07Ioo`03001oogoo01Eoo`00Sgoo00<007oo
+Ool0MGoo00<007ooOol05Woo002?Ool00`00Oomoo`1eOol00`00Oomoo`0FOol008moo`03001oogoo
+07Aoo`03001oogoo01Moo`00Sgoo00<007ooOol0M7oo00<007ooOol05goo002?Ool00`00Oomoo`1c
+Ool00`00Oomoo`0HOol008moo`8007Aoo`03001oogoo01Qoo`00Sgoo00<007ooOol0LWoo00<007oo
+Ool06Goo002?Ool00`00Oomoo`1bOol00`00Oomoo`0IOol008moo`03001oogoo075oo`03001oogoo
+01Yoo`00Sgoo00<007ooOol0LGoo00<007ooOol06Woo002?Ool00`00Oomoo`1`Ool00`00Oomoo`0K
+Ool008moo`03001oogoo071oo`03001oogoo01]oo`00Sgoo00<007ooOol0Kgoo00<007ooOol077oo
+002?Ool00`00Oomoo`1_Ool00`00Oomoo`0LOol008moo`03001oogoo06ioo`03001oogoo01eoo`00
+Sgoo00<007ooOol0KWoo00<007ooOol07Goo002?Ool2001/Ool201l00`00Oomoo`0NOol008moo`03
+001oogoo06Yoo`<07`0300007goo01ioo`00Sgoo00<007ooOol0H7oo300O00<0000O01l02`0O57oo
+002?Ool00`00Oomoo`1POol<01l00`0001l07`0;01lDOol0019oo`<07gYoo`03001oogoo06]oo`03
+00007`0O021oo`001goo300O00<0000O01l02P0OKgoo00<007ooOol0Jgoo00<007ooOol087oo0007
+Ool<01l00`0001l07`0:01m_Ool00`00Oomoo`1ZOol00`00Oomoo`0QOol0015oo`<07`0300007goo
+07Qoo`03001oogoo06Yoo`03001oogoo025oo`004Woo0P0O00<007ooOol0N7oo00<007ooOol0JGoo
+00<007ooOol08Woo000EOol00`00Oomoo`1ROol500000goo000000020003Ool20006Ool00`00Oomo
+o`1YOol00`00Oomoo`0ROol001Eoo`03001oogoo06Aoo`05001oogooOol00005Ool01000Oomoo`00
+1Goo00<007ooOol0JGoo00<007ooOol08Woo000FOol00`00Oomoo`1SOol00`00Oomoo`02Ool00`00
+Oomoo`02Ool01000Oomoo`001Goo0`00J7oo00<007ooOol08goo000FOol00`00Oomoo`1KOol40004
+Ool00`00Oomoo`03Ool01@00Oomoogoo00000Woo00<007ooOol00goo00<007ooOol0J7oo00<007oo
+Ool08goo000FOol00`00Oomoo`1SOol01@00Oomoogoo00000Woo00@007ooOol0009oo`03001oogoo
+00=oo`03001oogoo06Moo`03001oogoo02Aoo`005goo00<007ooOol0HGoo0P0017oo0P0017oo0P00
+1Woo00<007ooOol0Igoo00<007ooOol097oo000GOol00`00Oomoo`1eOol00`00Oomoo`1VOol00`00
+Oomoo`0UOol001Qoo`03001oogoo07Aoo`03001oogoo06Ioo`03001oogoo02Eoo`0067oo00<007oo
+Ool0M7oo00<007ooOol0IGoo00<007ooOol09Woo000IOol00`00Oomoo`1cOol00`00Oomoo`1UOol0
+0`00Oomoo`0VOol001Uoo`03001oogoo07=oo`03001oogoo06Aoo`03001oogoo02Moo`006Woo00<0
+07ooOol0LWoo00<007ooOol0I7oo00<007ooOol09goo000JOol00`00Oomoo`1bOol00`00Oomoo`1S
+Ool00`00Oomoo`0XOol001Yoo`03001oogoo079oo`8006Aoo`03001oogoo02Qoo`006goo00<007oo
+Ool0LGoo00<007ooOol0HWoo00<007ooOol0:Goo000KOol00`00Oomoo`1aOol00`00Oomoo`1OOol3
+01l00`00Oomoo`0YOol001aoo`03001oogoo071oo`03001oogoo05Aoo`d07`0300007`0O00X07b1o
+o`0077oo00<007ooOol0L7oo00<007ooOol0E7oo300O00<0000O01l02`0O87oo000MOol00`00Oomo
+o`1_Ool00`00Oomoo`1NOol201l00`0001l07`0[Ool001eoo`03001oogoo06moo`03001oogoo05mo
+o`0300007`0O02aoo`007Goo00<007ooOol0Kgoo00<007ooOol0Ggoo00<007ooOol0;7oo000NOol0
+0`00Oomoo`1^Ool00`00Oomoo`1NOol00`00Oomoo`0]Ool001ioo`0300007`0O06ioo`03001oogoo
+05eoo`03001oogoo02ioo`004goo300O00<0000O01l02`0OHWoo00<007ooOol0GGoo00<007ooOol0
+;Woo000MOol201l00`0001l07`1]Ool2001MOol00`00Oomoo`0_Ool001=oo`d07`0300007`0O00X0
+7f9oo`03001oogoo05aoo`03001oogoo02moo`007Woo0P0O00<007ooOol0K7oo00<007ooOol0Fgoo
+00<007ooOol0<7oo000QOol00`00Oomoo`1[Ool00`00Oomoo`1KOol00`00Oomoo`0`Ool0025oo`03
+001oogoo06]oo`03001oogoo05Yoo`03001oogoo035oo`008Woo00<007ooOol0JWoo00<007ooOol0
+FGoo00<007ooOol0<Woo000ROol00`00Oomoo`1ZOol00`00Oomoo`1IOol00`00Oomoo`0bOol002=o
+o`03001oogoo06Uoo`03001oogoo05Qoo`03001oogoo03=oo`008goo00<007ooOol0JGoo00<007oo
+Ool0F7oo00<007ooOol0<goo000TOol00`00Oomoo`1XOol00`00Oomoo`1GOol00`00Oomoo`0dOol0
+02Aoo`03001oogoo06Qoo`03001oogoo05Moo`03001oogoo03Aoo`009Goo00<007ooOol0Igoo0P00
+Egoo00<007ooOol0=Goo000UOol00`00Oomoo`1WOol00`00Oomoo`1FOol00`00Oomoo`0eOol002Io
+o`03001oogoo06Ioo`03001oogoo05Eoo`03001oogoo03Ioo`009Woo00<007ooOol0IWoo00<007oo
+Ool0DWoo0P0O00<007ooOol0=goo000WOol00`00Oomoo`1UOol00`00Oomoo`17Ool=01l00`0001l0
+7`0:01l]Ool002Moo`03001oogoo06Eoo`03001oogoo04Moo``07`0300007`0O00/07beoo`00:7oo
+00<007ooOol0I7oo00<007ooOol0DGoo0P0O00<0000O01l0>7oo000XOol00`00Oomoo`1TOol00`00
+Oomoo`1BOol00`0001l07`0iOol002Qoo`03001oogoo06Aoo`03001oogoo059oo`03001oogoo03Uo
+o`00:Goo00<007ooOol0CWoo1@000Woo0P0017oo0P001Woo00<007ooOol0DGoo00<007ooOol0>Woo
+000YOol00`00Oomoo`1@Ool01@00Oomoogoo00000Woo00@007ooOol0009oo`03001oogoo00=oo`03
+001oogoo055oo`03001oogoo03Yoo`00:Woo00<007ooOol0Cgoo00D007ooOomoo`00009oo`04001o
+ogoo0002Ool00`00Oomoo`03Ool3001@Ool00`00Oomoo`0kOol002Yoo`03001oogoo04Moo`@000Ao
+o`05001oogooOol00002Ool01000Oomoo`000Woo00<007ooOol00goo00<007ooOol0D7oo00<007oo
+Ool0>goo000[Ool00`00Oomoo`1>Ool01@00Oomoogoo00000Woo00@007ooOol0009oo`03001oogoo
+00=oo`03001oogoo04moo`03001oogoo03aoo`007goo300O00<0000O01l02`0O@Woo0P0017oo0P00
+17oo0P001Woo00<007ooOol0CWoo00<007ooOol0?Goo000ZOol201l00`0001l07`1POol00`00Oomo
+o`1>Ool00`00Oomoo`0mOol002Yoo`807`0300007`0O061oo`03001oogoo04eoo`03001oogoo03io
+o`007goo3P0O00<0000O01l02@0OEWoo00<007ooOol0C7oo00<007ooOol0?goo000[Ool201l00`00
+Oomoo`1OOol00`00Oomoo`1<Ool00`00Oomoo`0oOol002ioo`03001oogoo05ioo`03001oogoo04]o
+o`03001oogoo041oo`00;Woo00<007ooOol0GWoo00<007ooOol0Bgoo00<007ooOol0@7oo000_Ool0
+0`00Oomoo`1MOol00`00Oomoo`1:Ool00`00Oomoo`11Ool002moo`03001oogoo05eoo`8004Yoo`03
+001oogoo049oo`00<7oo00<007ooOol0G7oo00<007ooOol0BGoo00<007ooOol0@Woo000`Ool00`00
+Oomoo`1LOol00`00Oomoo`18Ool00`00Oomoo`13Ool0035oo`03001oogoo05]oo`03001oogoo03]o
+o``07`0300007`0O00/07cUoo`00<Goo00<007ooOol0Fgoo00<007ooOol0AGoo0P0O00<0000O01l0
+A7oo000bOol00`00Oomoo`1JOol00`00Oomoo`15Ool00`0O00007`0201m4Ool003=oo`03001oogoo
+05Uoo`03001oogoo03]oo`/07`0300007`0O00`07cUoo`00<goo00<007ooOol0FGoo00<007ooOol0
+AGoo00@0000O01l07dEoo`00=7oo00<007ooOol0F7oo00<007ooOol0A7oo00<007ooOol0Agoo000d
+Ool00`00Oomoo`1HOol00`00Oomoo`14Ool00`00Oomoo`17Ool003Eoo`03001oogoo05Moo`03001o
+ogoo04=oo`03001oogoo04Qoo`00=Woo00<007ooOol0EWoo0P00@goo00<007ooOol0BGoo000fOol0
+0`00Oomoo`1FOol00`00Oomoo`12Ool00`00Oomoo`19Ool003Moo`0300007`0O05Eoo`03001oogoo
+045oo`03001oogoo04Yoo`00;7oo300O00<0000O01l02`0OBGoo00<007ooOol0@Goo00<007ooOol0
+BWoo000/Ool<01l00`0001l07`0;01m9Ool00`00Oomoo`10Ool00`00Oomoo`1;Ool003Ioo`<07`03
+00007goo05=oo`03001oogoo03moo`03001oogoo04aoo`00=goo0P0O00<007ooOol0Dgoo00<007oo
+Ool0?goo00<007ooOol0C7oo000jOol00`00Oomoo`1BOol00`00Oomoo`0nOol00`00Oomoo`1=Ool0
+03]oo`03001oogoo055oo`03001oogoo03eoo`03001oogoo04ioo`00>goo00<007ooOol0DGoo00<0
+07ooOol0?Goo00<007ooOol0CWoo000DOol5000SOol00`00Oomoo`0>Ool20004Ool20004Ool2000d
+Ool00`00Oomoo`0dOol20004Ool30003Ool2000eOol5000BOol001Ioo`03001oogoo02Aoo`03001o
+ogoo00aoo`04001oogoo0008Ool01000Oomoo`00<goo0P00=7oo00@007ooOol000=oo`807`04001o
+ogoo0002Ool00`00Oomoo`0dOol00`00Oomoo`0BOol001Ioo`03001oogoo02Aoo`03001oogoo00ao
+o`04001oogoo000;Ool00`00Oomoo`0aOol00`00Oomoo`0_Ool<01l00`0001l07`0:01laOol00`00
+Oomoo`0BOol000ioo`@000Aoo`03001oogoo02Eoo`03001oogoo00Eoo`@0009oo`04001oogoo0009
+Ool2000dOol00`00Oomoo`0_Ool;01l00`0001l07`0;01laOol00`00Oomoo`0BOol001Ioo`03001o
+ogoo02Ioo`03001oogoo00Yoo`04001oogoo0009Ool00`00Oomoo`0cOol00`00Oomoo`0cOol01000
+Oomoo`000Woo00<07`0001l00P0O0Woo00<007ooOol0=Woo00<007ooOol04Woo000EOol2000XOol0
+0`00Oomoo`0;Ool2000:Ool3000cOol00`00Oomoo`0dOol20003Ool0100001l07`0O0goo0`00=Goo
+0P0057oo0010Ool00`00Oomoo`1<Ool00`00Oomoo`0hOol00`00Oomoo`1COol0045oo`03001oogoo
+04]oo`03001oogoo03Moo`03001oogoo05Aoo`00@Goo00<007ooOol0Bgoo00<007ooOol0=goo00<0
+07ooOol0E7oo0012Ool00`00Oomoo`1:Ool00`00Oomoo`0fOol00`00Oomoo`1EOol004=oo`03001o
+ogoo04Uoo`03001oogoo03Eoo`03001oogoo05Ioo`00@goo00<07`0001l0BGoo00<007ooOol0=Goo
+00<007ooOol0EWoo0012000201l00`0001l07`3H0001Ool000Moo`03001oogoo00Uoo`03001oogoo
+00Uoo`03001oogoo00Yoo`03001oogoo00Uoo`d07`0300007`0O00X07`]oo`03001oogoo00Yoo`03
+001oogoo00Uoo`03001oogoo00Yoo`03001oogoo00Uoo`03001oogoo00Uoo`03001oogoo00Yoo`03
+001oogoo00Uoo`03001oogoo00Yoo`05001oogooOol00007Ool00`00Oomoo`09Ool00`00Oomoo`0:
+Ool00`00Oomoo`09Ool00`00Oomoo`0:Ool00`00Oomoo`09Ool00`00Oomoo`09Ool00`00Oomoo`06
+Ool0049oo`@07`03001oogoo04Ioo`03001oogoo039oo`03001oogoo05Uoo`00@goo0`0O00<007oo
+Ool0AWoo00<007ooOol0<Woo00<007ooOol0FGoo0017Ool00`00Oomoo`15Ool00`00Oomoo`0aOol0
+0`00Oomoo`1JOol004Qoo`03001oogoo04Aoo`03001oogoo031oo`03001oogoo05]oo`00BGoo00<0
+07ooOol0@goo00<007ooOol08Woo3@0O00<0000O01l02P0ODWoo0019Ool00`00Oomoo`13Ool00`00
+Oomoo`0/Ool201l00`0001l07`1MOol004Yoo`03001oogoo049oo`03001oogoo029oo``07`030000
+7`0O00/07e9oo`00Bgoo00<007ooOol0@Goo00<007ooOol0;7oo00<07`0001l00P0OGGoo001<Ool0
+0`00Oomoo`10Ool00`00Oomoo`0/Ool0100001l07`0OGWoo001=Ool00`00Oomoo`0oOol2000/Ool0
+0`00Oomoo`1POol004ioo`03001oogoo03ioo`03001oogoo02Yoo`03001oogoo065oo`00CWoo00<0
+07ooOol0?Woo00<007ooOol0:Goo00<007ooOol0HWoo001?Ool0100001l07`0O?7oo00<007ooOol0
+:Goo00<007ooOol0HWoo001?Ool00`0O00007`0201lkOol00`00Oomoo`0XOol00`00Oomoo`1SOol0
+04Eoo``07`0300007`0O00X07c5oo`03001oogoo02Moo`03001oogoo06Aoo`00AGoo3@0O00<0000O
+01l02@0O<Goo00<007ooOol09Woo00<007ooOol0IGoo001@Ool301l00`00Oomoo`0iOol00`00Oomo
+o`0UOol00`00Oomoo`1VOol005Aoo`03001oogoo03Qoo`03001oogoo01Ioo`h07`0300007`0O00T0
+7eioo`00EGoo00<007ooOol0=goo00<007ooOol087oo0`0O00<0000OOol0J7oo001FOol00`00Oomo
+o`0fOol00`00Oomoo`0POol00`0O0000000201mYOol005Moo`03001oogoo03Eoo`8001Moo`X07`03
+00007`0O00d07eioo`00F7oo00<007ooOol0=7oo00<007ooOol07goo00<007oo01l00P0OJWoo001I
+Ool00`00Oomoo`0cOol00`00Oomoo`0NOol00`00Oomoo`1]Ool005Yoo`03001oogoo039oo`03001o
+ogoo01eoo`03001oogoo06ioo`00Fgoo00<007ooOol0<Goo00<007ooOol077oo00<007ooOol0Kgoo
+001LOol00`00Oomoo`0`Ool00`00Oomoo`0KOol00`00Oomoo`1`Ool005aoo`0301l0000O031oo`03
+001oogoo01Uoo`8007=oo`00DGoo3@0O0P002`0O97oo00<007ooOol067oo00<007ooOol0Lgoo001A
+Ool?01l00`0001l07`0801lTOol00`00Oomoo`09Ool>01l00`0001l07`0901m[Ool005]oo`D07`03
+Ool007oo02aoo`03001oogoo01=oo`<07`0300007goo07Eoo`00G7oo0`0O0goo00<007ooOol0:Woo
+0P002Woo2`0O0P003@0OJgoo001SOol2000ZOol00`00Oomoo`0COol00`0001l07`0201mfOol006Eo
+o`03001oogoo02Moo`03001oogoo019oo`03001oo`0O00807gMoo`00IWoo00<007ooOol09Woo00<0
+07ooOol047oo0P00O7oo001WOol2000301lSOol00`00Oomoo`0>Ool2001nOol005eoo``07`8000`0
+7aQoo`03001oogoo00eoo`03001oogoo07ioo`00GGoo3P0O00<0000O01l02@0O67oo00<007ooOol0
+27oo0`0O0P00PGoo001XOol401l2000QOol<01l2000<01mgOol006Uoo`<07`9oo`8001moo`X07`80
+00h07gMoo`00L7oo0P000goo0`0O27oo0`0017oo0P001Woo00<007ooOol01Goo0P001@0OPWoo001Z
+Ool801l2000@01l2Ool01000Oomoo`001Goo00<007ooOol00Woo0`000goo0`0OPgoo001dOol30002
+01l7Ool0100001l07`0O0Woo00@007ooOol000Aoo`<07`<008aoo`00JWoo3@0O1@00400O1P002P0O
+Q7oo001eOol701l@000@01n4Ool0081oo`D07`9oo`8000Aoo`D07hioo`00PGoo0`0O2Woo0`0OSgoo
+002?Ool00`00Oomoo`2>Ool008moo`03001oogoo08ioo`00\
+\>"],
+  ImageRangeCache->{{{0, 287}, {176.938, 0}} -> {-1.15787, -137.853, \
+0.00806875, 0.455515}}]
+}, Open  ]]
+}, Open  ]]
+},
+FrontEndVersion->"4.1 for Microsoft Windows",
+ScreenRectangle->{{0, 1024}, {0, 723}},
+WindowSize->{1016, 696},
+WindowMargins->{{0, Automatic}, {Automatic, 0}},
+StyleDefinitions -> "Classroom.nb"
+]
+
+(*******************************************************************
+Cached data follows.  If you edit this Notebook file directly, not
+using Mathematica, you must remove the line containing CacheID at
+the top of  the file.  The cache data will then be recreated when
+you save this file from within Mathematica.
+*******************************************************************)
+
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+
+(*NotebookFileOutline
+Notebook[{
+Cell[1705, 50, 43, 0, 67, "Title"],
+Cell[1751, 52, 64, 3, 66, "Subtitle"],
+
+Cell[CellGroupData[{
+Cell[1840, 59, 33, 0, 62, "Section"],
+Cell[1876, 61, 1436, 26, 370, "Input"]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[3349, 92, 29, 0, 42, "Section"],
+Cell[3381, 94, 1985, 44, 230, "Input"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[5403, 143, 28, 0, 62, "Section"],
+Cell[5434, 145, 1050, 21, 230, "Input"]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[6521, 171, 43, 0, 42, "Section"],
+Cell[6567, 173, 616, 11, 110, "Input"],
+
+Cell[CellGroupData[{
+Cell[7208, 188, 506, 11, 130, "Input"],
+Cell[7717, 201, 581, 8, 70, "Print"]
+}, Open  ]]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[8347, 215, 55, 0, 42, "Section"],
+
+Cell[CellGroupData[{
+Cell[8427, 219, 2752, 50, 770, "Input"],
+Cell[11182, 271, 182, 3, 70, "Message"],
+Cell[11367, 276, 181, 3, 70, "Message"],
+Cell[11551, 281, 149, 3, 70, "Print"],
+Cell[11703, 286, 426, 8, 70, "Print"],
+Cell[12132, 296, 1015, 20, 70, "Print"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[13184, 321, 730, 13, 190, "Input"],
+Cell[13917, 336, 42, 1, 70, "Print"],
+Cell[13962, 339, 22373, 1251, 70, 22251, 1247, "GraphicsData", "PostScript", \
+"Graphics",
+  ImageCacheValid->False],
+Cell[36338, 1592, 46, 1, 70, "Print"],
+Cell[36387, 1595, 22261, 1245, 70, 22139, 1241, "GraphicsData", "PostScript", \
+"Graphics",
+  ImageCacheValid->False],
+Cell[58651, 2842, 45, 1, 70, "Print"],
+Cell[58699, 2845, 21597, 1197, 70, 21475, 1193, "GraphicsData", "PostScript", \
+"Graphics",
+  ImageCacheValid->False],
+Cell[80299, 4044, 44, 1, 70, "Print"],
+Cell[80346, 4047, 22554, 1269, 70, 22432, 1265, "GraphicsData", "PostScript", \
+"Graphics",
+  ImageCacheValid->False],
+Cell[102903, 5318, 44, 1, 70, "Print"],
+Cell[102950, 5321, 22428, 1260, 70, 22306, 1256, "GraphicsData", \
+"PostScript", "Graphics",
+  ImageCacheValid->False],
+Cell[125381, 6583, 47, 1, 70, "Print"],
+Cell[125431, 6586, 21872, 1225, 70, 21750, 1221, "GraphicsData", \
+"PostScript", "Graphics",
+  ImageCacheValid->False]
+}, Open  ]],
+Cell[147318, 7814, 1741, 35, 330, "Input"]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[149096, 7854, 26, 0, 42, "Section"],
+
+Cell[CellGroupData[{
+Cell[149147, 7858, 693, 13, 130, "Input"],
+Cell[149843, 7873, 1747, 34, 117, "Print"],
+Cell[151593, 7909, 1877, 37, 119, "Print"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[153507, 7951, 128, 2, 50, "Input"],
+Cell[153638, 7955, 17488, 644, 186, 6669, 506, "GraphicsData", "PostScript", \
+"Graphics"]
+}, Open  ]]
+}, Open  ]]
+}
+]
+*)
+
+
+
+(*******************************************************************
+End of Mathematica Notebook file.
+*******************************************************************)
+
